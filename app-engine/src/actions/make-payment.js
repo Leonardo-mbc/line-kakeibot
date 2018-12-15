@@ -1,0 +1,29 @@
+const uuidv4 = require('uuid/v4');
+const moment = require('moment-timezone');
+const { paymentsRef } = require('../utilities/firebase-app');
+
+module.exports = {
+  makePayment: async function() {
+    try {
+      const paymentId = uuidv4();
+      const nowTime = moment().tz('Asia/Tokyo');
+      await paymentsRef.child(nowTime.format('YYYY-MM')).update({
+        [paymentId]: {
+          boughtAt: nowTime.format('YYYY-MM-DD HH:mm:ss'),
+          imageUrl: '',
+          place: '',
+          price: '',
+          group: '',
+          who: ''
+        }
+      });
+
+      return { paymentId, datetime: nowTime.format() };
+    } catch (error) {
+      throw {
+        message: error,
+        status: 500
+      };
+    }
+  }
+};

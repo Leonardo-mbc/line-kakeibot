@@ -1,0 +1,282 @@
+body {
+  background-color: white;
+  color: #444444;
+  margin: 0px;
+  display: flex;
+  font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loader {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+  background-color: white;
+  z-index: 10;
+  transition: opacity 200ms ease-out;
+}
+
+.loader.transparent {
+  opacity: 0;
+}
+.loader.hide {
+  display: none;
+}
+
+.need-coop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.need-coop.hide {
+  display: none;
+}
+
+.send-login-id {
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  margin: 6px 0px;
+  font-size: 20px;
+  padding: 0px 15px;
+  background-color: #00c239;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 3vw 2vw 0px;
+  background-color: #00b900;
+  color: white;
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: #444444;
+  margin: 3vw 0px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  width: calc(100% - 12vw);
+}
+
+.block.groups {
+  margin-top: 0px;
+}
+
+.block-body > label {
+  font-size: 20px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.block-body > input {
+  width: 100%;
+  height: 40px;
+  background-color: white;
+  padding: 0px 10px;
+  font-size: 20px;
+  color: #444444;
+  font-weight: bold;
+  border: none;
+  font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+}
+
+.block input[type='text']:focus {
+  outline: 0;
+}
+
+.block-title {
+  display: inline-block;
+  font-weight: bold;
+  margin: 7px 0px 0px 12px;
+}
+
+.block-body {
+  padding-left: 20px;
+  margin: 5px 0px;
+}
+
+.profile .block-body {
+  display: flex;
+  align-items: center;
+}
+
+.help-link {
+  color: #0077c1;
+  margin-left: 10px;
+  font-size: x-small;
+}
+
+.group-list {
+  margin: 5px 0px;
+}
+
+.group-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
+  height: 35px;
+}
+
+.group-name {
+}
+
+.group-invite {
+  font-size: 16px;
+  color: #0077c1;
+  font-weight: bold;
+}
+
+.group-invite:focus {
+  outline: none;
+}
+
+.add-button {
+  background-color: #00c239;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 30px;
+  margin: 6px 0px;
+}
+
+.add-button.hide {
+  display: none;
+}
+
+.add-button:focus {
+  outline: none;
+}
+
+.no-groups-text.hide {
+  display: none;
+}
+
+.group-add-container {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.group-add-container.hide {
+  display: none;
+}
+
+.group-add-input {
+  display: flex;
+  align-items: center;
+  background-color: #00c239;
+  border-radius: 3px;
+  padding: 0px 5px;
+}
+
+.group-add-input > label {
+  font-weight: bold;
+  flex-shrink: 0;
+  font-size: smaller;
+  margin-top: 1px;
+  color: white;
+}
+
+.group-add-input > input {
+  width: 100%;
+  height: 24px;
+  margin: 5px 0px 5px 5px;
+  background-color: white;
+  padding: 0px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  color: #444444;
+  font-weight: bold;
+  border: none;
+  font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+}
+
+.group-add-button {
+  flex-shrink: 0;
+  height: 25px;
+  font-size: 16px;
+  background-color: #ff972c;
+  border: none;
+  margin: 0px 6px;
+  font-weight: bold;
+  border-radius: 30px;
+  color: white;
+}
+
+.group-add-button.loading {
+  background-image: url(images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: white;
+  color: transparent;
+}
+
+.group-add-button:focus {
+  outline: none;
+}
+
+.buttons-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons-container button {
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  margin: 6px 0px;
+  font-size: 20px;
+  padding: 0px 15px;
+}
+
+.save-button {
+  background-color: #00c239;
+}
+
+.save-button:focus {
+  outline: none;
+}
+
+.save-button.hide {
+  display: none;
+}
+
+.adapt-button {
+  background-color: #ff972c;
+}
+
+.adapt-button:focus {
+  outline: none;
+}
+
+.adapt-button.hide {
+  display: none;
+}
