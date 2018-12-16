@@ -1,6 +1,5 @@
-import { lineLoginAuth } from "./endpoints/line-login-auth";
-import { postTempSetting } from "./endpoints/post-temp-setting";
 import { getProfile } from "./endpoints/get-profile";
 import { postGroup } from "./endpoints/post-group";
+import { postName } from "./endpoints/post-name";
 
-export { lineLoginAuth, postTempSetting, getProfile, postGroup };
+export { getProfile, postGroup, postName };

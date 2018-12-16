@@ -11,10 +11,8 @@ export const postGroup = functions.https.onRequest(
         .sendStatus(204);
     } else {
       try {
-        const { name } = request.query;
-        const { loginId } = request.body;
+        const { userId, name } = request.body;
 
-        const userId = loginId;
         await makeGroup({ name, userId });
         const groups = await getGroups({ userId });
 

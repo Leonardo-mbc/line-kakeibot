@@ -35,30 +35,8 @@ body {
   display: none;
 }
 
-.need-coop {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-}
-
-.need-coop.hide {
-  display: none;
-}
-
-.send-login-id {
-  border: none;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-  margin: 6px 0px;
-  font-size: 20px;
-  padding: 0px 15px;
-  background-color: #00c239;
-}
-
 .title {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
   margin: 3vw 2vw 0px;
   background-color: #00b900;
@@ -121,6 +99,30 @@ body {
   align-items: center;
 }
 
+.save-name-button {
+  flex-shrink: 0;
+  margin-right: 10px;
+  border: none;
+  background-color: #00c239;
+  border-radius: 3px;
+  font-weight: bold;
+  color: white;
+  font-size: 16px;
+}
+
+.save-name-button:focus {
+  outline: none;
+}
+
+.save-name-button.loading {
+  background-image: url(images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: white;
+  color: transparent;
+}
+
 .help-link {
   color: #0077c1;
   margin-left: 10px;
@@ -143,6 +145,8 @@ body {
 }
 
 .group-invite {
+  background-color: transparent;
+  border: none;
   font-size: 16px;
   color: #0077c1;
   font-weight: bold;
@@ -238,45 +242,4 @@ body {
 
 .group-add-button:focus {
   outline: none;
-}
-
-.buttons-container {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.buttons-container button {
-  border: none;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-  margin: 6px 0px;
-  font-size: 20px;
-  padding: 0px 15px;
-}
-
-.save-button {
-  background-color: #00c239;
-}
-
-.save-button:focus {
-  outline: none;
-}
-
-.save-button.hide {
-  display: none;
-}
-
-.adapt-button {
-  background-color: #ff972c;
-}
-
-.adapt-button:focus {
-  outline: none;
-}
-
-.adapt-button.hide {
-  display: none;
 }

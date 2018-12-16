@@ -10,85 +10,63 @@ const groupAddButton = document.getElementById('group-add-button');
 const groupName = document.getElementById('group-name');
 const needCoop = document.getElementById('need-coop');
 const sendLoginId = document.getElementById('send-login-id');
+const saveNameButton = document.getElementById('save-name-button');
 
-let loginId = null;
+const ERROR_GET_PROFILE = 'プロフィール取得に失敗しました。\n再度開き直してみてください。';
+const ERROR_POST_GROUP = 'グループ作成に失敗しました。\n再度開き直してみてください。';
+const ERROR_CHANGE_NAME = '名前の変更に失敗しました。\n再度開き直してみてください。';
+
+let userId = null;
 
 window.onload = function(e) {
-  liff.init();
-  const query = parseSearch(location.search);
-  if (query.code) {
-    fetch(`https://us-central1-line-kakeibot.cloudfunctions.net/lineLoginAuth?code=${query.code}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw {
-            message: 'fetch error',
-            status: response.status
-          };
-        }
-      })
-      .then((auth) => {
-        fetch('https://us-central1-line-kakeibot.cloudfunctions.net/getProfile', {
-          mode: 'cors',
-          headers: {
-            Authorization: `Bearer ${auth.access_token}`
-          }
-        })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw {
-                message: 'fetch error',
-                status: response.status
-              };
-            }
-          })
-          .then((profile) => {
-            loginId = profile.loginId;
-            setProfile(profile);
-            clearLoader();
-          })
-          .catch((error) => {
-            clearLoader();
-          });
-      })
-      .catch((error) => {
-        clearLoader();
-      });
-  } else {
-    setProfile({
-      userId: 'dummy-login-id',
-      name: 'dummy-name',
-      groups: {
-        'dummy-group-id-a': {
-          name: 'group-name-a',
-          users: ['user-id-a']
-        },
-        'dummy-group-id-b': {
-          name: 'group-name-b',
-          users: ['user-id-a']
-        }
-      }
-    });
-    clearLoader();
-  }
+  liff.init(function(data) {
+    initializeApp(data);
+  });
 };
 
-function parseSearch(qs) {
-  let query = {};
-  qs.split(/[?&]/)
-    .filter((v) => !!v)
-    .map((v) => {
-      const [key, value] = v.split('=');
-      query = {
-        ...query,
-        [key]: value
-      };
-    });
+function initializeApp(data) {
+  userId = data.context.userId;
 
-  return query;
+  fetch(`https://us-central1-line-kakeibot.cloudfunctions.net/getProfile?userId=${userId}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        window.alert(ERROR_GET_PROFILE);
+      }
+    })
+    .then((profile) => {
+      liff
+        .getProfile()
+        .then(function(liffProfile) {
+          setProfile({
+            name: liffProfile.displayName,
+            ...profile
+          });
+          clearLoader();
+
+          if (!profile.name) {
+            fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postName', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                name: liffProfile.displayName,
+                userId
+              })
+            });
+          }
+        })
+        .catch((e) => {
+          window.alert(ERROR_GET_PROFILE);
+          clearLoader();
+        });
+    })
+    .catch((e) => {
+      window.alert(ERROR_GET_PROFILE);
+      clearLoader();
+    });
 }
 
 function setProfile(profile) {
@@ -98,7 +76,7 @@ function setProfile(profile) {
 
 function setGroupList(groups) {
   const groupItems =
-    groups &&
+    Object.keys(groups).length !== 0 &&
     Object.keys(groups).map((key) => {
       const div = document.createElement('div');
       div.className = 'group-item';
@@ -137,17 +115,17 @@ function changeGroupAddMode(mode) {
   }
 }
 
-function changeAddButtonMode(mode) {
+function changeButtonMode(mode, button, input) {
   switch (mode) {
     case 'loading':
-      groupAddButton.disabled = true;
-      groupAddButton.classList.add('loading');
+      button.disabled = true;
+      button.classList.add('loading');
       break;
     case 'default':
     default:
-      groupAddButton.disabled = false;
-      groupAddButton.classList.remove('loading');
-      groupName.value = '';
+      button.disabled = false;
+      button.classList.remove('loading');
+      input.value = '';
   }
 }
 
@@ -165,32 +143,65 @@ addButton.addEventListener('click', () => {
 
 groupAddButton.addEventListener('click', () => {
   if (groupName.value) {
-    changeAddButtonMode('loading');
-    const name = encodeURIComponent(groupName.value);
+    changeButtonMode('loading', groupAddButton, groupName);
+    const name = groupName.value;
 
-    fetch(`https://us-central1-line-kakeibot.cloudfunctions.net/postGroup?name=${name}`, {
+    fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postGroup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        loginId
+        name,
+        userId
       })
     })
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
-          throw {
-            message: 'fetch error',
-            status: response.status
-          };
+          window.alert(ERROR_POST_GROUP);
         }
       })
       .then(({ groups }) => {
         setGroupList(groups);
         changeGroupAddMode('none');
-        changeAddButtonMode('default');
+        changeButtonMode('default', groupAddButton, groupName);
+      })
+      .catch((e) => {
+        window.alert(ERROR_POST_GROUP);
+      });
+  }
+});
+
+saveNameButton.addEventListener('click', () => {
+  if (nameInput.value) {
+    changeButtonMode('loading', saveNameButton, nameInput);
+    const name = nameInput.value;
+
+    fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postName', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+        userId
+      })
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          window.alert(ERROR_CHANGE_NAME);
+        }
+      })
+      .then(({ name }) => {
+        changeButtonMode('default', saveNameButton, nameInput);
+        nameInput.value = name;
+      })
+      .catch((e) => {
+        window.alert(ERROR_CHANGE_NAME);
       });
   }
 });

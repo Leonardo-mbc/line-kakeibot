@@ -1,15 +1,20 @@
 import { usersRef } from "../utilities/firebase-app";
-import { getGroups } from "./get-groups";
 
-export async function getProfileAction(userId: string) {
+interface ChangeNameParam {
+  name: string;
+  userId: string;
+}
+
+export async function changeName({ name, userId }: ChangeNameParam) {
   try {
     const userNode = await usersRef.child(userId).once("value");
     const userValue = userNode.val() || {};
-    const groups = await getGroups({ userId });
-    return {
+    await usersRef.child(userId).set({
       ...userValue,
-      groups
-    };
+      name
+    });
+
+    return name;
   } catch ({ status, message }) {
     throw {
       message,
