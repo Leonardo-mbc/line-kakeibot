@@ -1,5 +1,6 @@
 import { getProfile } from "./endpoints/get-profile";
 import { postGroup } from "./endpoints/post-group";
 import { postName } from "./endpoints/post-name";
+import { linkGroup } from "./endpoints/link-group";
 
-export { getProfile, postGroup, postName };
+export { getProfile, postGroup, postName, linkGroup };

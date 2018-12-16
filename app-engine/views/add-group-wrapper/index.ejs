@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+  </head>
+  <body>
+    TEST <%= groupId %>
+    <script>
+      window.onload = function(e) {
+        const clientId = <%- clientId %>;
+        const redirectUri = encodeURIComponent('https://7441380c.ngrok.io/add-group/?groupId=<%= groupId %>');
+        const state = '12345abcdef';
+        location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=profile`;
+      };
+    </script>
+  </body>
+</html>
