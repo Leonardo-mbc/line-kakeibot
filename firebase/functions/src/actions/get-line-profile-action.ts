@@ -1,11 +1,11 @@
 import * as fetch from "node-fetch";
 import { LINE_PROFILE } from "../constants/endpoints";
 
-export async function getLineProfileAction(authBearer: string) {
+export async function getLineProfileAction(authToken: string) {
   try {
     const response = await fetch(LINE_PROFILE, {
       headers: {
-        Authorization: authBearer
+        Authorization: `Bearer ${authToken}`
       }
     });
 

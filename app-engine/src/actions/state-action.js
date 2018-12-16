@@ -12,9 +12,9 @@ module.exports = {
       };
     }
   },
-  setState: async function(newState) {
+  setState: async function(userId, newState) {
     try {
-      await stateRef.set(newState);
+      await stateRef.child(userId).set(newState);
     } catch (error) {
       throw {
         message: error,

@@ -1,0 +1,101 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>家計簿</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="loader" class="loader"></div>
+  <div class="container">
+    <div class="groups-container">
+      <div id="groups" class="groups">
+        <span class="group-name selected">○○○</span>
+        <span class="group-name">○○○</span>
+        <span class="group-name">○○○</span>
+        <span class="group-name">○○○</span>
+      </div>
+    </div>
+    <div class="month-container">
+      <span id="before-month">◀</span>
+      <span id="current-month" class="current">00月</span>
+      <span id="next-month">▶</span>
+    </div>
+    <div id="users" class="users-container">
+      <div class="user">
+        <span class="name">○○○</span>
+        <span class="price">0,000</span>
+      </div>
+      <div class="user">
+        <span class="name">○○○</span>
+        <span class="price">0,000</span>
+      </div>
+      <div class="user">
+        <span class="name">○○○</span>
+        <span class="price">0,000</span>
+      </div>
+    </div>
+    <div class="details-container">
+      <div class="details-label"><span>うちわけ</span></div>
+      <div id="details" class="details-table">
+        <div class="detail">
+          <div class="detail-item">
+            <div class="top">
+              <span>○○○</span>
+              <span>0,000</span>
+            </div>
+            <div class="bottom">
+              <span>○○○</span>
+              <span>0000-00-00 00:00:00</span>
+            </div>
+          </div>
+          <img src="images/menu-dot.png" />
+        </div>
+        <div class="detail">
+          <div class="detail-item">
+            <div class="top">
+              <span>○○○</span>
+              <span>0,000</span>
+            </div>
+            <div class="bottom">
+              <span>○○○</span>
+              <span>0000-00-00 00:00:00</span>
+            </div>
+          </div>
+          <img src="images/menu-dot.png" />
+        </div>
+      </div>
+    </div>
+    <div id="menu-container" class="menu-container hide transparent">
+      <div class="menu-list-container">
+        <span class="menu-item cancel">キャンセル</span>
+        <span id="move-account" class="menu-item">別の家計簿に移行</span>
+        <span id="delete-payment" class="menu-item delete">削除</span>
+      </div>
+      <div id="delete-confirm" class="delete-confirm-container hide">
+        <div class="delete-confirm">
+          <span>本当に削除しますか</span>
+          <div class="delete-answers">
+            <span id="delete-yes" class="delete-button yes">はい</span>
+            <span class="delete-button cancel">キャンセル</span>
+          </div>
+        </div>
+      </div>
+      <div id="account-select" class="account-select-container hide loading">
+        <div class="account-list-container">
+          <span class="account-list-title">どの家計簿に移動する？</span>
+          <div id="account-list" class="account-list"></div>
+        </div>
+      </div>
+    </div>
+    <div id="split-view-container" class="split-view-container hide transparent">
+      <div class="split-list-container">
+        <div id="split-list" class="split-list">
+          <div id="split-list-detail" class="split-list-detail"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+  <script src="lib/moment.min.js"></script>
+  <script src="script.js"></script>
+</body>

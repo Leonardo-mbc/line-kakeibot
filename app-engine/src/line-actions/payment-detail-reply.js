@@ -1,8 +1,10 @@
 const { lineReply } = require('./line-reply');
+const { getUserName } = require('../actions/get-user-name');
 
 module.exports = {
-  paymentDetailReply: async ({ payment, monthPayments, replyToken }) => {
+  paymentDetailReply: async ({ payment, groupId, monthPayments, replyToken }) => {
     try {
+      const userName = await getUserName(payment.who);
       const container = {
         type: 'bubble',
         hero: {
@@ -24,7 +26,7 @@ module.exports = {
           action: {
             type: 'uri',
             label: 'label',
-            uri: 'line://app/1525303758-MxkqXypp'
+            uri: 'https://liff.line.me/1629647443-xvO1GPY5'
           },
           contents: [
             {
@@ -42,10 +44,6 @@ module.exports = {
                   type: 'box',
                   layout: 'baseline',
                   contents: [
-                    {
-                      type: 'icon',
-                      url: 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/restaurant_regular_32.png'
-                    },
                     {
                       type: 'text',
                       text: `${payment.price.toLocaleString()}円`,
@@ -68,7 +66,7 @@ module.exports = {
               contents: [
                 {
                   type: 'text',
-                  text: '今月の累計（あなた）',
+                  text: `今月の累計（${userName}）`,
                   wrap: true,
                   color: '#aaaaaa',
                   size: 'xxs'
@@ -76,12 +74,16 @@ module.exports = {
                 {
                   type: 'text',
                   text: `${monthPayments
-                    .filter((mPayment) => {
-                      return mPayment.who === payment.who;
+                    .map((group) => {
+                      return group.receipts
+                        .filter((mPayment) => {
+                          return mPayment.who === payment.who;
+                        })
+                        .reduce((pre, cur) => {
+                          return parseInt(`${pre}`) + parseInt(`${cur.price}`);
+                        }, 0);
                     })
-                    .reduce((pre, cur) => {
-                      return parseInt(`${pre}`) + parseInt(`${cur.price}`);
-                    }, 0)
+                    .reduce((pre, cur) => pre + cur, 0)
                     .toLocaleString()}円`,
                   wrap: true,
                   color: '#aaaaaa',
@@ -96,7 +98,10 @@ module.exports = {
               contents: [
                 {
                   type: 'text',
-                  text: `今月の累計（${payment.group}）`,
+                  text: `今月の累計（${monthPayments
+                    .filter((group) => groupId === group.groupId)
+                    .map(({ groupName }) => groupName)
+                    .join('')}）`,
                   wrap: true,
                   color: '#aaaaaa',
                   size: 'xxs'
@@ -104,12 +109,14 @@ module.exports = {
                 {
                   type: 'text',
                   text: `${monthPayments
-                    .filter((mPayment) => {
-                      return mPayment.group === payment.group;
-                    })
-                    .reduce((pre, cur) => {
-                      return parseInt(`${pre}`) + parseInt(`${cur.price}`);
-                    }, 0)
+                    .filter((group) => groupId === group.groupId)
+                    .map((group) =>
+                      group.receipts.reduce(
+                        (pre, cur) => parseInt(`${pre}`) + parseInt(`${cur.price}`),
+                        0
+                      )
+                    )
+                    .reduce((pre, cur) => pre + cur, 0)
                     .toLocaleString()}円`,
                   wrap: true,
                   color: '#aaaaaa',
@@ -124,17 +131,24 @@ module.exports = {
           layout: 'vertical',
           contents: [
             {
-              type: 'spacer',
-              size: 'xxl'
+              type: 'button',
+              action: {
+                type: 'uri',
+                label: 'かけいぼっと設定を開く',
+                uri: 'https://liff.line.me/1629647443-Nq46aLqj'
+              },
+              color: '#636363',
+              style: 'link'
             },
             {
               type: 'button',
-              style: 'secondary',
               action: {
                 type: 'uri',
                 label: '家計簿を見る',
-                uri: 'line://app/1525303758-MxkqXypp'
-              }
+                uri: 'https://liff.line.me/1629647443-xvO1GPY5'
+              },
+              color: '#00C239',
+              style: 'primary'
             }
           ]
         }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>グループに招待</title>
+    <link rel="stylesheet" href="/invite-group/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <span class="title">かけいぼっと</span>
+      <div class="block">
+        <div class="block-margin">
+          <span class="block-title">QRを読み込んで参加</span>
+          <div class="block-body">
+            グループ名：<span id='group-name' class="group-name"><%- name %></span>
+          </div>
+          <div id="qrcode" class="qrcode"></div>
+          <span class="block-footer">家計簿グループに新しく参加する人にQRコードを読み取ってもらいましょう</span>
+        </div>
+      </div>
+    </div>
+    <script src="/invite-group/lib/qrcode.min.js"></script>
+    <script>
+      new QRCode(document.getElementById("qrcode"), "https://line-kakeibot.appspot.com/add-group-wrapper?groupId=<%- groupId %>");    
+    </script>
+  </body>
+</html>

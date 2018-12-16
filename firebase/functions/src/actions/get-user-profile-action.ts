@@ -1,7 +1,7 @@
 import { usersRef } from "../utilities/firebase-app";
 import { getGroups } from "./get-groups";
 
-export async function getUserProfileAction(userId: string) {
+export async function getProfileAction(userId: string) {
   try {
     const userNode = await usersRef.child(userId).once("value");
     const userValue = userNode.val() || {};

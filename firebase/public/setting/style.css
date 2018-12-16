@@ -6,6 +6,14 @@ body {
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
 }
 
+.help {
+  position: absolute;
+  right: 16px;
+  top: 17px;
+  font-weight: bold;
+  opacity: 0.6;
+}
+
 .container {
   width: 100%;
   display: flex;
@@ -14,7 +22,7 @@ body {
 }
 
 .loader {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -35,30 +43,8 @@ body {
   display: none;
 }
 
-.need-coop {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-}
-
-.need-coop.hide {
-  display: none;
-}
-
-.send-login-id {
-  border: none;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-  margin: 6px 0px;
-  font-size: 20px;
-  padding: 0px 15px;
-  background-color: #00c239;
-}
-
 .title {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
   margin: 3vw 2vw 0px;
   background-color: #00b900;
@@ -112,13 +98,36 @@ body {
 }
 
 .block-body {
-  padding-left: 20px;
   margin: 5px 0px;
 }
 
 .profile .block-body {
   display: flex;
   align-items: center;
+}
+
+.save-name-button {
+  flex-shrink: 0;
+  margin-right: 10px;
+  border: none;
+  background-color: #00c239;
+  border-radius: 3px;
+  font-weight: bold;
+  color: white;
+  font-size: 16px;
+}
+
+.save-name-button:focus {
+  outline: none;
+}
+
+.save-name-button.loading {
+  background-image: url(images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: white;
+  color: transparent;
 }
 
 .help-link {
@@ -131,25 +140,72 @@ body {
   margin: 5px 0px;
 }
 
+.group-list-archived {
+  margin: 5px 0px;
+  background-color: rgba(68, 68, 68, 0.2);
+}
+.group-list-archived.hide {
+  display: none;
+}
+
 .group-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-right: 10px;
-  height: 35px;
+  padding: 3px 20px;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  transition: background-color 200ms cubic-bezier(0, 0, 0, 1), border 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.group-item.selected {
+  background-color: rgba(0, 185, 0, 0.2);
+  border-top: 2px solid #00b900;
+  border-bottom: 2px solid #00b900;
+  box-sizing: border-box;
+}
+
+.group-namedate {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
 }
 
 .group-name {
+  word-break: break-word;
 }
 
-.group-invite {
+.group-enddate {
+  word-break: break-word;
+  font-size: 11px;
+  opacity: 0.7;
+  line-height: 8px;
+}
+
+.group-buttons {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.group-button {
+  background-color: transparent;
+  border: none;
   font-size: 16px;
-  color: #0077c1;
   font-weight: bold;
 }
 
-.group-invite:focus {
+.group-button.invite {
+  margin-left: 10px;
+  color: #0077c1;
+}
+
+.group-button:focus {
   outline: none;
+}
+
+.group-setting {
+  height: 25px;
 }
 
 .add-button {
@@ -159,7 +215,8 @@ body {
   font-weight: bold;
   font-size: 16px;
   border-radius: 30px;
-  margin: 6px 0px;
+  margin: 0px auto 5px;
+  display: block;
 }
 
 .add-button.hide {
@@ -170,15 +227,54 @@ body {
   outline: none;
 }
 
+.no-groups-text {
+  padding: 0px 20px;
+}
+
 .no-groups-text.hide {
   display: none;
 }
 
+.show-archives {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+.show-archives.hide {
+  display: none;
+}
+
+.show-archives > span::before {
+  content: '期限切れの家計簿を表示';
+}
+
+.show-archives.open > span::before {
+  content: 'とじる';
+}
+
+.show-archives > span {
+  background-color: #444444;
+  border: 2px solid #444444;
+  border-radius: 100px;
+  padding: 1px 30px 0px;
+  font-size: small;
+  color: white;
+}
+
+.show-archives.open > span {
+  background-color: #ffffff;
+  border: 2px solid #444444;
+  box-sizing: border-box;
+  color: #444444;
+}
+
 .group-add-container {
   display: flex;
-  align-items: center;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 0px 20px 10px;
+  border: 2px solid #00b900;
+  border-radius: 5px;
 }
 
 .group-add-container.hide {
@@ -186,44 +282,114 @@ body {
 }
 
 .group-add-input {
+  width: calc(100% - 14px);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  background-color: #00c239;
-  border-radius: 3px;
-  padding: 0px 5px;
+  padding: 0px 7px;
 }
 
-.group-add-input > label {
+.group-add-input-name {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.group-add-input-name > label {
   font-weight: bold;
   flex-shrink: 0;
   font-size: smaller;
   margin-top: 1px;
-  color: white;
+  color: #00b900;
 }
 
-.group-add-input > input {
+.group-add-input-name > input:focus {
+  outline: 0;
+}
+.group-add-input-name > input {
   width: 100%;
-  height: 24px;
-  margin: 5px 0px 5px 5px;
+  height: 26px;
+  margin: 6px 0px 6px 5px;
   background-color: white;
   padding: 0px 10px;
   font-size: 12px;
-  border-radius: 3px;
   color: #444444;
   font-weight: bold;
   border: none;
+  border-bottom: 2px solid #444444;
+  border-radius: 0;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+}
+
+.group-add-enddate {
+  width: 100%;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.group-add-enddate > label {
+  color: #00b900;
+  font-weight: bold;
+  font-size: smaller;
+  margin: 0px 1em;
+  flex-shrink: 0;
+}
+
+.group-add-enddate > input {
+  width: 100%;
+  height: 26px;
+  margin-left: 5px;
+  background-color: white;
+  padding: 0px 10px;
+  font-size: 12px;
+  color: #444444;
+  font-weight: bold;
+  border: none;
+  border-bottom: 2px solid #444444;
+  border-radius: 0;
+  font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+  -webkit-appearance: none;
+}
+.group-add-enddate > input:focus {
+  outline: 0;
+}
+.group-add-enddate > input.hide {
+  display: none;
+}
+
+.group-add-enddate > button {
+  margin: auto;
+  font-weight: bold;
+  border-radius: 30px;
+  color: white;
+  border: 2px solid #00b900;
+  background-color: white;
+  color: #00b900;
+  font-size: 12px;
+}
+.group-add-enddate > button:focus {
+  outline: none;
+}
+.group-add-enddate > button.hide {
+  display: none;
+}
+
+.group-add-notice {
+  color: #ff972c;
+  font-size: x-small;
+  font-weight: bold;
 }
 
 .group-add-button {
   flex-shrink: 0;
   height: 25px;
   font-size: 16px;
-  background-color: #ff972c;
+  background-color: #00b900;
   border: none;
-  margin: 0px 6px;
+  margin: 6px auto;
   font-weight: bold;
-  border-radius: 30px;
+  border-radius: 3px;
   color: white;
 }
 
@@ -240,43 +406,336 @@ body {
   outline: none;
 }
 
-.buttons-container {
-  display: flex;
+.group-out-confirm-container {
+  position: fixed;
+  top: 0px;
+  left: 0px;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: opacity 200ms ease-out;
+  opacity: 1;
+}
+
+.group-out-confirm-container.transparent {
+  opacity: 0;
+}
+.group-out-confirm-container.hide {
+  display: none;
+}
+
+.group-out-confirm {
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  animation: group-out-confirm-show 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.out-group-name {
+  color: #00b900;
+  word-break: break-all;
+}
+
+.out-answers {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 6px;
+}
+
+.out-button.yes {
+  color: #ff842d;
+  font-size: 24px;
+}
+
+.out-button.cancel {
+  opacity: 0.5;
+}
+
+@keyframes group-out-confirm-show {
+  0% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.group-change-enddate-container {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: opacity 200ms ease-out;
+  opacity: 1;
+}
+
+.group-change-enddate-container.transparent {
+  opacity: 0;
+}
+.group-change-enddate-container.hide {
+  display: none;
+}
+
+.group-change-enddate {
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  animation: group-out-confirm-show 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.enddate-input-container {
+  border: 2px solid #00b900;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.enddate-input {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  padding: 5px 7px;
+  margin-top: 8px;
+}
+
+.enddate-input > label {
+  color: #00b900;
+  font-weight: bold;
+  font-size: smaller;
+  margin: 0px 1em;
+  flex-shrink: 0;
+}
+
+.enddate-input > input {
+  width: 100%;
+  height: 26px;
+  margin-left: 5px;
+  background-color: white;
+  padding: 0px 10px;
+  font-size: 12px;
+  color: #444444;
+  font-weight: bold;
+  border: none;
+  border-bottom: 2px solid #444444;
+  border-radius: 0;
+  font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+  -webkit-appearance: none;
+  min-width: 110px;
+  white-space: nowrap;
+}
+.enddate-input > input:focus {
+  outline: 0;
+}
+
+.enddate-input > button {
+  margin: auto 0px auto 8px;
+  font-weight: bold;
+  border-radius: 30px;
+  color: white;
+  border: 2px solid #ff972c;
+  background-color: white;
+  color: #ff972c;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.enddate-input > button:focus {
+  outline: none;
+}
+
+.group-change-button {
+  height: 25px;
+  font-size: 12px;
+  background-color: #00b900;
+  border: none;
+  font-weight: bold;
+  border-radius: 3px;
+  color: white;
+  margin-bottom: 8px;
+}
+.group-change-button:focus {
+  outline: none;
+}
+
+.menu-container {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: opacity 200ms ease-out;
+  opacity: 1;
+}
+
+.menu-container.transparent {
+  opacity: 0;
+}
+.menu-container.hide {
+  display: none;
+}
+
+.menu-list-container {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-item {
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+  width: 50%;
+  text-align: center;
+  font-weight: bold;
+  animation: menu-item-show 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.menu-item.out {
+  background-color: #ff842d;
+  color: white;
+}
+
+.menu-item.cancel {
+  background: none;
+  box-shadow: none;
+  color: #929292;
+}
+
+@keyframes menu-item-show {
+  0% {
+    margin-bottom: 0px;
+  }
+  100% {
+    margin-bottom: 10px;
+  }
+}
+
+.tutorial-container {
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: opacity 200ms ease-out;
+}
+
+.tutorial-container.transparent {
+  opacity: 0;
+}
+.tutorial-container.hide {
+  display: none;
+}
+
+.tutorial-pager {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition: transform 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.tutorial-pager p {
+  text-align: center;
+}
+
+.tutorial-page {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.buttons-container button {
-  border: none;
-  color: white;
+.tutorial-page .bold {
   font-weight: bold;
-  border-radius: 5px;
-  margin: 6px 0px;
-  font-size: 20px;
-  padding: 0px 15px;
 }
 
-.save-button {
-  background-color: #00c239;
+.tutorial-text {
+  font-weight: bold;
+  font-size: larger;
+  text-align: center;
 }
 
-.save-button:focus {
-  outline: none;
+.tutorial-details {
+  text-align: center;
+  font-size: smaller;
 }
 
-.save-button.hide {
+.tutorial-skip {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  opacity: 0.5;
+  font-weight: bold;
+  margin: 15px 30px;
+}
+
+.next-page {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  margin: 30px;
+  color: #00b900;
+  font-weight: bold;
+}
+.next-page.hide {
   display: none;
 }
 
-.adapt-button {
-  background-color: #ff972c;
+.before-page {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  margin: 30px;
+  font-weight: bold;
+  opacity: 0.5;
+  font-size: x-small;
+}
+.before-page.hide {
+  display: none;
 }
 
-.adapt-button:focus {
-  outline: none;
+.lets-start {
+  position: absolute;
+  bottom: 0px;
+  margin: 30px 0px;
+  color: #00b900;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
 }
-
-.adapt-button.hide {
+.lets-start.hide {
   display: none;
 }

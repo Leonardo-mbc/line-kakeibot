@@ -9,35 +9,165 @@
     <div class="container">
       <div id="loader" class="loader"></div>
       <span class="title">かけいぼっと設定</span>
+      <span id="help" class="help">ヘルプ</span>
       <div class="block profile">
         <span class="block-title">あなたの名前</span>
-        <div class="block-body"><input id="name" type="text" name="name" value="" /></div>
+        <div class="block-body">
+          <input id="name" type="text" name="name" value="" />
+          <button id="save-name-button" class="save-name-button">決定</button>
+        </div>
       </div>
       <div class="block groups">
         <span class="block-title">
-          家計簿グループ
-          <span class="help-link">家計簿グループって？</span>
+          家計簿
+          <span id="help-group" class="help-link">家計簿って？</span>
         </span>
         <div class="block-body">
-          <div id="group-list" class="group-list"><span id="no-groups-text" class="no-groups-text">家計簿グループはありません</span></div>
+          <div id="group-list" class="group-list">
+            <span id="no-groups-text" class="no-groups-text">家計簿がありません</span>
+          </div>
+          <div id="show-archives" class="show-archives hide">
+            <span id="show-archives-text"></span>
+          </div>
+          <div id="group-list-archived" class="group-list-archived hide"></div>
           <div id="group-add-container" class="group-add-container hide">
             <div class="group-add-input">
-              <label for="group-name">グループ名</label>
-              <input id="group-name" type="text" name="group-name" value="" />
+              <div class="group-add-input-name">
+                <label for="group-name">家計簿名</label>
+                <input id="group-name" type="text" name="group-name" value="" />
+              </div>
+              <div class="group-add-enddate">
+                <label for="group-enddate-input">期限</label>
+                <input
+                  id="group-enddate-input"
+                  class="hide"
+                  type="date"
+                  name="group-name"
+                  value=""
+                />
+                <button id="group-enddate-button">設ける</button>
+              </div>
             </div>
-            <button id="group-add-button" class="group-add-button">作成</button>
+            <span class="group-add-notice">期限は一時的な用途に便利です（飲み会・旅行など）</span>
+            <button id="group-add-button" class="group-add-button">作成する</button>
           </div>
           <button id="add-button" class="add-button">＋追加</button>
         </div>
       </div>
-      <div class="buttons-container">
-        <button id="save-button" class="save-button">決定</button>
-        <button id="adapt-button" class="adapt-button hide">反映させる</button>
+      <div id="tutorial-container" class="tutorial-container hide">
+        <div id="tutorial-pager" class="tutorial-pager">
+          <div class="tutorial-page">
+            <img src="images/logo.png" height="100px" />
+            <span class="title">かけいぼっと</span>
+            <p class="bold">ようこそ！</p>
+            <p>
+              ここでは使い方を紹介します！
+              <br />
+              次ページへのボタンを押してください
+            </p>
+          </div>
+          <div class="tutorial-page">
+            <span class="tutorial-text">まずはレシートの写真を撮ります</span>
+            <img src="images/01-photo.png" height="200px" />
+            <span class="tutorial-details">
+              レシートである必要はありませんが
+              <br />
+              あとで見返す時に便利なのでオススメです
+            </span>
+          </div>
+          <div class="tutorial-page">
+            <span class="tutorial-text">
+              かけいぼっとが入ってるルームで
+              <br />
+              写真／画像を送ります
+            </span>
+            <img src="images/02-send.png" height="200px" />
+            <span class="tutorial-details">
+              家族や友達と一緒に家計簿をつけている場合は
+              <br />
+              ルームを作ってかけいぼっとを使うと便利です
+            </span>
+          </div>
+          <div class="tutorial-page">
+            <span class="tutorial-text">
+              かけいぼっとの質問に答えると
+              <br />
+              家計簿に記録されていきます
+            </span>
+            <img src="images/03-answer.png" height="200px" />
+            <span class="tutorial-details">登録が終わると、集計結果を送ってきます</span>
+            <span class="tutorial-text">操作はこれだけです！</span>
+          </div>
+          <div class="tutorial-page">
+            <span class="tutorial-text">まずは新しい家計簿を作ってください</span>
+            <img src="images/04-group.png" height="200px" />
+            <span class="tutorial-details">
+              登録は家計簿ごとに行えます
+              <br />
+              よく決済をともにする人を家計簿に招待しましょう
+              <br />
+              招待は家計簿を作成した後、設定から行えます
+            </span>
+          </div>
+          <div class="tutorial-page">
+            <img src="images/logo.png" height="100px" />
+            <span class="title">かけいぼっと</span>
+            <p class="bold">さあ、始めましょう！</p>
+            <span class="tutorial-details">使い方説明は設定からいつでも見れます</span>
+          </div>
+        </div>
+        <span id="tutorial-skip" class="tutorial-skip">とじる</span>
+        <span id="next-page" class="next-page">次のページへ ▶</span>
+        <span id="lets-start" class="lets-start hide">はじめる</span>
+        <span id="before-page" class="before-page hide">◀ 前のページへ</span>
+      </div>
+      <div id="menu-container" class="menu-container hide">
+        <div class="menu-list-container">
+          <span class="menu-item cancel">キャンセル</span>
+          <span id="change-enddate" class="menu-item">期限を変更</span>
+          <span id="out-group" class="menu-item out">退出</span>
+        </div>
+      </div>
+      <div id="group-out-confirm" class="group-out-confirm-container transparent hide">
+        <div class="group-out-confirm">
+          <span>
+            本当に
+            <span id="out-group-name" class="out-group-name"></span>
+            から退出しますか
+          </span>
+          <div class="out-answers">
+            <span id="out-yes" class="out-button yes">はい</span>
+            <span class="out-button cancel">キャンセル</span>
+          </div>
+        </div>
+      </div>
+      <div
+        id="group-change-enddate-container"
+        class="group-change-enddate-container transparent hide"
+      >
+        <div id="group-change-enddate" class="group-change-enddate">
+          <div class="enddate-caption">
+            いつまでにしますか？
+          </div>
+          <div class="enddate-input-container">
+            <div class="enddate-input">
+              <label for="group-change-enddate-input">期限</label>
+              <input
+                id="group-change-enddate-input"
+                class="hide"
+                type="date"
+                name="group-changed-enddate"
+                value=""
+              />
+              <button id="group-change-nodate">期限なし</button>
+            </div>
+            <button id="group-change-button" class="group-change-button">変更する</button>
+          </div>
+        </div>
       </div>
     </div>
     <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script src="../lib/moment.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

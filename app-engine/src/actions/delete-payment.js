@@ -1,11 +1,9 @@
-const moment = require('moment-timezone');
-const { paymentsRef } = require('../utilities/firebase-app');
+const { partialPaymentsRef } = require('../utilities/firebase-app');
 
 module.exports = {
-  deletePayment: async ({ paymentId, datetime }) => {
+  deletePayment: async ({ paymentId }) => {
     try {
-      const monthDir = moment(datetime).format('YYYY-MM');
-      await paymentsRef.child(`${monthDir}/${paymentId}`).remove();
+      await partialPaymentsRef.child(`${paymentId}`).remove();
       return;
     } catch (error) {
       throw {

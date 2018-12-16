@@ -1,0 +1,559 @@
+body {
+  background-color: white;
+  color: #444444;
+  margin: 0px;
+  display: flex;
+  font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+}
+
+.loader {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+  background-color: white;
+  z-index: 10;
+  transition: opacity 200ms ease-out;
+  opacity: 1;
+}
+
+.loader.transparent {
+  opacity: 0;
+}
+.loader.hide {
+  display: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow-x: hidden;
+  white-space: nowrap;
+  padding-bottom: 7px;
+}
+
+.groups-container {
+  padding-top: 8px;
+  width: 100%;
+}
+
+.groups {
+  overflow-x: scroll;
+  margin: 0px 10px;
+  padding-bottom: 5px;
+}
+
+.groups .no-data {
+  font-weight: bold;
+  opacity: 0.3;
+  margin-right: 7px;
+  font-size: 24px;
+}
+.groups .group-name {
+  font-weight: bold;
+  opacity: 0.3;
+  margin-right: 7px;
+  font-size: 24px;
+}
+
+.groups .group-name:last-child {
+  margin-right: 0px;
+}
+
+.groups .group-name.selected {
+  opacity: 1;
+}
+
+.month-container {
+  width: 100%;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+}
+
+.month-container .current {
+  font-size: 23px;
+}
+
+.users-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: white;
+  background-color: #00b900;
+  margin: 3vw 0px;
+  padding: 10px 0px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  width: calc(100% - 12vw);
+}
+
+.users-container .no-data {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 15px;
+}
+.users-container .user {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 15px;
+}
+
+.users-container .user .name {
+  font-weight: bold;
+}
+.users-container .user .price {
+  font-size: smaller;
+  font-size: larger;
+  font-weight: bold;
+}
+
+.users-container .user .price::after {
+  content: '円';
+}
+
+.users-container .split-container {
+  display: flex;
+  justify-content: center;
+}
+
+.split-container > button {
+  padding: 2px 13px;
+  font-weight: bold;
+  border-radius: 30px;
+  color: white;
+  background-color: white;
+  color: #00b900;
+  font-size: 12px;
+  border: none;
+}
+.split-container > button::before {
+  content: '割り勘する';
+}
+.split-container > button:focus {
+  outline: none;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: #444444;
+  margin: 3vw 0px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  width: calc(100% - 12vw);
+}
+
+.details-container .details-label {
+  font-weight: bold;
+  font-size: 26px;
+  text-align: center;
+}
+
+.details-container .details-table {
+  padding-bottom: 8px;
+}
+
+.details-container .details-table .no-data {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.detail {
+  display: flex;
+  padding-left: 18px;
+  align-items: center;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  transition: background-color 200ms cubic-bezier(0, 0, 0, 1), border 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.detail.selected {
+  background-color: rgba(0, 185, 0, 0.2);
+  border-top: 2px solid #00b900;
+  border-bottom: 2px solid #00b900;
+  box-sizing: border-box;
+}
+
+.detail .detail-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.image-container {
+  height: 22px;
+  width: 22px;
+  margin-right: 6px;
+  flex-shrink: 0;
+  border: 1px solid #444444;
+  border-radius: 2px;
+  background-image: url(images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 76%;
+}
+
+.image-container .receipt-image {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.detail img {
+  height: 22px;
+  opacity: 0.5;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+
+.detail-edit {
+  margin: 0px 6px 0px 4px;
+}
+
+.detail-edit > path {
+  fill: red;
+}
+
+.detail img.hide {
+  visibility: hidden;
+}
+
+.detail .left {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.detail .left span {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.detail .right {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+.detail .right span {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 150px;
+}
+.detail .right span:first-child::after {
+  content: '円';
+}
+
+.detail-item .light-weight {
+  font-size: 11px;
+  opacity: 0.7;
+  line-height: 8px;
+}
+
+.menu-container {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: opacity 200ms ease-out;
+  opacity: 1;
+}
+
+.menu-container.transparent {
+  opacity: 0;
+}
+.menu-container.hide {
+  display: none;
+}
+
+.menu-list-container {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-item {
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+  width: 50%;
+  text-align: center;
+  font-weight: bold;
+  animation: menu-item-show 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.menu-item.delete {
+  background-color: #ff842d;
+  color: white;
+}
+
+.menu-item.cancel {
+  background: none;
+  box-shadow: none;
+  color: #929292;
+}
+
+@keyframes menu-item-show {
+  0% {
+    margin-bottom: 0px;
+  }
+  100% {
+    margin-bottom: 10px;
+  }
+}
+
+.delete-confirm-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.delete-confirm-container.hide {
+  display: none;
+}
+
+.delete-confirm {
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  animation: delete-confirm-show 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.delete-answers {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 6px;
+}
+
+.delete-button.yes {
+  color: #ff842d;
+  font-size: 24px;
+}
+
+.delete-button.cancel {
+  opacity: 0.5;
+}
+
+@keyframes delete-confirm-show {
+  0% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.account-select-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.account-select-container.hide {
+  display: none;
+}
+
+.account-list-container {
+  width: calc(80% - 40px);
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  animation: delete-confirm-show 200ms cubic-bezier(0, 0, 0, 1);
+  transition: height 200ms ease-out;
+}
+
+.account-list-title {
+  margin: 5px 0px 5px;
+}
+
+.account-select-container.loading .account-list {
+  background-image: url(images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 20%;
+}
+
+.account-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account-list .target-account {
+  color: #00b900;
+  margin: 5px 0px;
+  font-size: larger;
+  border-radius: 3px;
+  padding: 0px 10px;
+  background-color: rgba(1, 185, 33, 0.2);
+}
+
+.split-view-container {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: opacity 200ms ease-out;
+  opacity: 1;
+}
+
+.split-view-container.transparent {
+  opacity: 0;
+}
+.split-view-container.hide {
+  display: none;
+}
+
+.split-list-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.split-list {
+  width: calc(80% - 40px);
+  max-height: 90%;
+  overflow-y: scroll;
+  background-color: white;
+  padding: 15px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  animation: delete-confirm-show 200ms cubic-bezier(0, 0, 0, 1);
+  transition: height 200ms ease-out;
+}
+.split-list::after {
+  content: '端数があれば払った人が多めにもらえるように計算します';
+  word-break: break-all;
+  white-space: pre-wrap;
+  font-size: xx-small;
+  margin-top: 12px;
+}
+
+.split-list-detail {
+  width: 100%;
+}
+
+.split-list-detail .pay-user {
+  display: flex;
+  flex-direction: column;
+}
+.split-list-detail .pay-user:not(:first-child) {
+  margin-top: 15px;
+}
+
+.split-list-detail .pay-user span {
+  display: inline-flex;
+  align-items: center;
+}
+.split-list-detail .pay-user i {
+  font-style: normal;
+  color: white;
+  border-radius: 2px;
+  padding: 1px 6px;
+  font-size: smaller;
+  margin-right: 5px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.split-list-detail .pay-user .from {
+  margin-bottom: 3px;
+}
+.split-list-detail .pay-user .from > i {
+  background-color: #444444;
+}
+.split-list-detail .pay-user .from::after {
+  content: 'は';
+  font-size: small;
+  margin-top: 1px;
+}
+
+.split-list-detail .pay-user .to {
+  margin-left: 1em;
+  justify-content: space-between;
+}
+
+.split-list-detail .pay-user .to .name > i {
+  background-color: #00b900;
+}
+.split-list-detail .pay-user .to .name::after {
+  content: 'に';
+  font-size: small;
+  margin-top: 1px;
+}
+
+.split-list-detail .pay-user .to .price {
+  font-size: larger;
+  align-items: flex-end;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.split-list-detail .pay-user .to .price::after {
+  content: '円払う';
+  font-size: small;
+  flex-shrink: 0;
+}
