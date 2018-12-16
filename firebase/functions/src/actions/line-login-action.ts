@@ -10,7 +10,7 @@ interface PostAuthParams {
 export async function postAuth({ code, groupId }: PostAuthParams) {
   try {
     const redirectUri = encodeURIComponent(
-      `https://7441380c.ngrok.io/add-group/?groupId=${groupId}`
+      `https://line-kakeibot.appspot.com/add-group/?groupId=${groupId}`
     );
     const response = await fetch(LINE_AUTH, {
       method: "POST",

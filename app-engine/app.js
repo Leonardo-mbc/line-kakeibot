@@ -21,6 +21,11 @@ app.get('/add-group', (request, response) => {
   response.render('./add-group/index.ejs', { groupId });
 });
 
+app.get('/invite-group', (request, response) => {
+  const { groupId, name } = request.query;
+  response.render('./invite-group/index.ejs', { groupId, name });
+});
+
 app.post('/', (request, response) => {
   const { events } = request.body;
   lineWebhook(events);

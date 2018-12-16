@@ -87,6 +87,12 @@ function setGroupList(groups) {
       button.id = 'group-invite';
       button.className = 'group-invite';
       button.textContent = '招待する';
+      button.onclick = () => {
+        const name = encodeURIComponent(groups[key].name);
+        liff.openWindow({
+          url: `https://line-kakeibot.appspot.com/invite-group?groupId=${key}&name=${name}`
+        });
+      };
 
       div.appendChild(span);
       div.appendChild(button);
