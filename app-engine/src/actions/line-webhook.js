@@ -28,68 +28,113 @@ module.exports = {
           case 'message':
             switch (message.type) {
               case 'image':
-                state = (await getState(userId)) || { datetime: '', paymentId: '', phase: '' };
-                isExpired = expiredCheck(state.datetime);
+                groups = await getGruops(userId);
+                if (0 < Object.keys(groups).length) {
+                  state = (await getState(userId)) || { datetime: '', paymentId: '', phase: '' };
+                  isExpired = expiredCheck(state.datetime);
 
-                if (state.phase === '' || isExpired) {
-                  // フェーズなし || 期限切れ
-
-                  try {
-                    const [{ contentType, buffer }, { paymentId, datetime }] = await Promise.all([getContent(message.id), makePayment()]);
-
-                    await setState(userId, {
-                      paymentId,
-                      datetime,
-                      phase: PHASE.WAITING_PLACE
-                    });
-
-                    await textReply({
-                      messages: ['おけ', '場所は？'],
-                      replyToken
-                    });
+                  if (state.phase === '' || isExpired) {
+                    // フェーズなし || 期限切れ
 
                     try {
-                      const { extension } = getImageInfo(contentType);
-                      const filename = `${paymentId}${extension}`;
-                      const filepath = `receipts/${filename}`;
+                      const [{ contentType, buffer }, { paymentId, datetime }] = await Promise.all([getContent(message.id), makePayment()]);
 
-                      await Promise.all([
-                        setPaymentPartial(paymentId, {
-                          who: userId,
-                          imageUrl: `${ENDPOINTS.STORAGE}/receipts/${filename}`
-                        }),
-                        postPicture({ buffer, contentType, filepath }),
-                        isExpired
-                          ? deletePayment({
-                              paymentId: state.paymentId
-                            })
-                          : null
-                      ]);
+                      await setState(userId, {
+                        paymentId,
+                        datetime,
+                        phase: PHASE.WAITING_PLACE
+                      });
+
+                      await textReply({
+                        messages: ['おけ', '場所は？'],
+                        replyToken
+                      });
+
+                      try {
+                        const { extension } = getImageInfo(contentType);
+                        const filename = `${paymentId}${extension}`;
+                        const filepath = `receipts/${filename}`;
+
+                        await Promise.all([
+                          setPaymentPartial(paymentId, {
+                            who: userId,
+                            imageUrl: `${ENDPOINTS.STORAGE}/receipts/${filename}`
+                          }),
+                          postPicture({ buffer, contentType, filepath }),
+                          isExpired
+                            ? deletePayment({
+                                paymentId: state.paymentId
+                              })
+                            : null
+                        ]);
+                      } catch (error) {
+                        throw {
+                          messages: error,
+                          state: 500
+                        };
+                      }
                     } catch (error) {
                       throw {
                         messages: error,
                         state: 500
                       };
                     }
-                  } catch (error) {
-                    throw {
-                      messages: error,
-                      state: 500
-                    };
+                  } else {
+                    // 期限内の会計がある
+                    try {
+                      await textReply({
+                        messages: ['入力中の買い物があります'],
+                        replyToken
+                      });
+                    } catch ({ status, message }) {
+                      throw {
+                        messages,
+                        status
+                      };
+                    }
                   }
                 } else {
-                  // 期限内の会計がある
-                  try {
-                    await textReply({
-                      messages: ['入力中の買い物があります'],
-                      replyToken
-                    });
-                  } catch ({ status, message }) {
-                    throw {
-                      messages,
-                      status
-                    };
-                  }
+                  lineReply({
+                    messages: [
+                      {
+                        type: 'flex',
+                        altText: '家計簿グループがありません',
+                        contents: {
+                          type: 'bubble',
+                          direction: 'ltr',
+                          body: {
+                            type: 'box',
+                            layout: 'vertical',
+                            contents: [
+                              {
+                                type: 'text',
+                                text: '家計簿グループがありません！\nまずは設定から作成するか、誰かのグループに招待してもらいましょう',
+                                color: '#000000',
+                                wrap: true
+                              }
+                            ]
+                          },
+                          footer: {
+                            type: 'box',
+                            layout: 'horizontal',
+                            contents: [
+                              {
+                                type: 'button',
+                                action: {
+                                  type: 'uri',
+                                  label: '設定を開く',
+                                  uri: 'line://app/1629647443-Nq46aLqj'
+                                },
+                                color: '#00C239',
+                                style: 'primary'
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    replyToken
+                  });
                 }
                 break;
 
@@ -134,7 +179,8 @@ module.exports = {
                                       contents: [
                                         {
                                           type: 'text',
-                                          text: '金額は？'
+                                          text: '金額は？',
+                                          color: '#000000'
                                         }
                                       ]
                                     },
@@ -146,13 +192,18 @@ module.exports = {
                                           type: 'button',
                                           action: {
                                             type: 'uri',
-                                            label: 'タップで入力',
-                                            uri: 'line://app/1525303758-Em6xedAA'
+                                            label: 'タップでも入力できます',
+                                            uri: 'line://app/1629647443-N651dkoD'
                                           },
-                                          color: '#00B900',
+                                          color: '#00c239',
                                           height: 'sm'
                                         }
                                       ]
+                                    },
+                                    styles: {
+                                      footer: {
+                                        separator: true
+                                      }
                                     }
                                   }
                                 }

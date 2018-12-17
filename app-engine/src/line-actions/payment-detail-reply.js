@@ -126,17 +126,24 @@ module.exports = {
           layout: 'vertical',
           contents: [
             {
-              type: 'spacer',
-              size: 'xxl'
+              type: 'button',
+              action: {
+                type: 'uri',
+                label: '設定を開く',
+                uri: 'line://app/1629647443-Nq46aLqj'
+              },
+              color: '#636363',
+              style: 'link'
             },
             {
               type: 'button',
-              style: 'secondary',
               action: {
                 type: 'uri',
                 label: '家計簿を見る',
                 uri: 'line://app/1525303758-MxkqXypp'
-              }
+              },
+              color: '#00C239',
+              style: 'primary'
             }
           ]
         }
