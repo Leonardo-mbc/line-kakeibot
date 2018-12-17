@@ -1,0 +1,64 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>かけいぼ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="loading" class="loading"><div class="loader"></div></div>
+  <div class="container">
+    <div id="groups" class="groups-container">
+      <span class="group-name selected">○○○</span>
+      <span class="group-name">○○○</span>
+      <span class="group-name">○○○</span>
+      <span class="group-name">○○○</span>
+    </div>
+    <div class="month-container">
+      <span id="before-month">◀</span>
+      <span id="current-month" class="current">00月</span>
+      <span id="next-month">▶</span>
+    </div>
+    <div id="users" class="users-container">
+      <div class="user">
+        <span class="name">○○○</span>
+        <span class="price">0,000</span>
+      </div>
+      <div class="user">
+        <span class="name">○○○</span>
+        <span class="price">0,000</span>
+      </div>
+      <div class="user">
+        <span class="name">○○○</span>
+        <span class="price">0,000</span>
+      </div>
+    </div>
+    <div class="details-container">
+      <div class="details-label"><span>うちわけ</span></div>
+      <div id="details" class="details-table">
+        <div class="detail">
+          <div class="top">
+            <span>○○○</span>
+            <span>0,000</span>
+          </div>
+          <div class="bottom">
+            <span>○○○</span>
+            <span>0000-00-00 00:00:00</span>
+          </div>
+        </div>
+        <div class="detail">
+          <div class="top">
+            <span>○○○</span>
+            <span>0,000</span>
+          </div>
+          <div class="bottom">
+            <span>○○○</span>
+            <span>0000-00-00 00:00:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+  <script src="lib/moment.min.js"></script>
+  <script src="script.js"></script>
+</body>

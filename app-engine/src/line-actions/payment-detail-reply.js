@@ -140,7 +140,7 @@ module.exports = {
               action: {
                 type: 'uri',
                 label: '家計簿を見る',
-                uri: 'line://app/1525303758-MxkqXypp'
+                uri: 'line://app/1629647443-xvO1GPY5'
               },
               color: '#00C239',
               style: 'primary'
