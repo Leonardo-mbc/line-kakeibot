@@ -4,8 +4,8 @@ const { makePayment } = require('../actions/make-payment');
 const { setPaymentPartial } = require('../actions/set-payment-partial');
 const { deletePayment } = require('../actions/delete-payment');
 const { getGruops } = require('../actions/get-groups');
-const { getPayment } = require('../actions/get-payment');
 const { getReceipts } = require('../actions/get-receipts');
+const { movePayment } = require('../actions/move-payment');
 const { textReply } = require('../line-actions/text-reply');
 const { getContent } = require('../line-actions/get-content');
 const { lineReply } = require('../line-actions/line-reply');
@@ -19,92 +19,89 @@ const PHASE = require('../constants/phase');
 
 module.exports = {
   lineWebhook: function(events) {
-    events.map(async ({ type, message, replyToken, source }) => {
+    events.map(async ({ type, message, postback, replyToken, source }) => {
       let isExpired, state, groups;
+      const { userId } = source;
+
       try {
-        if (type === 'message') {
-          const { userId } = source;
+        switch (type) {
+          case 'message':
+            switch (message.type) {
+              case 'image':
+                state = (await getState(userId)) || { datetime: '', paymentId: '', phase: '' };
+                isExpired = expiredCheck(state.datetime);
 
-          switch (message.type) {
-            case 'image':
-              state = await getState();
-              isExpired = expiredCheck(state.datetime);
-
-              if (state.phase === '' || isExpired) {
-                // フェーズなし || 期限切れ
-
-                try {
-                  const [{ contentType, buffer }, { paymentId, datetime }] = await Promise.all([getContent(message.id), makePayment()]);
-
-                  await setState({
-                    paymentId,
-                    datetime,
-                    lineId: userId,
-                    phase: PHASE.WAITING_PLACE
-                  });
-
-                  await textReply({
-                    messages: ['おけ', '場所は？'],
-                    replyToken
-                  });
+                if (state.phase === '' || isExpired) {
+                  // フェーズなし || 期限切れ
 
                   try {
-                    const { extension } = getImageInfo(contentType);
-                    const filename = `${paymentId}${extension}`;
-                    const filepath = `receipts/${filename}`;
+                    const [{ contentType, buffer }, { paymentId, datetime }] = await Promise.all([getContent(message.id), makePayment()]);
 
-                    await Promise.all([
-                      setPaymentPartial(paymentId, datetime, {
-                        who: userId,
-                        imageUrl: `${ENDPOINTS.STORAGE}/receipts/${filename}`
-                      }),
-                      postPicture({ buffer, contentType, filepath }),
-                      isExpired
-                        ? deletePayment({
-                            paymentId: state.paymentId,
-                            datetime: state.datetime
-                          })
-                        : null
-                    ]);
+                    await setState(userId, {
+                      paymentId,
+                      datetime,
+                      phase: PHASE.WAITING_PLACE
+                    });
+
+                    await textReply({
+                      messages: ['おけ', '場所は？'],
+                      replyToken
+                    });
+
+                    try {
+                      const { extension } = getImageInfo(contentType);
+                      const filename = `${paymentId}${extension}`;
+                      const filepath = `receipts/${filename}`;
+
+                      await Promise.all([
+                        setPaymentPartial(paymentId, {
+                          who: userId,
+                          imageUrl: `${ENDPOINTS.STORAGE}/receipts/${filename}`
+                        }),
+                        postPicture({ buffer, contentType, filepath }),
+                        isExpired
+                          ? deletePayment({
+                              paymentId: state.paymentId
+                            })
+                          : null
+                      ]);
+                    } catch (error) {
+                      throw {
+                        messages: error,
+                        state: 500
+                      };
+                    }
                   } catch (error) {
                     throw {
                       messages: error,
                       state: 500
                     };
                   }
-                } catch (error) {
-                  throw {
-                    messages: error,
-                    state: 500
-                  };
+                } else {
+                  // 期限内の会計がある
+                  try {
+                    await textReply({
+                      messages: ['入力中の買い物があります'],
+                      replyToken
+                    });
+                  } catch ({ status, message }) {
+                    throw {
+                      messages,
+                      status
+                    };
+                  }
                 }
-              } else {
-                // 期限内の会計がある
-                try {
-                  await textReply({
-                    messages: ['ちょっとまってね'],
-                    replyToken
-                  });
-                } catch ({ status, message }) {
-                  throw {
-                    messages,
-                    status
-                  };
-                }
-              }
-              break;
+                break;
 
-            case 'text':
-              state = (await getState(userId)) || { datetime: '', lineId: '', paymentId: '', phase: '' };
-              isExpired = expiredCheck(state.datetime);
+              case 'text':
+                state = (await getState(userId)) || { datetime: '', paymentId: '', phase: '' };
+                isExpired = expiredCheck(state.datetime);
 
-              if (state.phase !== '') {
-                // 会計処理が進行中かチェック
+                if (state.phase !== '') {
+                  // 会計処理が進行中かチェック
 
-                if (!isExpired) {
-                  // 期限内かチェック
-                  if (state.lineId === userId) {
-                    // 対応中の人かチェック
+                  if (!isExpired) {
+                    // 期限内かチェック
 
                     const textValue = message.text; // 入力されたテキスト
 
@@ -112,10 +109,10 @@ module.exports = {
                       case PHASE.WAITING_PLACE:
                         try {
                           await Promise.all([
-                            setPaymentPartial(state.paymentId, state.datetime, {
+                            setPaymentPartial(state.paymentId, {
                               place: textValue
                             }),
-                            setState({
+                            setState(userId, {
                               ...state,
                               phase: PHASE.WAITING_PRICE
                             }),
@@ -175,72 +172,39 @@ module.exports = {
                         try {
                           const numberPrice = parseInt(textValue);
                           if (isNaN(numberPrice)) {
+                            await textReply({
+                              messages: ['数字を入力してください'],
+                              replyToken
+                            });
+
                             throw {
                               message: '数字を入力してください',
                               status: 400
                             };
                           }
 
-                          groups = await getGruops();
+                          groups = await getGruops(userId);
+                          groupReplies = Object.keys(groups).map((key) => {
+                            return {
+                              text: groups[key].name,
+                              data: `groupId=${key}`
+                            };
+                          });
 
                           await Promise.all([
-                            setPaymentPartial(state.paymentId, state.datetime, {
+                            setPaymentPartial(state.paymentId, {
                               price: numberPrice
                             }),
-                            setState({
+                            setState(userId, {
                               ...state,
                               phase: PHASE.WAITING_GROUP
                             }),
                             quickReply({
                               replyToken,
                               messages: ['どこにつける？'],
-                              replies: groups
+                              replies: groupReplies
                             })
                           ]);
-                        } catch ({ status, message }) {
-                          throw {
-                            message,
-                            status
-                          };
-                        }
-                        break;
-
-                      case PHASE.WAITING_GROUP:
-                        try {
-                          groups = await getGruops();
-                          if (0 <= groups.indexOf(textValue)) {
-                            await setPaymentPartial(state.paymentId, state.datetime, {
-                              group: textValue
-                            });
-
-                            const [payment, receipts] = await Promise.all([
-                              getPayment({
-                                paymentId: state.paymentId,
-                                datetime: state.datetime
-                              }),
-                              getReceipts(state.datetime)
-                            ]);
-
-                            await Promise.all([
-                              paymentDetailReply({
-                                payment,
-                                monthPayments: receipts,
-                                replyToken
-                              }),
-                              setState({
-                                datetime: '',
-                                lineId: '',
-                                paymentId: '',
-                                phase: ''
-                              })
-                            ]);
-                          } else {
-                            await quickReply({
-                              messages: ['そんなグループないです', 'どこにつける？'],
-                              replies: groups,
-                              replyToken
-                            });
-                          }
                         } catch ({ status, message }) {
                           throw {
                             message,
@@ -253,39 +217,103 @@ module.exports = {
                       // あてはまる phase がない
                     }
                   } else {
-                    // 関係ない人の発言、無視
+                    // 時間切れ
+                    try {
+                      await Promise.all([
+                        setState(userId, {
+                          datetime: '',
+                          paymentId: '',
+                          phase: ''
+                        }),
+                        deletePayment({
+                          paymentId: state.paymentId
+                        }),
+                        textReply({
+                          messages: ['時間切れになってしまいました。画像を送信するところからやり直してください'],
+                          replyToken
+                        })
+                      ]);
+                    } catch ({ status, message }) {
+                      throw {
+                        message,
+                        status
+                      };
+                    }
                   }
                 } else {
-                  // 時間切れ
-                  try {
-                    await Promise.all([
-                      setState({
-                        datetime: '',
-                        lineId: '',
-                        paymentId: '',
-                        phase: ''
-                      }),
-                      deletePayment({
-                        paymentId: state.paymentId,
-                        datetime: state.datetime
-                      }),
-                      textReply({
-                        messages: ['時間切れになってしまいました。最初からやり直してください'],
-                        replyToken
-                      })
-                    ]);
-                  } catch ({ status, message }) {
-                    throw {
-                      message,
-                      status
-                    };
-                  }
+                  // ただの発言、無視
+                }
+                break;
+            }
+            break;
+
+          case 'postback':
+            state = (await getState(userId)) || { datetime: '', paymentId: '', phase: '' };
+            isExpired = expiredCheck(state.datetime);
+
+            if (state.phase !== '') {
+              // 会計処理が進行中かチェック
+
+              if (!isExpired) {
+                // 期限内かチェック
+
+                const { groupId } = parseSearch(postback.data);
+
+                switch (state.phase) {
+                  case PHASE.WAITING_GROUP:
+                    try {
+                      const payment = await movePayment({ groupId, paymentId: state.paymentId, datetime: state.datetime });
+                      const monthPayments = await getReceipts({ userId, datetime: state.datetime });
+
+                      await Promise.all([
+                        paymentDetailReply({
+                          groupId,
+                          payment,
+                          monthPayments,
+                          replyToken
+                        }),
+                        setState(userId, {
+                          datetime: '',
+                          paymentId: '',
+                          phase: ''
+                        })
+                      ]);
+                    } catch ({ status, message }) {
+                      throw {
+                        message,
+                        status
+                      };
+                    }
+                    break;
                 }
               } else {
-                // ただの発言、無視
+                // 時間切れ
+                try {
+                  await Promise.all([
+                    setState(userId, {
+                      datetime: '',
+                      paymentId: '',
+                      phase: ''
+                    }),
+                    deletePayment({
+                      paymentId: state.paymentId
+                    }),
+                    textReply({
+                      messages: ['時間切れになってしまいました。画像を送信するところからやり直してください'],
+                      replyToken
+                    })
+                  ]);
+                } catch ({ status, message }) {
+                  throw {
+                    message,
+                    status
+                  };
+                }
               }
-              break;
-          }
+            } else {
+              // ただの発言、無視
+            }
+            break;
         }
       } catch (error) {
         console.error('####', error);
@@ -302,3 +330,18 @@ module.exports = {
     });
   }
 };
+
+function parseSearch(qs) {
+  let query = {};
+  qs.split(/[?&]/)
+    .filter((v) => !!v)
+    .map((v) => {
+      const [key, value] = v.split('=');
+      query = {
+        ...query,
+        [key]: value
+      };
+    });
+
+  return query;
+}

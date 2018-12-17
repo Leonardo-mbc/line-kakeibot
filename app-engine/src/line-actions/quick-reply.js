@@ -9,13 +9,14 @@ module.exports = {
               type: 'text',
               text,
               quickReply: {
-                items: replies.map((itemText) => {
+                items: replies.map((replyItem) => {
                   const item = {
                     type: 'action',
                     action: {
-                      type: 'message',
-                      label: itemText,
-                      text: itemText
+                      type: 'postback',
+                      label: replyItem.text,
+                      displayText: replyItem.text,
+                      data: replyItem.data
                     }
                   };
 

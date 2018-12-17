@@ -1,21 +1,18 @@
 const uuidv4 = require('uuid/v4');
 const moment = require('moment-timezone');
-const { paymentsRef } = require('../utilities/firebase-app');
+const { partialPaymentsRef } = require('../utilities/firebase-app');
 
 module.exports = {
   makePayment: async function() {
     try {
       const paymentId = uuidv4();
       const nowTime = moment().tz('Asia/Tokyo');
-      await paymentsRef.child(nowTime.format('YYYY-MM')).update({
-        [paymentId]: {
-          boughtAt: nowTime.format('YYYY-MM-DD HH:mm:ss'),
-          imageUrl: '',
-          place: '',
-          price: '',
-          group: '',
-          who: ''
-        }
+      await partialPaymentsRef.child(paymentId).set({
+        boughtAt: nowTime.format('YYYY-MM-DD HH:mm:ss'),
+        imageUrl: '',
+        place: '',
+        price: '',
+        who: ''
       });
 
       return { paymentId, datetime: nowTime.format() };

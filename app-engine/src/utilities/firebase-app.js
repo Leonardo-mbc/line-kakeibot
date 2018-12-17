@@ -13,6 +13,7 @@ module.exports = {
   stateRef: db.ref('/states'),
   groupsRef: db.ref('/groups'),
   paymentsRef: db.ref('/payments'),
+  partialPaymentsRef: db.ref('/_partial-payments'),
   usersRef: db.ref('/users'),
   lemaBucket: storage.bucket('line-kakeibot.appspot.com')
 };

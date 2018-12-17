@@ -8,4 +8,4 @@ export const paymentsRef = db.ref("/payments");
 export const usersRef = db.ref("/users");
 
 const storage = app.storage();
-export const lemaBucket = storage.bucket("line-kakeibot.appspot.com");
+export const kakeibotBucket = storage.bucket("line-kakeibot.appspot.com");
