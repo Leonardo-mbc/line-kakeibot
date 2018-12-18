@@ -17,6 +17,8 @@ const nextPage = document.getElementById('next-page');
 const beforePage = document.getElementById('before-page');
 const letsStart = document.getElementById('lets-start');
 const tutorialSkip = document.getElementById('tutorial-skip');
+const helpGroup = document.getElementById('help-group');
+const help = document.getElementById('help');
 
 const ERROR_GET_PROFILE = 'プロフィール取得に失敗しました。\n再度開き直してみてください。';
 const ERROR_POST_GROUP = 'グループ作成に失敗しました。\n再度開き直してみてください。';
@@ -156,7 +158,9 @@ function clearLoader() {
   }, 200);
 }
 
-function showTutorial() {
+function showTutorial(startPage = 0) {
+  pagerPageNum = startPage;
+  tutorialPager.style.transform = `translate3d(-${pagerPageNum * 100}%, 0px, 0px)`;
   tutorialContainer.classList.remove('hide');
   setTimeout(() => {
     tutorialContainer.classList.remove('transparent');
@@ -177,7 +181,6 @@ function setPageNum(page) {
     letsStart.classList.add('hide');
   } else if (page === MAX_PAGE - 1) {
     nextPage.classList.add('hide');
-    // beforePage.classList.add('hide');
     letsStart.classList.remove('hide');
   } else {
     nextPage.classList.remove('hide');
@@ -298,4 +301,12 @@ letsStart.addEventListener('click', () => {
 
 tutorialSkip.addEventListener('click', () => {
   hideTutorial();
+});
+
+helpGroup.addEventListener('click', () => {
+  showTutorial(4);
+});
+
+help.addEventListener('click', () => {
+  showTutorial();
 });
