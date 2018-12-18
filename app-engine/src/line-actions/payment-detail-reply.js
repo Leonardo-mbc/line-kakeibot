@@ -129,7 +129,7 @@ module.exports = {
               type: 'button',
               action: {
                 type: 'uri',
-                label: '設定を開く',
+                label: 'かけいぼっと設定を開く',
                 uri: 'line://app/1629647443-Nq46aLqj'
               },
               color: '#636363',
