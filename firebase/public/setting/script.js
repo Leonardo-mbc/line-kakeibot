@@ -159,7 +159,7 @@ function clearLoader() {
 }
 
 function showTutorial(startPage = 0) {
-  pagerPageNum = startPage;
+  setPageNum(startPage);
   tutorialPager.style.transform = `translate3d(-${pagerPageNum * 100}%, 0px, 0px)`;
   tutorialContainer.classList.remove('hide');
   setTimeout(() => {
