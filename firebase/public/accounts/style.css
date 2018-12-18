@@ -30,6 +30,9 @@ body {
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   overflow-x: hidden;
   white-space: nowrap;
@@ -37,32 +40,39 @@ body {
 }
 
 .groups-container {
-  padding: 8px;
+  padding-top: 8px;
+  width: 100%;
+}
+
+.groups {
   overflow-x: scroll;
+  margin: 0px 10px;
+  padding-bottom: 5px;
 }
 
-.groups-container .no-data {
+.groups .no-data {
   font-weight: bold;
   opacity: 0.3;
   margin-right: 7px;
   font-size: 24px;
 }
-.groups-container .group-name {
+.groups .group-name {
   font-weight: bold;
   opacity: 0.3;
   margin-right: 7px;
   font-size: 24px;
 }
 
-.groups-container .group-name:last-child {
+.groups .group-name:last-child {
   margin-right: 0px;
 }
 
-.groups-container .group-name.selected {
+.groups .group-name.selected {
   opacity: 1;
 }
 
 .month-container {
+  width: 100%;
   font-weight: bold;
   display: flex;
   justify-content: space-around;
@@ -74,11 +84,16 @@ body {
 }
 
 .users-container {
-  margin: 7px 5px 0px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
   color: white;
-  background-color: #61c3b7;
-  border-radius: 2px;
+  background-color: #00b900;
+  margin: 3vw 0px;
   padding: 10px 0px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  width: calc(100% - 12vw);
 }
 
 .users-container .no-data {
@@ -106,7 +121,14 @@ body {
 }
 
 .details-container {
-  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: #444444;
+  margin: 3vw 0px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  width: calc(100% - 12vw);
 }
 
 .details-container .details-label {
@@ -115,10 +137,14 @@ body {
   text-align: center;
 }
 
+.details-container .details-table {
+  padding-bottom: 8px;
+}
+
 .details-container .details-table .no-data {
-  display: flex;
-  flex-direction: column;
-  margin: 0px 12px;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
 }
 
 .details-container .details-table .detail {

@@ -113,11 +113,14 @@ function update({ receipts, users, groups }) {
       })
       .join('');
 
-    detailsElement.innerHTML = receipts[currentGroupId]
-      .sort(compareReceipts)
-      .map((item) => {
-        if (item.price !== '' && item.who !== '') {
-          return `
+    if (receipts[currentGroupId].length === 0) {
+      detailsElement.innerHTML = '<span class="no-data">データなし</span>';
+    } else {
+      detailsElement.innerHTML = receipts[currentGroupId]
+        .sort(compareReceipts)
+        .map((item) => {
+          if (item.price !== '' && item.who !== '') {
+            return `
           <div class="detail">
             <div class="top">
               <span>${item.place}</span>
@@ -129,9 +132,10 @@ function update({ receipts, users, groups }) {
             </div>
           </div>
         `;
-        }
-      })
-      .join('');
+          }
+        })
+        .join('');
+    }
   }
 
   clearLoader();
