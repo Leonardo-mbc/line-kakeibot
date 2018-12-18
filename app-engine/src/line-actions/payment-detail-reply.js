@@ -26,7 +26,7 @@ module.exports = {
           action: {
             type: 'uri',
             label: 'label',
-            uri: 'line://app/1525303758-MxkqXypp'
+            uri: 'line://app/1629647443-xvO1GPY5'
           },
           contents: [
             {
