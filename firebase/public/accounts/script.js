@@ -14,7 +14,7 @@ let currentTarget = `${now.format('YYYY-MM')}`;
 
 window.onload = function(e) {
   // TODO デバッグ用
-  initializeApp({ context: { userId: 'U319dd80e522591556e7ecf188db5e30c' } });
+  // initializeApp({ context: { userId: 'U319dd80e522591556e7ecf188db5e30c' } });
 
   liff.init(function(data) {
     initializeApp(data);
