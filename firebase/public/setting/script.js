@@ -179,6 +179,7 @@ function setPageNum(page) {
   if (page === 0) {
     beforePage.classList.add('hide');
     letsStart.classList.add('hide');
+    nextPage.classList.remove('hide');
   } else if (page === MAX_PAGE - 1) {
     nextPage.classList.add('hide');
     letsStart.classList.remove('hide');
