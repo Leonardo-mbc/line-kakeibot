@@ -3,5 +3,6 @@ import { postGroup } from "./endpoints/post-group";
 import { postName } from "./endpoints/post-name";
 import { linkGroup } from "./endpoints/link-group";
 import { postPicture } from "./endpoints/post-picture";
+import { getReceipts } from "./endpoints/get-receipts";
 
-export { getProfile, postGroup, postName, linkGroup, postPicture };
+export { getProfile, postGroup, postName, linkGroup, postPicture, getReceipts };

@@ -3,7 +3,7 @@ const { getState, setState } = require('../actions/state-action');
 const { makePayment } = require('../actions/make-payment');
 const { setPaymentPartial } = require('../actions/set-payment-partial');
 const { deletePayment } = require('../actions/delete-payment');
-const { getGruops } = require('../actions/get-groups');
+const { getGroups } = require('../actions/get-groups');
 const { getReceipts } = require('../actions/get-receipts');
 const { movePayment } = require('../actions/move-payment');
 const { textReply } = require('../line-actions/text-reply');
@@ -28,7 +28,7 @@ module.exports = {
           case 'message':
             switch (message.type) {
               case 'image':
-                groups = await getGruops(userId);
+                groups = await getGroups(userId);
                 if (0 < Object.keys(groups).length) {
                   state = (await getState(userId)) || { datetime: '', paymentId: '', phase: '' };
                   isExpired = expiredCheck(state.datetime);
@@ -234,7 +234,7 @@ module.exports = {
                             };
                           }
 
-                          groups = await getGruops(userId);
+                          groups = await getGroups(userId);
                           groupReplies = Object.keys(groups).map((key) => {
                             return {
                               text: groups[key].name,

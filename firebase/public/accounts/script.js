@@ -1,58 +1,60 @@
-const ENDPOINT = 'https://us-central1-lema-cloud.cloudfunctions.net';
-let currentGroup = null;
+const ENDPOINT = 'https://us-central1-line-kakeibot.cloudfunctions.net';
+
+const loader = document.getElementById('loader');
+const currentMonth = document.getElementById('current-month');
+const beforeMonth = document.getElementById('before-month');
+const nextMonth = document.getElementById('next-month');
+const groupsElement = document.getElementById('groups');
+const usersElement = document.getElementById('users');
+const detailsElement = document.getElementById('details');
+
 const now = moment();
+let currentGroupId = null;
 let currentTarget = `${now.format('YYYY-MM')}`;
 
 window.onload = function(e) {
-  const currentMonthElement = document.getElementById('current-month');
-  currentMonthElement.innerText = `${currentTarget.split('-')[1]}月`;
-
-  fetch(`${ENDPOINT}/getUsers`)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw {
-          message: 'fetch error',
-          status: response.status
-        };
-      }
-    })
-    .then(({ users }) => {
-      getReceiptsData(currentTarget).then(({ receipts }) => {
-        update({ receipts, users });
-      });
-
-      document.getElementById('before-month').addEventListener('click', () => {
-        currentTarget = moment(currentTarget)
-          .add(-1, 'month')
-          .format('YYYY-MM');
-        currentMonthElement.innerText = `${currentTarget.split('-')[1]}月`;
-        getReceiptsData(currentTarget).then(({ receipts }) => {
-          update({ receipts, users });
-        });
-      });
-
-      document.getElementById('next-month').addEventListener('click', () => {
-        currentTarget = moment(currentTarget)
-          .add(1, 'month')
-          .format('YYYY-MM');
-        currentMonthElement.innerText = `${currentTarget.split('-')[1]}月`;
-        getReceiptsData(currentTarget).then(({ receipts }) => {
-          update({ receipts, users });
-        });
-      });
-    });
+  // TODO デバッグ用
+  initializeApp({ context: { userId: 'U319dd80e522591556e7ecf188db5e30c' } });
 
   liff.init(function(data) {
     initializeApp(data);
   });
 };
 
-function initializeApp(data) {}
+function initializeApp(data) {
+  currentMonth.innerText = `${currentTarget.split('-')[1]}月`;
 
-function getReceiptsData(currentTarget) {
-  return fetch(`${ENDPOINT}/getReceipts?target=${currentTarget}`)
+  const userId = data.context.userId;
+  getReceiptsData(userId, currentTarget).then(({ receipts, users, groups }) => {
+    update({ receipts, users, groups });
+    beforeMonth.addEventListener('click', () => {
+      showLoader();
+
+      currentTarget = moment(currentTarget)
+        .add(-1, 'month')
+        .format('YYYY-MM');
+      currentMonth.innerText = `${currentTarget.split('-')[1]}月`;
+      getReceiptsData(userId, currentTarget).then(({ receipts }) => {
+        update({ receipts, users, groups });
+      });
+    });
+
+    nextMonth.addEventListener('click', () => {
+      showLoader();
+
+      currentTarget = moment(currentTarget)
+        .add(1, 'month')
+        .format('YYYY-MM');
+      currentMonth.innerText = `${currentTarget.split('-')[1]}月`;
+      getReceiptsData(userId, currentTarget).then(({ receipts }) => {
+        update({ receipts, users, groups });
+      });
+    });
+  });
+}
+
+function getReceiptsData(userId, currentTarget) {
+  return fetch(`${ENDPOINT}/getReceipts?userId=${userId}&target=${currentTarget}`)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -63,63 +65,58 @@ function getReceiptsData(currentTarget) {
         };
       }
     })
-    .then(({ receipts }) => {
-      return { receipts };
+    .then((receipts) => {
+      return receipts;
     });
 }
 
-function update({ receipts, users }) {
-  document.getElementById('loading').className = 'loading hide';
-
+function update({ receipts, users, groups }) {
   if (receipts.length === 0) {
-    document.getElementById('groups').innerHTML = '<span class="no-data">データなし</span>';
-    document.getElementById('users').innerHTML = '<span class="no-data">データなし</span>';
-    document.getElementById('details').innerHTML = '<span class="no-data">データなし</span>';
+    groupsElement.innerHTML = '<span class="no-data">データなし</span>';
+    usersElement.innerHTML = '<span class="no-data">データなし</span>';
+    detailsElement.innerHTML = '<span class="no-data">データなし</span>';
   } else {
-    const groupsElement = document.getElementById('groups');
-    const groups = receipts.map((item) => item.group).filter((x, i, self) => self.indexOf(x) === i && x !== '');
-    if (currentGroup === null) {
-      currentGroup = groups[0];
+    const groupIds = Object.keys(groups);
+    const userIds = Object.keys(users);
+
+    if (currentGroupId === null) {
+      currentGroupId = groupIds[0];
     }
-    groupsElement.innerHTML = groups
-      .map((group, idx) => {
-        return `<span id="${idx}-${group}" class="group-name${currentGroup === group ? ' selected' : ''}">${group}</span>`;
+    groupsElement.innerHTML = groupIds
+      .map((groupId) => {
+        return `<span id="group-${groupId}" class="group-name${currentGroupId === groupId ? ' selected' : ''}">${groups[groupId].name}</span>`;
       })
       .join('');
-    groups.map((group, idx) => {
-      document.getElementById(`${idx}-${group}`).addEventListener('click', () => {
-        currentGroup = group;
-        update({ receipts, users });
+    groupIds.map((groupId) => {
+      document.getElementById(`group-${groupId}`).addEventListener('click', () => {
+        currentGroupId = groupId;
+        update({ receipts, users, groups });
       });
     });
 
-    const usersElement = document.getElementById('users');
-    const userIds = receipts.map((item) => item.who).filter((x, i, self) => self.indexOf(x) === i && x !== '');
-
     let costs = {};
-    userIds.map((user) => (costs[user] = 0));
+    userIds.map((userId) => (costs[userId] = 0));
 
-    receipts.map((item) => {
-      if (item.group === currentGroup && item.price !== '' && item.who !== '') {
+    receipts[currentGroupId].map((item) => {
+      if (item.price !== '' && item.who !== '') {
         costs[item.who] += parseInt(item.price);
       }
     });
-    usersElement.innerHTML = Object.keys(costs)
+    usersElement.innerHTML = userIds
       .map((userId) => {
         return `
         <div class="user">
-          <span class="name">${users[userId].name}</span>
+          <span class="name">${users[userId]}</span>
           <span class="price">${costs[userId].toLocaleString()}</span>
         </div>
       `;
       })
       .join('');
 
-    const detailsElement = document.getElementById('details');
-    detailsElement.innerHTML = receipts
+    detailsElement.innerHTML = receipts[currentGroupId]
       .sort(compareReceipts)
       .map((item) => {
-        if (item.group === currentGroup && item.price !== '' && item.who !== '') {
+        if (item.price !== '' && item.who !== '') {
           return `
           <div class="detail">
             <div class="top">
@@ -127,7 +124,7 @@ function update({ receipts, users }) {
               <span>${item.price.toLocaleString()}</span>
             </div>
             <div class="bottom">
-              <span>${users[item.who].name}</span>
+              <span>${users[item.who]}</span>
               <span>${item.boughtAt}</span>
             </div>
           </div>
@@ -136,6 +133,8 @@ function update({ receipts, users }) {
       })
       .join('');
   }
+
+  clearLoader();
 }
 
 function compareReceipts(a, b) {
@@ -149,4 +148,18 @@ function compareReceipts(a, b) {
   } else {
     return 0;
   }
+}
+
+function clearLoader() {
+  loader.classList.add('transparent');
+  setTimeout(() => {
+    loader.classList.add('hide');
+  }, 200);
+}
+
+function showLoader() {
+  loader.classList.remove('hide');
+  setTimeout(() => {
+    loader.classList.remove('transparent');
+  }, 1);
 }

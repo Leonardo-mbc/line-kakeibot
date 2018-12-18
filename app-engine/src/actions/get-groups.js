@@ -1,7 +1,7 @@
 const { groupsRef, usersRef } = require('../utilities/firebase-app');
 
 module.exports = {
-  getGruops: async (userId) => {
+  getGroups: async (userId) => {
     try {
       const groupIdsNode = await usersRef.child(`${userId}/groups`).once('value');
       const groupIdsValue = groupIdsNode.val() || [];

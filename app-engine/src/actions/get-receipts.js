@@ -1,12 +1,12 @@
 const moment = require('moment-timezone');
 const { paymentsRef, groupsRef } = require('../utilities/firebase-app');
-const { getGruops } = require('./get-groups');
+const { getGroups } = require('./get-groups');
 
 module.exports = {
   getReceipts: async ({ userId, datetime }) => {
     try {
       const monthDir = moment(datetime).format('YYYY-MM');
-      const groups = await getGruops(userId);
+      const groups = await getGroups(userId);
 
       const receipts = await Promise.all(
         Object.keys(groups).map(async (groupId) => {
