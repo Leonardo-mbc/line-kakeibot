@@ -11,14 +11,27 @@ const groupName = document.getElementById('group-name');
 const needCoop = document.getElementById('need-coop');
 const sendLoginId = document.getElementById('send-login-id');
 const saveNameButton = document.getElementById('save-name-button');
+const tutorialContainer = document.getElementById('tutorial-container');
+const tutorialPager = document.getElementById('tutorial-pager');
+const nextPage = document.getElementById('next-page');
+const beforePage = document.getElementById('before-page');
+const letsStart = document.getElementById('lets-start');
+const tutorialSkip = document.getElementById('tutorial-skip');
 
 const ERROR_GET_PROFILE = 'プロフィール取得に失敗しました。\n再度開き直してみてください。';
 const ERROR_POST_GROUP = 'グループ作成に失敗しました。\n再度開き直してみてください。';
 const ERROR_CHANGE_NAME = '名前の変更に失敗しました。\n再度開き直してみてください。';
 
 let userId = null;
+let pagerTouchstartX = null;
+let pagerPageNum = 0;
+const PAGER_DIST = 80;
+const MAX_PAGE = document.getElementsByClassName('tutorial-page').length;
 
 window.onload = function(e) {
+  // デバッグ用
+  clearLoader();
+
   liff.init(function(data) {
     initializeApp(data);
   });
@@ -46,6 +59,7 @@ function initializeApp(data) {
           clearLoader();
 
           if (!profile.name) {
+            showTutorial();
             fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postName', {
               method: 'POST',
               headers: {
@@ -142,6 +156,36 @@ function clearLoader() {
   }, 200);
 }
 
+function showTutorial() {
+  tutorialContainer.classList.remove('hide');
+  setTimeout(() => {
+    tutorialContainer.classList.remove('transparent');
+  }, 1);
+}
+
+function hideTutorial() {
+  tutorialContainer.classList.add('transparent');
+  setTimeout(() => {
+    tutorialContainer.classList.add('hide');
+  }, 200);
+}
+
+function setPageNum(page) {
+  pagerPageNum = page;
+  if (page === 0) {
+    beforePage.classList.add('hide');
+    letsStart.classList.add('hide');
+  } else if (page === MAX_PAGE - 1) {
+    nextPage.classList.add('hide');
+    // beforePage.classList.add('hide');
+    letsStart.classList.remove('hide');
+  } else {
+    nextPage.classList.remove('hide');
+    beforePage.classList.remove('hide');
+    letsStart.classList.add('hide');
+  }
+}
+
 // EventListener
 addButton.addEventListener('click', () => {
   changeGroupAddMode('add');
@@ -210,4 +254,48 @@ saveNameButton.addEventListener('click', () => {
         window.alert(ERROR_CHANGE_NAME);
       });
   }
+});
+
+// tutorialPager.addEventListener('touchstart', (e) => {
+//   pagerTouchstartX = e.touches[0].clientX;
+// });
+
+// tutorialPager.addEventListener('touchmove', (e) => {
+//   if (pagerTouchstartX !== null) {
+//     const moveX = e.touches[0].clientX - pagerTouchstartX;
+//     if (moveX < -PAGER_DIST && pagerPageNum < MAX_PAGE - 1) {
+//       setPageNum(pagerPageNum + 1);
+//       tutorialPager.style.transform = `translate3d(-${pagerPageNum * 100}%, 0px, 0px)`;
+//       pagerTouchstartX = null;
+//     } else if (PAGER_DIST < moveX && 0 < pagerPageNum) {
+//       setPageNum(pagerPageNum - 1);
+//       tutorialPager.style.transform = `translate3d(-${pagerPageNum * 100}%, 0px, 0px)`;
+//       pagerTouchstartX = null;
+//     } else {
+//       tutorialPager.style.transform = `translate3d(calc(${moveX}px - ${pagerPageNum * 100}%), 0px, 0px)`;
+//     }
+//   }
+// });
+
+// tutorialPager.addEventListener('touchend', () => {
+//   tutorialPager.style.transform = `translate3d(-${pagerPageNum * 100}%, 0px, 0px)`;
+//   pagerTouchstartX = null;
+// });
+
+nextPage.addEventListener('click', () => {
+  setPageNum(pagerPageNum + 1);
+  tutorialPager.style.transform = `translate3d(-${pagerPageNum * 100}%, 0px, 0px)`;
+});
+
+beforePage.addEventListener('click', () => {
+  setPageNum(pagerPageNum - 1);
+  tutorialPager.style.transform = `translate3d(-${pagerPageNum * 100}%, 0px, 0px)`;
+});
+
+letsStart.addEventListener('click', () => {
+  hideTutorial();
+});
+
+tutorialSkip.addEventListener('click', () => {
+  hideTutorial();
 });
