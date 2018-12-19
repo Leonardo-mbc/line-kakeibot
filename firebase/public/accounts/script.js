@@ -100,25 +100,30 @@ function update({ receipts, users, groups }) {
       });
     });
 
-    let costs = {};
-    userIds.map((userId) => (costs[userId] = 0));
+    if (userIds.length === 0) {
+      usersElement.innerHTML = '<span class="no-data">データなし</span>';
+    } else {
+      let costs = {};
+      userIds.map((userId) => (costs[userId] = 0));
 
-    Object.keys(receipts[currentGroupId]).map((paymentId) => {
-      const item = receipts[currentGroupId][paymentId];
-      if (item.price !== '' && item.who !== '') {
-        costs[item.who] += parseInt(item.price);
-      }
-    });
-    usersElement.innerHTML = userIds
-      .map((userId) => {
-        return `
+      Object.keys(receipts[currentGroupId]).map((paymentId) => {
+        const item = receipts[currentGroupId][paymentId];
+        if (item.price !== '' && item.who !== '') {
+          costs[item.who] += parseInt(item.price);
+        }
+      });
+
+      usersElement.innerHTML = userIds
+        .map((userId) => {
+          return `
         <div class="user">
           <span class="name">${users[userId]}</span>
           <span class="price">${costs[userId].toLocaleString()}</span>
         </div>
       `;
-      })
-      .join('');
+        })
+        .join('');
+    }
 
     if (Object.keys(receipts[currentGroupId]).length === 0) {
       detailsElement.innerHTML = '<span class="no-data">データなし</span>';
@@ -150,7 +155,7 @@ function update({ receipts, users, groups }) {
                     <span>${item.boughtAt}</span>
                   </div>
                 </div>
-                <img onClick="showMenu('${paymentId}')" src="images/menu-dot.png" />
+                <img onClick="showMenu('${paymentId}')" class="${userId === item.who ? '' : 'hide'}" src="images/menu-dot.png" />
               </div>
             `;
           }

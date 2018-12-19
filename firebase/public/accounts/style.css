@@ -166,6 +166,10 @@ body {
   margin-right: 6px;
 }
 
+.detail img.hide {
+  visibility: hidden;
+}
+
 .detail .top {
   display: flex;
   justify-content: space-between;
