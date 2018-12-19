@@ -98,7 +98,7 @@ module.exports = {
                     messages: [
                       {
                         type: 'flex',
-                        altText: '家計簿グループがありません',
+                        altText: '家計簿がありません',
                         contents: {
                           type: 'bubble',
                           direction: 'ltr',
@@ -108,7 +108,7 @@ module.exports = {
                             contents: [
                               {
                                 type: 'text',
-                                text: '家計簿グループがありません！\nまずは設定から作成するか、誰かのグループに招待してもらいましょう',
+                                text: '家計簿がありません！\nまずは設定から作成するか、誰かの家計簿に招待してもらいましょう',
                                 color: '#000000',
                                 wrap: true
                               }

@@ -38,23 +38,45 @@
       <div class="details-label"><span>うちわけ</span></div>
       <div id="details" class="details-table">
         <div class="detail">
-          <div class="top">
-            <span>○○○</span>
-            <span>0,000</span>
+          <div class="detail-item">
+            <div class="top">
+              <span>○○○</span>
+              <span>0,000</span>
+            </div>
+            <div class="bottom">
+              <span>○○○</span>
+              <span>0000-00-00 00:00:00</span>
+            </div>
           </div>
-          <div class="bottom">
-            <span>○○○</span>
-            <span>0000-00-00 00:00:00</span>
-          </div>
+          <img src="images/menu-dot.png" />
         </div>
         <div class="detail">
-          <div class="top">
-            <span>○○○</span>
-            <span>0,000</span>
+          <div class="detail-item">
+            <div class="top">
+              <span>○○○</span>
+              <span>0,000</span>
+            </div>
+            <div class="bottom">
+              <span>○○○</span>
+              <span>0000-00-00 00:00:00</span>
+            </div>
           </div>
-          <div class="bottom">
-            <span>○○○</span>
-            <span>0000-00-00 00:00:00</span>
+          <img src="images/menu-dot.png" />
+        </div>
+      </div>
+    </div>
+    <div id="menu-container" class="menu-container hide">
+      <div class="menu-list-container">
+        <span class="menu-item cancel">キャンセル</span>
+        <span id="move-account" class="menu-item" style="opacity: 0.2">別の家計簿に移行</span>
+        <span id="delete-payment" class="menu-item delete">削除</span>
+      </div>
+      <div id="delete-confirm" class="delete-confirm-container hide">
+        <div class="delete-confirm">
+          <span>本当に削除しますか</span>
+          <div class="delete-answers">
+            <span id="delete-yes" class="delete-button yes">はい</span>
+            <span class="delete-button cancel">キャンセル</span>
           </div>
         </div>
       </div>

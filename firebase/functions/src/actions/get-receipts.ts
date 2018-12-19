@@ -19,13 +19,13 @@ export async function getReceiptsValue({ userId, monthDir }) {
           .once("value");
         const receiptValue = receiptsNode.val();
         if (receiptValue) {
-          const receiptArray = Object.keys(receiptValue).map(key => {
+          Object.keys(receiptValue).map(key => {
+            // 全ユーザーを収集
             appearUserIds.push(receiptValue[key].who);
-            return receiptValue[key];
           });
-          receipts[groupId] = receiptArray;
+          receipts[groupId] = receiptValue;
         } else {
-          receipts[groupId] = [];
+          receipts[groupId] = {};
         }
       })
     );

@@ -32,7 +32,7 @@ const MAX_PAGE = document.getElementsByClassName('tutorial-page').length;
 
 window.onload = function(e) {
   // デバッグ用
-  clearLoader();
+  // clearLoader();
 
   liff.init(function(data) {
     initializeApp(data);
