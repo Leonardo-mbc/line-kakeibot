@@ -144,7 +144,7 @@ function update({ receipts, users, groups }) {
           const item = receipts[currentGroupId][paymentId];
           if (item.price !== '' && item.who !== '') {
             return `
-              <div class="detail">
+              <div id="payment-${paymentId}" class="detail">
                 <div class="detail-item">
                   <div class="top">
                     <span>${item.place}</span>
@@ -183,6 +183,7 @@ function showLoader() {
 
 function showMenu(paymentId) {
   selectedPaymentId = paymentId;
+  document.getElementById(`payment-${paymentId}`).classList.add('selected');
   menuContainer.classList.remove('hide');
   setTimeout(() => {
     menuContainer.classList.remove('transparent');
@@ -190,6 +191,7 @@ function showMenu(paymentId) {
 }
 
 function clearMenu() {
+  document.getElementById(`payment-${selectedPaymentId}`).classList.remove('selected');
   selectedPaymentId = null;
   menuContainer.classList.add('transparent');
   setTimeout(() => {

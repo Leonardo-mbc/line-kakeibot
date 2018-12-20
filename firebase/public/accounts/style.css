@@ -147,10 +147,20 @@ body {
   text-align: center;
 }
 
-.details-container .details-table .detail {
+.detail {
   display: flex;
-  margin-left: 12px;
+  padding-left: 12px;
   align-items: center;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  transition: background-color 200ms cubic-bezier(0, 0, 0, 1), border 200ms cubic-bezier(0, 0, 0, 1);
+}
+
+.detail.selected {
+  background-color: rgba(0, 185, 0, 0.2);
+  border-top: 2px solid #00b900;
+  border-bottom: 2px solid #00b900;
+  box-sizing: border-box;
 }
 
 .detail .detail-item {
