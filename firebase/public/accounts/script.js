@@ -145,6 +145,9 @@ function update({ receipts, users, groups }) {
           if (item.price !== '' && item.who !== '') {
             return `
               <div id="payment-${paymentId}" class="detail">
+                <div class="image-container">
+                  <img onClick="showReceiptImage('${item.imageUrl}')" class="receipt-image" src="${item.imageUrl}" />
+                </div>
                 <div class="detail-item">
                   <div class="top">
                     <span>${item.place}</span>
@@ -152,7 +155,7 @@ function update({ receipts, users, groups }) {
                   </div>
                   <div class="bottom">
                     <span>${users[item.who]}</span>
-                    <span>${item.boughtAt}</span>
+                    <span>${moment(item.boughtAt).format('MM/DD')}</span>
                   </div>
                 </div>
                 <img onClick="showMenu('${paymentId}')" class="${userId === item.who ? '' : 'hide'}" src="images/menu-dot.png" />
@@ -200,6 +203,10 @@ function clearMenu() {
   }, 200);
 }
 
+function showReceiptImage(url) {
+  liff.openWindow({ url });
+}
+
 // EventListener
 
 menuContainer.addEventListener('click', () => {
@@ -217,6 +224,8 @@ deletePayment.addEventListener('click', (e) => {
 });
 
 deleteYes.addEventListener('click', (e) => {
+  e.stopPropagation();
+  showLoader();
   fetch(`${ENDPOINT}/deletePayment?userId=${userId}&groupId=${currentGroupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`)
     .then((response) => {
       if (response.ok) {
@@ -228,10 +237,11 @@ deleteYes.addEventListener('click', (e) => {
         };
       }
     })
-    .then((paymentId) => {
+    .then((data) => {
       clearMenu();
       getReceiptsData(userId, currentTarget).then(({ receipts, users, groups }) => {
         update({ receipts, users, groups });
+        clearLoader();
       });
     });
 });
