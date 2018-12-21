@@ -1,65 +1,72 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/5.7.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/5.7.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/5.7.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/5.7.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/5.7.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>かけいぼっと｜共有できるLINE家計簿</title>
+    <link rel="stylesheet" href="index/style.css" />
   </head>
+
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <div class="container">
+      <div class="hero">
+        <img src="index/images/logo.png" />
+        <p>共有できるLINE家計簿</p>
+        <a href="https://line.me/R/ti/p/%40coe3830f"><img height="36" border="0" alt="友だち追加" src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" /></a>
+      </div>
+      <div class="use-case">
+        <div class="title">どういうときに使える？</div>
+        <div class="number">01</div>
+        <div class="content">
+          <p>共通財布のパートナーで消費を精算</p>
+          <img src="index/images/usecase-01.png" />
+          <span>
+            お会計をするたびに
+            <b>「いくらだっけ？」</b>
+            <br />
+            とやっていませんか？
+            <br />
+            <br />
+            かけいぼっとでは
+            <br />
+            払った人がレシートを登録しておけば、
+            <br />
+            月末にまとめて精算するだけ！
+            <br />
+          </span>
+        </div>
+        <div class="number">02</div>
+        <div class="content">
+          <p>いつものチームで雑費を集計</p>
+          <img src="index/images/usecase-02.png" />
+          <span>
+            みんなでお金をためつつ、そこから消費する場合
+            <br />
+            だれがいくら建て替えたか一目瞭然になります！
+            <br />
+            <br />
+            月イチで建て替えた金額を精算すれば
+            <br />
+            毎回の無駄な精算時間はなくなります！
+            <br />
+          </span>
+        </div>
+      </div>
+      <div class="usage">
+        <div class="title">使い方</div>
+        <div class="content">
+          <p>レシートの写真をとります</p>
+          <img src="index/images/01-photo.png" />
+          <p>かけいぼっとがいるルームで写真を送信</p>
+          <img src="index/images/02-send.png" />
+          <p>かけいぼっとの質問に返信</p>
+          <img src="index/images/03-answer.png" />
+          <p>これだけで登録できます！</p>
+        </div>
+      </div>
+      <div class="hero">
+        <img src="index/images/logo.png" />
+        <p>共有できるLINE家計簿</p>
+        <a href="https://line.me/R/ti/p/%40coe3830f"><img height="36" border="0" alt="友だち追加" src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" /></a>
+      </div>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
   </body>
 </html>

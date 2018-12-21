@@ -1,0 +1,103 @@
+body {
+  background-color: white;
+  color: #444444;
+  margin: 0px;
+  font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  max-width: 400px;
+}
+
+.hero {
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.hero > img {
+  width: 50%;
+}
+
+.hero > p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.use-case {
+}
+
+.use-case .title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: #00c24b;
+  padding-bottom: 5px;
+  border-bottom: 3px solid #00c24b;
+}
+
+.use-case .number {
+  text-align: center;
+  font-weight: bold;
+  font-size: 50px;
+  margin: 10px;
+}
+
+.use-case .content {
+  text-align: center;
+}
+
+.use-case .content p {
+  margin: -10px 0 0px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #00ca6b;
+}
+
+.use-case .content img {
+  width: 100%;
+}
+.use-case .content span {
+  padding: 0px 20px;
+  display: block;
+  font-size: smaller;
+  margin-bottom: 50px;
+}
+
+.usage {
+}
+
+.usage .title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: #00c24b;
+  padding-bottom: 5px;
+  border-bottom: 3px solid #00c24b;
+}
+
+.usage .content {
+  text-align: center;
+}
+
+.usage .content p {
+  margin: -10px 0 0px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #00ca6b;
+
+  margin-top: 35px;
+}
+
+.usage .content img {
+  width: 40%;
+}
+
+@media screen and (min-width: 1020px) {
+}
