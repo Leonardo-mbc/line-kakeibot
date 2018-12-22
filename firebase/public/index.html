@@ -11,12 +11,13 @@
         <img src="index/images/logo.png" />
         <p>共有できるLINE家計簿</p>
         <a href="https://line.me/R/ti/p/%40coe3830f"><img height="36" border="0" alt="友だち追加" src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" /></a>
+        <div id="scroll" class="scroll"><img src="index/images/arrow.png" /></div>
       </div>
       <div class="use-case">
         <div class="title">どういうときに使える？</div>
         <div class="number">01</div>
         <div class="content">
-          <p>共通財布のパートナーで消費を精算</p>
+          <p>パートナーとの生活費を精算</p>
           <img src="index/images/usecase-01.png" />
           <span>
             お会計をするたびに
@@ -68,5 +69,12 @@
         <a href="https://line.me/R/ti/p/%40coe3830f"><img height="36" border="0" alt="友だち追加" src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" /></a>
       </div>
     </div>
+    <script>
+      window.onscroll = function() {
+        if (200 < window.scrollY) {
+          document.getElementById('scroll').style.opacity = 0;
+        }
+      };
+    </script>
   </body>
 </html>
