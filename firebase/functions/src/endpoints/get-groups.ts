@@ -11,7 +11,7 @@ export const getGroups = functions.https.onRequest(
         .status(200)
         .send(gruops);
     } catch ({ status, message }) {
-      console.error("error - getProfile", message);
+      console.error("error - getGroups", message);
       response
         .header("Access-Control-Allow-Origin", "*")
         .status(status)

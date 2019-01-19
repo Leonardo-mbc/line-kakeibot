@@ -68,7 +68,7 @@
     <div id="menu-container" class="menu-container hide">
       <div class="menu-list-container">
         <span class="menu-item cancel">キャンセル</span>
-        <span id="move-account" class="menu-item" style="background-color: #e5e5e5;color: #c8c8c8;">別の家計簿に移行</span>
+        <span id="move-account" class="menu-item">別の家計簿に移行</span>
         <span id="delete-payment" class="menu-item delete">削除</span>
       </div>
       <div id="delete-confirm" class="delete-confirm-container hide">
@@ -78,6 +78,12 @@
             <span id="delete-yes" class="delete-button yes">はい</span>
             <span class="delete-button cancel">キャンセル</span>
           </div>
+        </div>
+      </div>
+      <div id="account-select" class="account-select-container hide loading">
+        <div class="account-list-container">
+          <span class="account-list-title">どの家計簿に移動する？</span>
+          <div id="account-list" class="account-list"></div>
         </div>
       </div>
     </div>

@@ -8,7 +8,9 @@ const groupsElement = document.getElementById('groups');
 const usersElement = document.getElementById('users');
 const detailsElement = document.getElementById('details');
 const menuContainer = document.getElementById('menu-container');
-const moveAccount = document.getElementById('move-account');
+const moveAccountElement = document.getElementById('move-account');
+const accountSelect = document.getElementById('account-select');
+const accountList = document.getElementById('account-list');
 const deletePayment = document.getElementById('delete-payment');
 const deleteConfirm = document.getElementById('delete-confirm');
 const deleteYes = document.getElementById('delete-yes');
@@ -200,11 +202,30 @@ function clearMenu() {
   setTimeout(() => {
     menuContainer.classList.add('hide');
     deleteConfirm.classList.add('hide');
+    accountSelect.classList.add('hide');
+    accountSelect.classList.add('loading');
+    accountList.innerHTML = '';
   }, 200);
 }
 
 function showReceiptImage(url) {
   liff.openWindow({ url });
+}
+
+function moveAccount({ groupId }) {
+  fetch(`${ENDPOINT}/movePayment?currentGroupId=${currentGroupId}&targetGroupId=${groupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`).then((response) => {
+    if (response.ok) {
+      clearMenu();
+      getReceiptsData(userId, currentTarget).then(({ receipts, users, groups }) => {
+        update({ receipts, users, groups });
+      });
+    } else {
+      throw {
+        message: 'fetch error',
+        status: response.status
+      };
+    }
+  });
 }
 
 // EventListener
@@ -213,10 +234,42 @@ menuContainer.addEventListener('click', () => {
   clearMenu();
 });
 
-// moveAccount.addEventListener('click', (e) => {
-//   e.stopPropagation();
-//   console.log(currentGroupId, selectedPaymentId);
-// });
+moveAccountElement.addEventListener('click', (e) => {
+  e.stopPropagation();
+  accountSelect.classList.remove('hide');
+
+  fetch(`${ENDPOINT}/getGroups?userId=${userId}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw {
+          message: 'fetch error',
+          status: response.status
+        };
+      }
+    })
+    .then((groups) => {
+      accountSelect.classList.remove('loading');
+      accountList.innerHTML = Object.keys(groups)
+        .filter((id) => id !== currentGroupId)
+        .map((id) => {
+          return `<span id="account-${id}" class="target-account">${groups[id].name}</span>`;
+        })
+        .join('');
+
+      Object.keys(groups)
+        .filter((id) => id !== currentGroupId)
+        .map((id) => {
+          document.getElementById(`account-${id}`).addEventListener('click', (e) => {
+            accountList.innerHTML = '';
+            accountSelect.classList.add('loading');
+            e.stopPropagation();
+            moveAccount({ groupId: id });
+          });
+        });
+    });
+});
 
 deletePayment.addEventListener('click', (e) => {
   e.stopPropagation();

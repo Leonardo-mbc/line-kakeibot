@@ -7,7 +7,7 @@ body {
 }
 
 .loader {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -272,7 +272,7 @@ body {
 .menu-item.cancel {
   background: none;
   box-shadow: none;
-  opacity: 0.5;
+  color: #929292;
 }
 
 @keyframes menu-item-show {
@@ -340,4 +340,63 @@ body {
   100% {
     transform: scale(1);
   }
+}
+
+.account-select-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.account-select-container.hide {
+  display: none;
+}
+
+.account-list-container {
+  width: calc(80% - 40px);
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  animation: delete-confirm-show 200ms cubic-bezier(0, 0, 0, 1);
+  transition: height 200ms ease-out;
+}
+
+.account-list-title {
+  margin: 5px 0px 5px;
+}
+
+.account-select-container.loading .account-list {
+  background-image: url(images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 20%;
+}
+
+.account-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account-list .target-account {
+  color: #00b900;
+  margin: 5px 0px;
+  font-size: larger;
+  border-radius: 3px;
+  padding: 0px 10px;
+  background-color: rgba(1, 185, 33, 0.2);
 }
