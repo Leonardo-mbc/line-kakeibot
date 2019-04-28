@@ -1,5 +1,5 @@
-import { paymentsRef, groupsRef, usersRef } from "../utilities/firebase-app";
-import { getGroups } from "./get-groups";
+import { paymentsRef, groupsRef, usersRef } from '../utilities/firebase-app';
+import { getGroups } from './get-groups';
 
 export async function getReceiptsValue({ userId, monthDir }) {
   try {
@@ -8,18 +8,11 @@ export async function getReceiptsValue({ userId, monthDir }) {
     const appearUserIds = [];
     const receipts = {};
     await Promise.all(
-      Object.keys(groups).map(async groupId => {
-        const groupNode = await groupsRef
-          .child(`${groupId}/name`)
-          .once("value");
-        const groupName = groupNode.val();
-
-        const receiptsNode = await paymentsRef
-          .child(`${groupId}/${monthDir}`)
-          .once("value");
+      Object.keys(groups).map(async (groupId) => {
+        const receiptsNode = await paymentsRef.child(`${groupId}/${monthDir}`).once('value');
         const receiptValue = receiptsNode.val();
         if (receiptValue) {
-          Object.keys(receiptValue).map(key => {
+          Object.keys(receiptValue).map((key) => {
             // 全ユーザーを収集
             appearUserIds.push(receiptValue[key].who);
           });
@@ -34,10 +27,8 @@ export async function getReceiptsValue({ userId, monthDir }) {
     await Promise.all(
       appearUserIds
         .filter((x, i, self) => self.indexOf(x) === i)
-        .map(async user_id => {
-          const userNameNode = await usersRef
-            .child(`${user_id}/name`)
-            .once("value");
+        .map(async (user_id) => {
+          const userNameNode = await usersRef.child(`${user_id}/name`).once('value');
           const name = userNameNode.val();
           users[user_id] = name;
         })

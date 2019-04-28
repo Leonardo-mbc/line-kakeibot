@@ -11,6 +11,9 @@ const groupName = document.getElementById('group-name');
 const needCoop = document.getElementById('need-coop');
 const sendLoginId = document.getElementById('send-login-id');
 const saveNameButton = document.getElementById('save-name-button');
+const groupOutConfirm = document.getElementById('group-out-confirm');
+const outGroupName = document.getElementById('out-group-name');
+const outYes = document.getElementById('out-yes');
 const tutorialContainer = document.getElementById('tutorial-container');
 const tutorialPager = document.getElementById('tutorial-pager');
 const nextPage = document.getElementById('next-page');
@@ -22,9 +25,11 @@ const help = document.getElementById('help');
 
 const ERROR_GET_PROFILE = 'プロフィール取得に失敗しました。\n再度開き直してみてください。';
 const ERROR_POST_GROUP = 'グループ作成に失敗しました。\n再度開き直してみてください。';
+const ERROR_OUT_GROUP = 'グループ退出に失敗しました。\n再度開き直してみてください。';
 const ERROR_CHANGE_NAME = '名前の変更に失敗しました。\n再度開き直してみてください。';
 
 let userId = null;
+let outGroupId = '';
 let pagerTouchstartX = null;
 let pagerPageNum = 0;
 const PAGER_DIST = 80;
@@ -33,6 +38,7 @@ const MAX_PAGE = document.getElementsByClassName('tutorial-page').length;
 window.onload = function(e) {
   // デバッグ用
   // clearLoader();
+  // initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
 
   liff.init(function(data) {
     initializeApp(data);
@@ -81,7 +87,7 @@ function initializeApp(data) {
     })
     .catch((e) => {
       window.alert(ERROR_GET_PROFILE);
-      clearLoader();
+      //   clearLoader();
     });
 }
 
@@ -99,19 +105,37 @@ function setGroupList(groups) {
       const span = document.createElement('span');
       span.className = 'group-name';
       span.textContent = groups[key].name;
-      const button = document.createElement('button');
-      button.id = 'group-invite';
-      button.className = 'group-invite';
-      button.textContent = '招待する';
-      button.onclick = () => {
+
+      const buttons = document.createElement('div');
+      const invite = document.createElement('button');
+      invite.id = 'group-invite';
+      invite.className = 'group-button invite';
+      invite.textContent = '招待';
+      invite.onclick = () => {
         const name = encodeURIComponent(groups[key].name);
         liff.openWindow({
           url: `https://line-kakeibot.appspot.com/invite-group?groupId=${key}&name=${name}`
         });
       };
+      const out = document.createElement('button');
+      out.id = 'group-out';
+      out.className = 'group-button out';
+      out.textContent = '退出';
+      out.onclick = () => {
+        const name = groups[key].name;
+        outGroupName.innerText = name;
+        outGroupId = key;
+        groupOutConfirm.classList.remove('hide');
+        setTimeout(() => {
+          groupOutConfirm.classList.remove('transparent');
+        }, 10);
+      };
+
+      buttons.appendChild(out);
+      buttons.appendChild(invite);
 
       div.appendChild(span);
-      div.appendChild(button);
+      div.appendChild(buttons);
       return div;
     });
   if (groupItems) {
@@ -151,10 +175,26 @@ function changeButtonMode(mode, button, input) {
   }
 }
 
+function showLoader() {
+  loader.classList.remove('hide');
+  setTimeout(() => {
+    loader.classList.remove('transparent');
+  }, 10);
+}
+
 function clearLoader() {
   loader.classList.add('transparent');
   setTimeout(() => {
     loader.classList.add('hide');
+  }, 200);
+}
+
+function clearOutConfirm() {
+  groupOutConfirm.classList.add('transparent');
+  setTimeout(() => {
+    groupOutConfirm.classList.add('hide');
+    outGroupName.innerText = '';
+    outGroupId = '';
   }, 200);
 }
 
@@ -258,6 +298,43 @@ saveNameButton.addEventListener('click', () => {
         window.alert(ERROR_CHANGE_NAME);
       });
   }
+});
+
+groupOutConfirm.addEventListener('click', () => {
+  clearOutConfirm();
+});
+
+outYes.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const groupId = outGroupId;
+
+  showLoader();
+  clearOutConfirm();
+
+  fetch('https://us-central1-line-kakeibot.cloudfunctions.net/outGroup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      userId,
+      groupId
+    })
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        window.alert(ERROR_OUT_GROUP);
+      }
+    })
+    .then(({ groups }) => {
+      setGroupList(groups);
+      clearLoader();
+    })
+    .catch((e) => {
+      window.alert(ERROR_OUT_GROUP);
+    });
 });
 
 // tutorialPager.addEventListener('touchstart', (e) => {
