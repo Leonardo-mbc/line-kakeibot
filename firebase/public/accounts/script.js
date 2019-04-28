@@ -115,14 +115,14 @@ function update({ receipts, users, groups }) {
         }
       });
 
-      usersElement.innerHTML = userIds
+      usersElement.innerHTML = groups[currentGroupId].users
         .map((userId) => {
           return `
-        <div class="user">
-          <span class="name">${users[userId]}</span>
-          <span class="price">${costs[userId].toLocaleString()}</span>
-        </div>
-      `;
+            <div class="user">
+              <span class="name">${users[userId]}</span>
+              <span class="price">${costs[userId].toLocaleString()}</span>
+            </div>
+          `;
         })
         .join('');
     }
