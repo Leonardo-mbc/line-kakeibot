@@ -102,11 +102,11 @@ function update({ receipts, users, groups }) {
       });
     });
 
-    if (userIds.length === 0) {
+    if (groups[currentGroupId].users.length === 0) {
       usersElement.innerHTML = '<span class="no-data">データなし</span>';
     } else {
       let costs = {};
-      userIds.map((userId) => (costs[userId] = 0));
+      groups[currentGroupId].users.map((userId) => (costs[userId] = 0));
 
       Object.keys(receipts[currentGroupId]).map((paymentId) => {
         const item = receipts[currentGroupId][paymentId];
@@ -119,7 +119,7 @@ function update({ receipts, users, groups }) {
         .map((userId) => {
           return `
             <div class="user">
-              <span class="name">${users[userId]}</span>
+              <span class="name">${users[userId] || '（名前なし）'}</span>
               <span class="price">${costs[userId].toLocaleString()}</span>
             </div>
           `;
