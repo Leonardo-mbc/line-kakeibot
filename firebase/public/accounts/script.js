@@ -23,11 +23,11 @@ let currentTarget = `${now.format('YYYY-MM')}`;
 
 window.onload = function(e) {
   // TODO デバッグ用
-  // initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
+  initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
 
-  liff.init(function(data) {
-    initializeApp(data);
-  });
+  // liff.init(function(data) {
+  //   initializeApp(data);
+  // });
 };
 
 function initializeApp(data) {
@@ -92,7 +92,9 @@ function update({ receipts, users, groups }) {
     }
     groupsElement.innerHTML = groupIds
       .map((groupId) => {
-        return `<span id="group-${groupId}" class="group-name${currentGroupId === groupId ? ' selected' : ''}">${groups[groupId].name}</span>`;
+        return `<span id="group-${groupId}" class="group-name${
+          currentGroupId === groupId ? ' selected' : ''
+        }">${groups[groupId].name}</span>`;
       })
       .join('');
     groupIds.map((groupId) => {
@@ -148,19 +150,23 @@ function update({ receipts, users, groups }) {
             return `
               <div id="payment-${paymentId}" class="detail">
                 <div class="image-container">
-                  <img onClick="showReceiptImage('${item.imageUrl}')" class="receipt-image" src="${item.imageUrl}" />
+                  <img onClick="showReceiptImage('${item.imageUrl}')" class="receipt-image" src="${
+              item.imageUrl
+            }" />
                 </div>
                 <div class="detail-item">
-                  <div class="top">
+                  <div class="left">
                     <span>${item.place}</span>
-                    <span>${item.price.toLocaleString()}</span>
+                    <span class="light-weight">${users[item.who]}</span>
                   </div>
-                  <div class="bottom">
-                    <span>${users[item.who]}</span>
-                    <span>${moment(item.boughtAt).format('MM/DD')}</span>
+                  <div class="right">
+                    <span>${item.price.toLocaleString()}</span>
+                    <span class="light-weight">${moment(item.boughtAt).format('MM/DD')}</span>
                   </div>
                 </div>
-                <img onClick="showMenu('${paymentId}')" class="${userId === item.who ? '' : 'hide'}" src="images/menu-dot.png" />
+                <img onClick="showMenu('${paymentId}')" class="detail-edit ${
+              userId === item.who ? '' : 'hide'
+            }" src="images/edit-pen.svg" />
               </div>
             `;
           }
@@ -213,7 +219,9 @@ function showReceiptImage(url) {
 }
 
 function moveAccount({ groupId }) {
-  fetch(`${ENDPOINT}/movePayment?currentGroupId=${currentGroupId}&targetGroupId=${groupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`).then((response) => {
+  fetch(
+    `${ENDPOINT}/movePayment?currentGroupId=${currentGroupId}&targetGroupId=${groupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`
+  ).then((response) => {
     if (response.ok) {
       clearMenu();
       getReceiptsData(userId, currentTarget).then(({ receipts, users, groups }) => {
@@ -279,7 +287,9 @@ deletePayment.addEventListener('click', (e) => {
 deleteYes.addEventListener('click', (e) => {
   e.stopPropagation();
   showLoader();
-  fetch(`${ENDPOINT}/deletePayment?userId=${userId}&groupId=${currentGroupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`)
+  fetch(
+    `${ENDPOINT}/deletePayment?userId=${userId}&groupId=${currentGroupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`
+  )
     .then((response) => {
       if (response.ok) {
         return response.json();

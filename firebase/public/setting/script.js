@@ -6,14 +6,19 @@ const saveButton = document.getElementById('save-button');
 const adaptButton = document.getElementById('adapt-button');
 const noGroupsText = document.getElementById('no-groups-text');
 const groupAddContainer = document.getElementById('group-add-container');
+const groupEnddateButton = document.getElementById('group-enddate-button');
+const groupEnddateInput = document.getElementById('group-enddate-input');
 const groupAddButton = document.getElementById('group-add-button');
 const groupName = document.getElementById('group-name');
 const needCoop = document.getElementById('need-coop');
 const sendLoginId = document.getElementById('send-login-id');
 const saveNameButton = document.getElementById('save-name-button');
+const outGroup = document.getElementById('out-group');
 const groupOutConfirm = document.getElementById('group-out-confirm');
 const outGroupName = document.getElementById('out-group-name');
 const outYes = document.getElementById('out-yes');
+const menuContainer = document.getElementById('menu-container');
+const changeEnddate = document.getElementById('change-enddate');
 const tutorialContainer = document.getElementById('tutorial-container');
 const tutorialPager = document.getElementById('tutorial-pager');
 const nextPage = document.getElementById('next-page');
@@ -29,7 +34,8 @@ const ERROR_OUT_GROUP = 'グループ退出に失敗しました。\n再度開�
 const ERROR_CHANGE_NAME = '名前の変更に失敗しました。\n再度開き直してみてください。';
 
 let userId = null;
-let outGroupId = '';
+let selectedGroupId = '';
+let joiningGroups = [];
 let pagerTouchstartX = null;
 let pagerPageNum = 0;
 const PAGER_DIST = 80;
@@ -37,12 +43,12 @@ const MAX_PAGE = document.getElementsByClassName('tutorial-page').length;
 
 window.onload = function(e) {
   // デバッグ用
-  // clearLoader();
-  // initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
+  clearLoader();
+  initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
 
-  liff.init(function(data) {
-    initializeApp(data);
-  });
+  // liff.init(function(data) {
+  //   initializeApp(data);
+  // });
 };
 
 function initializeApp(data) {
@@ -97,16 +103,20 @@ function setProfile(profile) {
 }
 
 function setGroupList(groups) {
+  joiningGroups = groups;
   const groupItems =
     Object.keys(groups).length !== 0 &&
     Object.keys(groups).map((key) => {
       const div = document.createElement('div');
+      div.id = `group-${key}`;
       div.className = 'group-item';
       const span = document.createElement('span');
       span.className = 'group-name';
       span.textContent = groups[key].name;
 
       const buttons = document.createElement('div');
+      buttons.className = 'group-buttons';
+
       const invite = document.createElement('button');
       invite.id = 'group-invite';
       invite.className = 'group-button invite';
@@ -117,22 +127,16 @@ function setGroupList(groups) {
           url: `https://line-kakeibot.appspot.com/invite-group?groupId=${key}&name=${name}`
         });
       };
-      const out = document.createElement('button');
-      out.id = 'group-out';
-      out.className = 'group-button out';
-      out.textContent = '退出';
-      out.onclick = () => {
-        const name = groups[key].name;
-        outGroupName.innerText = name;
-        outGroupId = key;
-        groupOutConfirm.classList.remove('hide');
-        setTimeout(() => {
-          groupOutConfirm.classList.remove('transparent');
-        }, 10);
+      const setting = document.createElement('img');
+      setting.id = 'group-setting';
+      setting.className = 'group-setting';
+      setting.src = 'images/setting.svg';
+      setting.onclick = () => {
+        showMenu(key);
       };
 
-      buttons.appendChild(out);
       buttons.appendChild(invite);
+      buttons.appendChild(setting);
 
       div.appendChild(span);
       div.appendChild(buttons);
@@ -161,7 +165,7 @@ function changeGroupAddMode(mode) {
   }
 }
 
-function changeButtonMode(mode, button, input) {
+function changeButtonMode(mode, button, inputs) {
   switch (mode) {
     case 'loading':
       button.disabled = true;
@@ -171,7 +175,7 @@ function changeButtonMode(mode, button, input) {
     default:
       button.disabled = false;
       button.classList.remove('loading');
-      input.value = '';
+      inputs.forEach((input) => (input.value = ''));
   }
 }
 
@@ -194,7 +198,28 @@ function clearOutConfirm() {
   setTimeout(() => {
     groupOutConfirm.classList.add('hide');
     outGroupName.innerText = '';
-    outGroupId = '';
+    selectedGroupId = '';
+  }, 200);
+}
+
+function showMenu(groupId) {
+  selectedGroupId = groupId;
+  document.getElementById(`group-${groupId}`).classList.add('selected');
+  menuContainer.classList.remove('hide');
+  setTimeout(() => {
+    menuContainer.classList.remove('transparent');
+  }, 10);
+}
+
+function clearMenu() {
+  const groupDOM = document.getElementById(`group-${selectedGroupId}`);
+  if (groupDOM) {
+    groupDOM.classList.remove('selected');
+  }
+  selectedGroupId = null;
+  menuContainer.classList.add('transparent');
+  setTimeout(() => {
+    menuContainer.classList.add('hide');
   }, 200);
 }
 
@@ -235,10 +260,16 @@ addButton.addEventListener('click', () => {
   changeGroupAddMode('add');
 });
 
+groupEnddateButton.addEventListener('click', () => {
+  groupEnddateButton.classList.add('hide');
+  groupEnddateInput.classList.remove('hide');
+});
+
 groupAddButton.addEventListener('click', () => {
   if (groupName.value) {
-    changeButtonMode('loading', groupAddButton, groupName);
+    changeButtonMode('loading', groupAddButton, [groupName, groupEnddateInput]);
     const name = groupName.value;
+    const enddate = groupEnddateInput.value;
 
     fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postGroup', {
       method: 'POST',
@@ -247,6 +278,7 @@ groupAddButton.addEventListener('click', () => {
       },
       body: JSON.stringify({
         name,
+        enddate,
         userId
       })
     })
@@ -260,7 +292,7 @@ groupAddButton.addEventListener('click', () => {
       .then(({ groups }) => {
         setGroupList(groups);
         changeGroupAddMode('none');
-        changeButtonMode('default', groupAddButton, groupName);
+        changeButtonMode('default', groupAddButton, [groupName, groupEnddateInput]);
       })
       .catch((e) => {
         window.alert(ERROR_POST_GROUP);
@@ -270,7 +302,7 @@ groupAddButton.addEventListener('click', () => {
 
 saveNameButton.addEventListener('click', () => {
   if (nameInput.value) {
-    changeButtonMode('loading', saveNameButton, nameInput);
+    changeButtonMode('loading', saveNameButton, [nameInput]);
     const name = nameInput.value;
 
     fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postName', {
@@ -291,7 +323,7 @@ saveNameButton.addEventListener('click', () => {
         }
       })
       .then(({ name }) => {
-        changeButtonMode('default', saveNameButton, nameInput);
+        changeButtonMode('default', saveNameButton, [nameInput]);
         nameInput.value = name;
       })
       .catch((e) => {
@@ -300,16 +332,27 @@ saveNameButton.addEventListener('click', () => {
   }
 });
 
+outGroup.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const name = joiningGroups[selectedGroupId].name;
+  outGroupName.innerText = name;
+  groupOutConfirm.classList.remove('hide');
+  setTimeout(() => {
+    groupOutConfirm.classList.remove('transparent');
+  }, 10);
+});
+
 groupOutConfirm.addEventListener('click', () => {
   clearOutConfirm();
 });
 
 outYes.addEventListener('click', (e) => {
   e.stopPropagation();
-  const groupId = outGroupId;
+  const groupId = selectedGroupId;
 
   showLoader();
   clearOutConfirm();
+  clearMenu();
 
   fetch('https://us-central1-line-kakeibot.cloudfunctions.net/outGroup', {
     method: 'POST',
@@ -335,6 +378,10 @@ outYes.addEventListener('click', (e) => {
     .catch((e) => {
       window.alert(ERROR_OUT_GROUP);
     });
+});
+
+menuContainer.addEventListener('click', () => {
+  clearMenu();
 });
 
 // tutorialPager.addEventListener('touchstart', (e) => {

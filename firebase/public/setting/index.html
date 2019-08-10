@@ -23,13 +23,29 @@
           <span id="help-group" class="help-link">家計簿って？</span>
         </span>
         <div class="block-body">
-          <div id="group-list" class="group-list"><span id="no-groups-text" class="no-groups-text">家計簿がありません</span></div>
+          <div id="group-list" class="group-list">
+            <span id="no-groups-text" class="no-groups-text">家計簿がありません</span>
+          </div>
           <div id="group-add-container" class="group-add-container hide">
             <div class="group-add-input">
-              <label for="group-name">家計簿名</label>
-              <input id="group-name" type="text" name="group-name" value="" />
+              <div class="group-add-input-name">
+                <label for="group-name">家計簿名</label>
+                <input id="group-name" type="text" name="group-name" value="" />
+              </div>
+              <div class="group-add-enddate">
+                <label for="group-enddate-input">期限</label>
+                <input
+                  id="group-enddate-input"
+                  class="hide"
+                  type="date"
+                  name="group-name"
+                  value=""
+                />
+                <button id="group-enddate-button">設ける</button>
+              </div>
             </div>
-            <button id="group-add-button" class="group-add-button">作成</button>
+            <span class="group-add-notice">期限は一時的な用途に便利です（飲み会・旅行など）</span>
+            <button id="group-add-button" class="group-add-button">作成する</button>
           </div>
           <button id="add-button" class="add-button">＋追加</button>
         </div>
@@ -100,6 +116,13 @@
         <span id="next-page" class="next-page">次のページへ ▶</span>
         <span id="lets-start" class="lets-start hide">はじめる</span>
         <span id="before-page" class="before-page hide">◀ 前のページへ</span>
+      </div>
+      <div id="menu-container" class="menu-container hide">
+        <div class="menu-list-container">
+          <span class="menu-item cancel">キャンセル</span>
+          <span id="change-enddate" class="menu-item">期限を変更</span>
+          <span id="out-group" class="menu-item out">退出</span>
+        </div>
       </div>
       <div id="group-out-confirm" class="group-out-confirm-container transparent hide">
         <div class="group-out-confirm">

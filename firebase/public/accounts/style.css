@@ -149,7 +149,7 @@ body {
 
 .detail {
   display: flex;
-  padding-left: 12px;
+  padding-left: 18px;
   align-items: center;
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
@@ -165,7 +165,7 @@ body {
 
 .detail .detail-item {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
@@ -197,27 +197,45 @@ body {
   margin-right: 6px;
 }
 
+.detail-edit {
+  margin: 0px 6px 0px 4px;
+}
+
+.detail-edit > path {
+  fill: red;
+}
+
 .detail img.hide {
   visibility: hidden;
 }
 
-.detail .top {
+.detail .left {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+}
+.detail .left span {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-.detail .top span:last-child::after {
+.detail .right {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+.detail .right span {
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 150px;
+}
+.detail .right span:first-child::after {
   content: '円';
 }
 
-.detail .bottom {
-  margin: 0px 15px;
-  margin-bottom: 5px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.detail .bottom span {
+.detail-item .light-weight {
   font-size: 11px;
   opacity: 0.7;
   line-height: 8px;
