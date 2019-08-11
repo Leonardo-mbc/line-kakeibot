@@ -276,6 +276,7 @@ body {
   font-weight: bold;
   border: none;
   border-bottom: 2px solid #444444;
+  border-radius: 0;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
 }
 
@@ -305,7 +306,9 @@ body {
   font-weight: bold;
   border: none;
   border-bottom: 2px solid #444444;
+  border-radius: 0;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+  -webkit-appearance: none;
 }
 .group-add-enddate > input:focus {
   outline: 0;
@@ -497,7 +500,11 @@ body {
   font-weight: bold;
   border: none;
   border-bottom: 2px solid #444444;
+  border-radius: 0;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+  -webkit-appearance: none;
+  min-width: 110px;
+  white-space: nowrap;
 }
 .enddate-input > input:focus {
   outline: 0;
