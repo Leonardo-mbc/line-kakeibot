@@ -84,8 +84,11 @@ function update({ receipts, users, groups }) {
     usersElement.innerHTML = '<span class="no-data">データなし</span>';
     detailsElement.innerHTML = '<span class="no-data">データなし</span>';
   } else {
-    const groupIds = Object.keys(groups);
-    const userIds = Object.keys(users);
+    const currentDate = new Date(currentTarget).getTime();
+    const groupIds = Object.keys(groups).filter(
+      (groupId) =>
+        !groups[groupId].enddate || currentDate <= new Date(groups[groupId].enddate).getTime()
+    );
 
     if (currentGroupId === null) {
       currentGroupId = groupIds[0];
