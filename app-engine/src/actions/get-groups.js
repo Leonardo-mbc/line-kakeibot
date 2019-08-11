@@ -13,8 +13,12 @@ module.exports = {
       );
 
       const groupInfo = {};
+      const currentDate = new Date().getTime();
       groupInfoNodes.map((node) => {
-        groupInfo[node.key] = node.val();
+        const value = node.val();
+        if (!value.enddate || currentDate <= new Date(value.enddate).getTime()) {
+          groupInfo[node.key] = value;
+        }
       });
 
       return groupInfo;
