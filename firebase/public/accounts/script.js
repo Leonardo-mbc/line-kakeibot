@@ -23,11 +23,11 @@ let currentTarget = `${now.format('YYYY-MM')}`;
 
 window.onload = function(e) {
   // TODO デバッグ用
-  initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
+  // initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
 
-  // liff.init(function(data) {
-  //   initializeApp(data);
-  // });
+  liff.init(function(data) {
+    initializeApp(data);
+  });
 };
 
 function initializeApp(data) {
