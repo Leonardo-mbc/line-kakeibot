@@ -544,7 +544,7 @@ body {
   border-radius: 0;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
   -webkit-appearance: none;
-  min-width: 11 0px;
+  min-width: 110px;
   white-space: nowrap;
 }
 .enddate-input > input:focus {
