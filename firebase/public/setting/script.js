@@ -171,6 +171,7 @@ function setGroupList(groups) {
     });
   if (groupItems) {
     groupList.innerHTML = '';
+    groupListArchived.innerHTML = '';
     groupItems.map(({ active, element }) => {
       if (active) {
         groupList.appendChild(element);
