@@ -1,6 +1,9 @@
 const loader = document.getElementById('loader');
 const nameInput = document.getElementById('name');
 const groupList = document.getElementById('group-list');
+const showArchives = document.getElementById('show-archives');
+const showArchivesText = document.getElementById('show-archives-text');
+const groupListArchived = document.getElementById('group-list-archived');
 const addButton = document.getElementById('add-button');
 const saveButton = document.getElementById('save-button');
 const adaptButton = document.getElementById('adapt-button');
@@ -38,6 +41,9 @@ const ERROR_POST_GROUP = 'グループ作成に失敗しました。\n再度開�
 const ERROR_EDIT_GROUP = 'グループ修正に失敗しました。\n再度開き直してみてください。';
 const ERROR_OUT_GROUP = 'グループ退出に失敗しました。\n再度開き直してみてください。';
 const ERROR_CHANGE_NAME = '名前の変更に失敗しました。\n再度開き直してみてください。';
+
+const TEXT_SHOW_ARCHIVES = '期限切れの家計簿を表示';
+const TEXT_HIDE_ARCHIVES = 'とじる';
 
 let userId = null;
 let selectedGroupId = '';
@@ -110,6 +116,7 @@ function setProfile(profile) {
 
 function setGroupList(groups) {
   joiningGroups = groups;
+  const currentDate = new Date().getTime();
   const groupItems =
     Object.keys(groups).length !== 0 &&
     Object.keys(groups).map((key) => {
@@ -156,13 +163,25 @@ function setGroupList(groups) {
 
       div.appendChild(groupNameDate);
       div.appendChild(buttons);
-      return div;
+
+      return {
+        active: !groups[key].enddate || currentDate <= new Date(groups[key].enddate).getTime(),
+        element: div
+      };
     });
   if (groupItems) {
     groupList.innerHTML = '';
-    groupItems.map((item) => {
-      groupList.appendChild(item);
+    groupItems.map(({ active, element }) => {
+      if (active) {
+        groupList.appendChild(element);
+      } else {
+        groupListArchived.appendChild(element);
+      }
     });
+
+    if (groupListArchived.innerHTML !== '') {
+      showArchives.classList.remove('hide');
+    }
   }
 }
 
@@ -314,6 +333,11 @@ function setPageNum(page) {
 }
 
 // EventListener
+showArchives.addEventListener('click', () => {
+  groupListArchived.classList.toggle('hide');
+  showArchives.classList.toggle('open');
+});
+
 addButton.addEventListener('click', () => {
   changeGroupAddMode('add');
 });

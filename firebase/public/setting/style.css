@@ -140,6 +140,14 @@ body {
   margin: 5px 0px;
 }
 
+.group-list-archived {
+  margin: 5px 0px;
+  background-color: rgba(68, 68, 68, 0.2);
+}
+.group-list-archived.hide {
+  display: none;
+}
+
 .group-item {
   display: flex;
   align-items: center;
@@ -225,6 +233,39 @@ body {
 
 .no-groups-text.hide {
   display: none;
+}
+
+.show-archives {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+.show-archives.hide {
+  display: none;
+}
+
+.show-archives > span::before {
+  content: '期限切れの家計簿を表示';
+}
+
+.show-archives.open > span::before {
+  content: 'とじる';
+}
+
+.show-archives > span {
+  background-color: #444444;
+  border: 2px solid #444444;
+  border-radius: 100px;
+  padding: 1px 30px 0px;
+  font-size: small;
+  color: white;
+}
+
+.show-archives.open > span {
+  background-color: #ffffff;
+  border: 2px solid #444444;
+  box-sizing: border-box;
+  color: #444444;
 }
 
 .group-add-container {
@@ -503,7 +544,7 @@ body {
   border-radius: 0;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
   -webkit-appearance: none;
-  min-width: 110px;
+  min-width: 11 0px;
   white-space: nowrap;
 }
 .enddate-input > input:focus {
