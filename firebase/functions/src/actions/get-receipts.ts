@@ -5,20 +5,20 @@ export async function getReceiptsValue({ userId, monthDir }) {
   try {
     const groups = await getGroups({ userId });
 
-    const appearUserIds = [];
     const receipts = {};
+    const appearUserIds = [];
     await Promise.all(
       Object.keys(groups).map(async (groupId) => {
         const receiptsNode = await paymentsRef.child(`${groupId}/${monthDir}`).once('value');
         const receiptValue = receiptsNode.val();
         if (receiptValue) {
-          Object.keys(receiptValue).map((key) => {
-            // 全ユーザーを収集
-            appearUserIds.push(receiptValue[key].who);
-          });
           receipts[groupId] = receiptValue;
         } else {
           receipts[groupId] = {};
+        }
+
+        if (groups[groupId].users) {
+          appearUserIds.push(...groups[groupId].users);
         }
       })
     );
