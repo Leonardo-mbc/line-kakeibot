@@ -1,4 +1,4 @@
-import { paymentsRef, groupsRef, usersRef } from '../utilities/firebase-app';
+import { paymentsRef, usersRef } from '../utilities/firebase-app';
 import { getGroups } from './get-groups';
 
 export async function getReceiptsValue({ userId, monthDir }) {

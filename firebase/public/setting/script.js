@@ -17,6 +17,11 @@ const outGroup = document.getElementById('out-group');
 const groupOutConfirm = document.getElementById('group-out-confirm');
 const outGroupName = document.getElementById('out-group-name');
 const outYes = document.getElementById('out-yes');
+const groupChangeEnddateContainer = document.getElementById('group-change-enddate-container');
+const groupChangeEnddate = document.getElementById('group-change-enddate');
+const groupChangeEnddateInput = document.getElementById('group-change-enddate-input');
+const groupChangeNodate = document.getElementById('group-change-nodate');
+const groupChangeButton = document.getElementById('group-change-button');
 const menuContainer = document.getElementById('menu-container');
 const changeEnddate = document.getElementById('change-enddate');
 const tutorialContainer = document.getElementById('tutorial-container');
@@ -30,6 +35,7 @@ const help = document.getElementById('help');
 
 const ERROR_GET_PROFILE = 'プロフィール取得に失敗しました。\n再度開き直してみてください。';
 const ERROR_POST_GROUP = 'グループ作成に失敗しました。\n再度開き直してみてください。';
+const ERROR_EDIT_GROUP = 'グループ修正に失敗しました。\n再度開き直してみてください。';
 const ERROR_OUT_GROUP = 'グループ退出に失敗しました。\n再度開き直してみてください。';
 const ERROR_CHANGE_NAME = '名前の変更に失敗しました。\n再度開き直してみてください。';
 
@@ -110,9 +116,19 @@ function setGroupList(groups) {
       const div = document.createElement('div');
       div.id = `group-${key}`;
       div.className = 'group-item';
-      const span = document.createElement('span');
-      span.className = 'group-name';
-      span.textContent = groups[key].name;
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'group-name';
+      nameSpan.textContent = groups[key].name;
+
+      const dateSpan = document.createElement('span');
+      dateSpan.className = 'group-enddate';
+      dateSpan.textContent = `期限：${groups[key].enddate || 'なし'}`;
+
+      const groupNameDate = document.createElement('div');
+      groupNameDate.className = 'group-namedate';
+      groupNameDate.appendChild(nameSpan);
+      groupNameDate.appendChild(dateSpan);
 
       const buttons = document.createElement('div');
       buttons.className = 'group-buttons';
@@ -138,7 +154,7 @@ function setGroupList(groups) {
       buttons.appendChild(invite);
       buttons.appendChild(setting);
 
-      div.appendChild(span);
+      div.appendChild(groupNameDate);
       div.appendChild(buttons);
       return div;
     });
@@ -200,6 +216,48 @@ function clearOutConfirm() {
     outGroupName.innerText = '';
     selectedGroupId = '';
   }, 200);
+}
+
+function clearChangeEnddate() {
+  groupChangeEnddateContainer.classList.add('transparent');
+  setTimeout(() => {
+    groupChangeEnddateContainer.classList.add('hide');
+    groupChangeEnddateInput.value = '';
+  }, 200);
+}
+
+function changeGroup({ enddate }) {
+  const groupId = selectedGroupId;
+
+  showLoader();
+  clearChangeEnddate();
+  clearMenu();
+
+  fetch('https://us-central1-line-kakeibot.cloudfunctions.net/editGroup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      groupId,
+      enddate,
+      userId
+    })
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        window.alert(ERROR_EDIT_GROUP);
+      }
+    })
+    .then(({ groups }) => {
+      setGroupList(groups);
+      clearLoader();
+    })
+    .catch((e) => {
+      window.alert(ERROR_EDIT_GROUP);
+    });
 }
 
 function showMenu(groupId) {
@@ -344,6 +402,7 @@ outGroup.addEventListener('click', (e) => {
 
 groupOutConfirm.addEventListener('click', () => {
   clearOutConfirm();
+  clearMenu();
 });
 
 outYes.addEventListener('click', (e) => {
@@ -378,6 +437,34 @@ outYes.addEventListener('click', (e) => {
     .catch((e) => {
       window.alert(ERROR_OUT_GROUP);
     });
+});
+
+changeEnddate.addEventListener('click', (e) => {
+  e.stopPropagation();
+  groupChangeEnddateContainer.classList.remove('hide');
+  setTimeout(() => {
+    groupChangeEnddateContainer.classList.remove('transparent');
+  }, 10);
+});
+
+groupChangeEnddateContainer.addEventListener('click', () => {
+  clearChangeEnddate();
+  clearMenu();
+});
+
+groupChangeEnddate.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+groupChangeNodate.addEventListener('click', (e) => {
+  e.stopPropagation();
+  changeGroup({ enddate: '' });
+});
+
+groupChangeButton.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const enddate = groupChangeEnddateInput.value;
+  changeGroup({ enddate });
 });
 
 menuContainer.addEventListener('click', () => {

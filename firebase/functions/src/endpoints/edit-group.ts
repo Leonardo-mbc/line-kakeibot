@@ -1,8 +1,8 @@
 import * as functions from 'firebase-functions';
-import { makeGroup } from '../actions/make-group';
+import { editGroupAction } from '../actions/edit-group';
 import { getGroups } from '../actions/get-groups';
 
-export const postGroup = functions.https.onRequest(async (request, response) => {
+export const editGroup = functions.https.onRequest(async (request, response) => {
   if (request.method === 'OPTIONS') {
     response
       .header('Access-Control-Allow-Origin', '*')
@@ -10,9 +10,9 @@ export const postGroup = functions.https.onRequest(async (request, response) => 
       .sendStatus(204);
   } else {
     try {
-      const { userId, name, enddate } = request.body;
+      const { userId, groupId, enddate } = request.body;
 
-      await makeGroup({ name, userId, enddate });
+      await editGroupAction({ groupId, enddate });
       const groups = await getGroups({ userId });
 
       response
@@ -21,7 +21,7 @@ export const postGroup = functions.https.onRequest(async (request, response) => 
         .status(200)
         .send({ groups });
     } catch ({ status, message }) {
-      console.error('error - postGroup', message);
+      console.error('error - editGroup', message);
       response
         .header('Access-Control-Allow-Origin', '*')
         .status(status)
