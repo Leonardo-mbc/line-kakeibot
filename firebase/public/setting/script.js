@@ -182,6 +182,8 @@ function setGroupList(groups) {
 
     if (groupListArchived.innerHTML !== '') {
       showArchives.classList.remove('hide');
+    } else {
+      showArchives.classList.add('hide');
     }
   }
 }
