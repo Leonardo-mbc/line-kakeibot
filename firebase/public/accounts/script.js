@@ -14,6 +14,9 @@ const accountList = document.getElementById('account-list');
 const deletePayment = document.getElementById('delete-payment');
 const deleteConfirm = document.getElementById('delete-confirm');
 const deleteYes = document.getElementById('delete-yes');
+const splitViewContainer = document.getElementById('split-view-container');
+const splitList = document.getElementById('split-list');
+const splitListDetail = document.getElementById('split-list-detail');
 
 const now = moment();
 let currentGroupId = null;
@@ -130,6 +133,16 @@ function update({ receipts, users, groups }) {
           `;
         })
         .join('');
+
+      const totalCost = Object.keys(costs).reduce((p, key) => p + costs[key], 0);
+      if (0 < totalCost) {
+        const button = document.createElement('button');
+        button.onclick = () => split({ users, costs, totalCost });
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'split-container';
+        buttonContainer.appendChild(button);
+        usersElement.appendChild(buttonContainer);
+      }
     }
 
     if (Object.keys(receipts[currentGroupId]).length === 0) {
@@ -239,6 +252,97 @@ function moveAccount({ groupId }) {
   });
 }
 
+function split({ users, costs, totalCost }) {
+  const averageCost = totalCost / Object.keys(costs).length;
+  const pays = [];
+  const receives = [];
+
+  for (const userId in costs) {
+    const cost = costs[userId] - averageCost;
+    if (cost < 0) {
+      pays.push({ userId, cost: Math.floor(cost) });
+    } else if (0 < cost) {
+      receives.push({ userId, cost: Math.ceil(cost) });
+    }
+  }
+
+  const sortedPays = [...pays.sort((a, b) => b.cost - a.cost)];
+  const sortedReceives = [...receives.sort((a, b) => b.cost - a.cost)];
+
+  const payOrder = [];
+  sortedPays.some((w) => {
+    sortedReceives.some((m, mi) => {
+      if (!m) {
+        return true;
+      }
+
+      const diff = m.cost + w.cost;
+      if (diff < 0) {
+        w.cost = diff;
+        payOrder.push({ from: w.userId, to: m.userId, pay: m.cost });
+        delete sortedReceives[mi];
+      } else if (0 < diff) {
+        m.cost = diff;
+        payOrder.push({ from: w.userId, to: m.userId, pay: -w.cost });
+        return true;
+      } else {
+        payOrder.push({ from: w.userId, to: m.userId, pay: -w.cost });
+        return true;
+      }
+    });
+  });
+
+  showSplitView({ users, payOrder });
+}
+
+function showSplitView({ users, payOrder }) {
+  for (const userId in users) {
+    const pays = payOrder.filter((order) => order.from === userId);
+    if (pays.length !== 0) {
+      const i = document.createElement('i');
+      i.innerText = users[userId];
+      const fromSpan = document.createElement('span');
+      fromSpan.className = 'from';
+      fromSpan.appendChild(i);
+
+      const div = document.createElement('div');
+      div.className = 'pay-user';
+      div.appendChild(fromSpan);
+
+      pays.forEach(({ to, pay }) => {
+        const i = document.createElement('i');
+        i.innerText = users[to];
+        const name = document.createElement('span');
+        name.className = 'name';
+        name.appendChild(i);
+        const price = document.createElement('span');
+        price.className = 'price';
+        price.innerText = `${pay.toLocaleString()}`;
+        const toSpan = document.createElement('span');
+        toSpan.className = 'to';
+        toSpan.appendChild(name);
+        toSpan.appendChild(price);
+        div.appendChild(toSpan);
+      });
+
+      splitListDetail.appendChild(div);
+    }
+  }
+
+  splitViewContainer.classList.remove('hide');
+  setTimeout(() => {
+    splitViewContainer.classList.remove('transparent');
+  }, 10);
+}
+
+function clearSplitView() {
+  splitViewContainer.classList.add('transparent');
+  setTimeout(() => {
+    splitViewContainer.classList.add('hide');
+    splitListDetail.innerHTML = '';
+  }, 200);
+}
+
 // EventListener
 
 menuContainer.addEventListener('click', () => {
@@ -310,4 +414,12 @@ deleteYes.addEventListener('click', (e) => {
         clearLoader();
       });
     });
+});
+
+splitViewContainer.addEventListener('click', () => {
+  clearSplitView();
+});
+
+splitList.addEventListener('click', (e) => {
+  e.stopPropagation();
 });

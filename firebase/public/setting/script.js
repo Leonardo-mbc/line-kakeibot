@@ -55,8 +55,8 @@ const MAX_PAGE = document.getElementsByClassName('tutorial-page').length;
 
 window.onload = function(e) {
   // デバッグ用
-  // clearLoader();
-  // initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
+  clearLoader();
+  initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
 
   liff.init(function(data) {
     initializeApp(data);
