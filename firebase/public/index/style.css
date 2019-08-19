@@ -3,13 +3,11 @@ body {
   color: #444444;
   margin: 0px;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .container {
   max-width: 400px;
+  margin: 0px auto;
 }
 
 .hero {
