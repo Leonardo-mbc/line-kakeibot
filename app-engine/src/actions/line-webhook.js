@@ -37,7 +37,10 @@ module.exports = {
                     // フェーズなし || 期限切れ
 
                     try {
-                      const [{ contentType, buffer }, { paymentId, datetime }] = await Promise.all([getContent(message.id), makePayment()]);
+                      const [{ contentType, buffer }, { paymentId, datetime }] = await Promise.all([
+                        getContent(message.id),
+                        makePayment()
+                      ]);
 
                       await setState(userId, {
                         paymentId,
@@ -108,7 +111,8 @@ module.exports = {
                             contents: [
                               {
                                 type: 'text',
-                                text: '家計簿がありません！\nまずは設定から作成するか、誰かの家計簿に招待してもらいましょう',
+                                text:
+                                  '家計簿がありません！\nまずは設定から作成するか、誰かの家計簿に招待してもらいましょう',
                                 color: '#000000',
                                 wrap: true
                               }
@@ -123,7 +127,7 @@ module.exports = {
                                 action: {
                                   type: 'uri',
                                   label: '設定を開く',
-                                  uri: 'line://app/1629647443-Nq46aLqj'
+                                  uri: 'https://liff.line.me/1629647443-Nq46aLqj'
                                 },
                                 color: '#00C239',
                                 style: 'primary'
@@ -193,7 +197,7 @@ module.exports = {
                                           action: {
                                             type: 'uri',
                                             label: 'タップでも入力できます',
-                                            uri: 'line://app/1629647443-N651dkoD'
+                                            uri: 'https://liff.line.me/1629647443-N651dkoD'
                                           },
                                           color: '#00c239',
                                           height: 'sm'
@@ -280,7 +284,9 @@ module.exports = {
                           paymentId: state.paymentId
                         }),
                         textReply({
-                          messages: ['時間切れになってしまいました。画像を送信するところからやり直してください'],
+                          messages: [
+                            '時間切れになってしまいました。画像を送信するところからやり直してください'
+                          ],
                           replyToken
                         })
                       ]);
@@ -313,7 +319,11 @@ module.exports = {
                 switch (state.phase) {
                   case PHASE.WAITING_GROUP:
                     try {
-                      const payment = await movePayment({ groupId, paymentId: state.paymentId, datetime: state.datetime });
+                      const payment = await movePayment({
+                        groupId,
+                        paymentId: state.paymentId,
+                        datetime: state.datetime
+                      });
                       const monthPayments = await getReceipts({ userId, datetime: state.datetime });
 
                       await Promise.all([
@@ -350,7 +360,9 @@ module.exports = {
                       paymentId: state.paymentId
                     }),
                     textReply({
-                      messages: ['時間切れになってしまいました。画像を送信するところからやり直してください'],
+                      messages: [
+                        '時間切れになってしまいました。画像を送信するところからやり直してください'
+                      ],
                       replyToken
                     })
                   ]);
