@@ -7,5 +7,5 @@ module.exports = {
     const nowTime = moment().tz('Asia/Tokyo');
 
     return expireTime.isBefore(nowTime);
-  }
+  },
 };

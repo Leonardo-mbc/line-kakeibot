@@ -5,7 +5,7 @@ const { deletePayment } = require('./delete-payment');
 module.exports = {
   movePayment: async ({ groupId, paymentId, datetime }) => {
     try {
-      const monthDir = moment(datetime).format('YYYY-MM');
+      const monthDir = moment(datetime).tz('Asia/Tokyo').format('YYYY-MM');
 
       const tempPaymentNode = await partialPaymentsRef.child(paymentId).once('value');
       const tempPaymentValue = tempPaymentNode.val();
@@ -16,8 +16,8 @@ module.exports = {
     } catch (error) {
       throw {
         message: error,
-        status: 500
+        status: 500,
       };
     }
-  }
+  },
 };

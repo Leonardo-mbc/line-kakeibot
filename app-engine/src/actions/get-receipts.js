@@ -5,7 +5,7 @@ const { getGroups } = require('./get-groups');
 module.exports = {
   getReceipts: async ({ userId, datetime }) => {
     try {
-      const monthDir = moment(datetime).format('YYYY-MM');
+      const monthDir = moment(datetime).tz('Asia/Tokyo').format('YYYY-MM');
       const groups = await getGroups(userId);
 
       const receipts = await Promise.all(
@@ -28,8 +28,8 @@ module.exports = {
     } catch (error) {
       throw {
         message: error,
-        status: 500
+        status: 500,
       };
     }
-  }
+  },
 };
