@@ -287,6 +287,8 @@ body {
   z-index: 10;
   transition: opacity 200ms ease-out;
   opacity: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .menu-container.transparent {
@@ -302,6 +304,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 500px;
   align-items: center;
   justify-content: center;
 }
@@ -412,6 +415,7 @@ body {
 
 .account-list-container {
   width: calc(80% - 40px);
+  max-width: 400px;
   background-color: white;
   padding: 10px 20px;
   display: flex;
@@ -487,6 +491,7 @@ body {
 .split-list {
   width: calc(80% - 40px);
   max-height: 90%;
+  max-width: 400px;
   overflow-y: scroll;
   background-color: white;
   padding: 15px 20px 10px;
