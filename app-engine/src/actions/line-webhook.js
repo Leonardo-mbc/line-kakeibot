@@ -268,6 +268,21 @@ module.exports = {
                         }
                         break;
 
+                      case PHASE.WAITING_GROUP:
+                        groups = await getGroups(userId);
+                        groupReplies = Object.keys(groups).map((key) => {
+                          return {
+                            text: groups[key].name,
+                            data: `groupId=${key}`,
+                          };
+                        });
+                        await quickReply({
+                          replyToken,
+                          messages: ['ボタンで選ぼう！', 'どこにつける？'],
+                          replies: groupReplies,
+                        });
+                        break;
+
                       default:
                       // あてはまる phase がない
                     }

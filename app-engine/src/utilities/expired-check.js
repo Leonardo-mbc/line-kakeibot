@@ -1,5 +1,5 @@
 const moment = require('moment-timezone');
-const EXPIRE_MINUTES = 1;
+const EXPIRE_MINUTES = 4;
 
 module.exports = {
   expiredCheck: (datetime) => {
