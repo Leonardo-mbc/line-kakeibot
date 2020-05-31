@@ -3,6 +3,7 @@ body {
   padding: 5px;
   display: flex;
   align-items: center;
+  justify-content: center;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
 }
 

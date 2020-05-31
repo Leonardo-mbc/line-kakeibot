@@ -3,6 +3,7 @@ body {
   color: #444444;
   margin: 0px;
   display: flex;
+  justify-content: center;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
 }
 
@@ -22,6 +23,12 @@ body {
   opacity: 1;
 }
 
+@media (min-width: 800px) {
+  .loader {
+    background-size: 15%;
+  }
+}
+
 .loader.transparent {
   opacity: 0;
 }
@@ -34,6 +41,7 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 500px;
   overflow-x: hidden;
   white-space: nowrap;
   padding-bottom: 7px;
@@ -42,6 +50,12 @@ body {
 .groups-container {
   padding-top: 8px;
   width: 100%;
+}
+
+@media (min-width: 500px) {
+  .groups-container {
+    width: calc(100% - 12vw);
+  }
 }
 
 .groups {
