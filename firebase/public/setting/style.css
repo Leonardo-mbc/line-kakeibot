@@ -739,3 +739,8 @@ body {
 .lets-start.hide {
   display: none;
 }
+
+.inquiry-block {
+  font-size: small;
+  opacity: 0.8;
+}

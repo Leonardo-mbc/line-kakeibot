@@ -35,6 +35,7 @@ const letsStart = document.getElementById('lets-start');
 const tutorialSkip = document.getElementById('tutorial-skip');
 const helpGroup = document.getElementById('help-group');
 const help = document.getElementById('help');
+const inquiryBlock = document.getElementById('inquiry-block');
 
 const ERROR_GET_PROFILE = 'プロフィール取得に失敗しました。\n再度開き直してみてください。';
 const ERROR_POST_GROUP = 'グループ作成に失敗しました。\n再度開き直してみてください。';
@@ -53,12 +54,12 @@ let pagerPageNum = 0;
 const PAGER_DIST = 80;
 const MAX_PAGE = document.getElementsByClassName('tutorial-page').length;
 
-window.onload = function(e) {
+window.onload = function (e) {
   // デバッグ用
   // clearLoader();
   // initializeApp({ context: { userId: 'Ubd1328317076c27b7d24fad4f5ab3d3c' } });
 
-  liff.init(function(data) {
+  liff.init(function (data) {
     initializeApp(data);
   });
 };
@@ -77,10 +78,10 @@ function initializeApp(data) {
     .then((profile) => {
       liff
         .getProfile()
-        .then(function(liffProfile) {
+        .then(function (liffProfile) {
           setProfile({
             name: liffProfile.displayName,
-            ...profile
+            ...profile,
           });
           clearLoader();
 
@@ -89,12 +90,12 @@ function initializeApp(data) {
             fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postName', {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
               },
               body: JSON.stringify({
                 name: liffProfile.displayName,
-                userId
-              })
+                userId,
+              }),
             });
           }
         })
@@ -147,7 +148,7 @@ function setGroupList(groups) {
       invite.onclick = () => {
         const name = encodeURIComponent(groups[key].name);
         liff.openWindow({
-          url: `https://line-kakeibot.appspot.com/invite-group?groupId=${key}&name=${name}`
+          url: `https://line-kakeibot.appspot.com/invite-group?groupId=${key}&name=${name}`,
         });
       };
       const setting = document.createElement('img');
@@ -166,7 +167,7 @@ function setGroupList(groups) {
 
       return {
         active: !groups[key].enddate || currentDate <= new Date(groups[key].enddate).getTime(),
-        element: div
+        element: div,
       };
     });
   if (groupItems) {
@@ -258,13 +259,13 @@ function changeGroup({ enddate }) {
   fetch('https://us-central1-line-kakeibot.cloudfunctions.net/editGroup', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       groupId,
       enddate,
-      userId
-    })
+      userId,
+    }),
   })
     .then((response) => {
       if (response.ok) {
@@ -359,13 +360,13 @@ groupAddButton.addEventListener('click', () => {
     fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postGroup', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name,
         enddate,
-        userId
-      })
+        userId,
+      }),
     })
       .then((response) => {
         if (response.ok) {
@@ -393,12 +394,12 @@ saveNameButton.addEventListener('click', () => {
     fetch('https://us-central1-line-kakeibot.cloudfunctions.net/postName', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name,
-        userId
-      })
+        userId,
+      }),
     })
       .then((response) => {
         if (response.ok) {
@@ -443,12 +444,12 @@ outYes.addEventListener('click', (e) => {
   fetch('https://us-central1-line-kakeibot.cloudfunctions.net/outGroup', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       userId,
-      groupId
-    })
+      groupId,
+    }),
   })
     .then((response) => {
       if (response.ok) {
@@ -496,6 +497,12 @@ groupChangeButton.addEventListener('click', (e) => {
 
 menuContainer.addEventListener('click', () => {
   clearMenu();
+});
+
+inquiryBlock.addEventListener('click', () => {
+  liff.openWindow({
+    url: `https://docs.google.com/forms/d/e/1FAIpQLSeBu603ocQR4f08xhl1wQ0fRmNke813FvODiKs4hiuefO0K5w/viewform?usp=pp_url&entry.1546140386=${userId}`,
+  });
 });
 
 // tutorialPager.addEventListener('touchstart', (e) => {
