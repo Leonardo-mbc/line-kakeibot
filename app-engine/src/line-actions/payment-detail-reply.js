@@ -16,8 +16,8 @@ module.exports = {
           action: {
             type: 'uri',
             label: '【画像】',
-            uri: payment.imageUrl
-          }
+            uri: payment.imageUrl,
+          },
         },
         body: {
           type: 'box',
@@ -26,14 +26,14 @@ module.exports = {
           action: {
             type: 'uri',
             label: 'label',
-            uri: 'https://liff.line.me/1629647443-xvO1GPY5'
+            uri: 'https://liff.line.me/1629647599-ZmwGj0pz',
           },
           contents: [
             {
               type: 'text',
               text: payment.place,
               size: 'xl',
-              weight: 'bold'
+              weight: 'bold',
             },
             {
               type: 'box',
@@ -49,15 +49,15 @@ module.exports = {
                       text: `${payment.price.toLocaleString()}円`,
                       weight: 'bold',
                       margin: 'sm',
-                      flex: 0
-                    }
-                  ]
-                }
-              ]
+                      flex: 0,
+                    },
+                  ],
+                },
+              ],
             },
             {
               type: 'separator',
-              color: '#aaaaaa'
+              color: '#aaaaaa',
             },
             {
               type: 'box',
@@ -69,7 +69,7 @@ module.exports = {
                   text: `今月の累計（${userName}）`,
                   wrap: true,
                   color: '#aaaaaa',
-                  size: 'xxs'
+                  size: 'xxs',
                 },
                 {
                   type: 'text',
@@ -87,9 +87,9 @@ module.exports = {
                     .toLocaleString()}円`,
                   wrap: true,
                   color: '#aaaaaa',
-                  size: 'xxs'
-                }
-              ]
+                  size: 'xxs',
+                },
+              ],
             },
             {
               type: 'box',
@@ -104,7 +104,7 @@ module.exports = {
                     .join('')}）`,
                   wrap: true,
                   color: '#aaaaaa',
-                  size: 'xxs'
+                  size: 'xxs',
                 },
                 {
                   type: 'text',
@@ -120,11 +120,11 @@ module.exports = {
                     .toLocaleString()}円`,
                   wrap: true,
                   color: '#aaaaaa',
-                  size: 'xxs'
-                }
-              ]
-            }
-          ]
+                  size: 'xxs',
+                },
+              ],
+            },
+          ],
         },
         footer: {
           type: 'box',
@@ -135,23 +135,23 @@ module.exports = {
               action: {
                 type: 'uri',
                 label: 'かけいぼっと設定を開く',
-                uri: 'https://liff.line.me/1629647443-Nq46aLqj'
+                uri: 'https://liff.line.me/1629647599-rlLnYk3X',
               },
               color: '#636363',
-              style: 'link'
+              style: 'link',
             },
             {
               type: 'button',
               action: {
                 type: 'uri',
                 label: '家計簿を見る',
-                uri: 'https://liff.line.me/1629647443-xvO1GPY5'
+                uri: 'https://liff.line.me/1629647599-ZmwGj0pz',
               },
               color: '#00C239',
-              style: 'primary'
-            }
-          ]
-        }
+              style: 'primary',
+            },
+          ],
+        },
       };
 
       await lineReply({
@@ -160,15 +160,15 @@ module.exports = {
           {
             type: 'flex',
             altText: '【レシート】',
-            contents: container
-          }
-        ]
+            contents: container,
+          },
+        ],
       });
     } catch ({ status, message }) {
       throw {
         message,
-        status
+        status,
       };
     }
-  }
+  },
 };
