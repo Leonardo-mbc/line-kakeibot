@@ -19,8 +19,11 @@ body {
   flex-direction: column;
 }
 
-.hero > img {
+.hero > .logo {
   width: 100px;
+}
+.hero > .qr-code {
+  width: 136px;
 }
 
 .hero > p {
