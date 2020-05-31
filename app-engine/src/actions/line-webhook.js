@@ -18,7 +18,7 @@ const ENDPOINTS = require('../constants/endpoints');
 const PHASE = require('../constants/phase');
 
 module.exports = {
-  lineWebhook: function(events) {
+  lineWebhook: function (events) {
     events.map(async ({ type, message, postback, replyToken, source }) => {
       let isExpired, state, groups;
       const { userId } = source;
@@ -39,18 +39,18 @@ module.exports = {
                     try {
                       const [{ contentType, buffer }, { paymentId, datetime }] = await Promise.all([
                         getContent(message.id),
-                        makePayment()
+                        makePayment(),
                       ]);
 
                       await setState(userId, {
                         paymentId,
                         datetime,
-                        phase: PHASE.WAITING_PLACE
+                        phase: PHASE.WAITING_PLACE,
                       });
 
                       await textReply({
                         messages: ['おけ', '場所は？'],
-                        replyToken
+                        replyToken,
                       });
 
                       try {
@@ -61,25 +61,25 @@ module.exports = {
                         await Promise.all([
                           setPaymentPartial(paymentId, {
                             who: userId,
-                            imageUrl: `${ENDPOINTS.STORAGE}/receipts/${filename}`
+                            imageUrl: `${ENDPOINTS.STORAGE}/receipts/${filename}`,
                           }),
                           postPicture({ buffer, contentType, filepath }),
                           isExpired
                             ? deletePayment({
-                                paymentId: state.paymentId
+                                paymentId: state.paymentId,
                               })
-                            : null
+                            : null,
                         ]);
                       } catch (error) {
                         throw {
                           messages: error,
-                          state: 500
+                          state: 500,
                         };
                       }
                     } catch (error) {
                       throw {
                         messages: error,
-                        state: 500
+                        state: 500,
                       };
                     }
                   } else {
@@ -87,12 +87,12 @@ module.exports = {
                     try {
                       await textReply({
                         messages: ['入力中の買い物があります'],
-                        replyToken
+                        replyToken,
                       });
                     } catch ({ status, message }) {
                       throw {
                         messages,
-                        status
+                        status,
                       };
                     }
                   }
@@ -114,9 +114,9 @@ module.exports = {
                                 text:
                                   '家計簿がありません！\nまずは設定から作成するか、誰かの家計簿に招待してもらいましょう',
                                 color: '#000000',
-                                wrap: true
-                              }
-                            ]
+                                wrap: true,
+                              },
+                            ],
                           },
                           footer: {
                             type: 'box',
@@ -127,17 +127,17 @@ module.exports = {
                                 action: {
                                   type: 'uri',
                                   label: '設定を開く',
-                                  uri: 'https://liff.line.me/1629647443-Nq46aLqj'
+                                  uri: 'https://liff.line.me/1629647599-rlLnYk3X',
                                 },
                                 color: '#00C239',
-                                style: 'primary'
-                              }
-                            ]
-                          }
-                        }
-                      }
+                                style: 'primary',
+                              },
+                            ],
+                          },
+                        },
+                      },
                     ],
-                    replyToken
+                    replyToken,
                   });
                 }
                 break;
@@ -159,17 +159,17 @@ module.exports = {
                         try {
                           await Promise.all([
                             setPaymentPartial(state.paymentId, {
-                              place: textValue
+                              place: textValue,
                             }),
                             setState(userId, {
                               ...state,
-                              phase: PHASE.WAITING_PRICE
+                              phase: PHASE.WAITING_PRICE,
                             }),
                             lineReply({
                               messages: [
                                 {
                                   type: 'text',
-                                  text: 'おけ'
+                                  text: 'おけ',
                                 },
                                 {
                                   type: 'flex',
@@ -184,9 +184,9 @@ module.exports = {
                                         {
                                           type: 'text',
                                           text: '金額は？',
-                                          color: '#000000'
-                                        }
-                                      ]
+                                          color: '#000000',
+                                        },
+                                      ],
                                     },
                                     footer: {
                                       type: 'box',
@@ -197,28 +197,28 @@ module.exports = {
                                           action: {
                                             type: 'uri',
                                             label: 'タップでも入力できます',
-                                            uri: 'https://liff.line.me/1629647443-N651dkoD'
+                                            uri: 'https://liff.line.me/1629647599-9R71R42e',
                                           },
                                           color: '#00c239',
-                                          height: 'sm'
-                                        }
-                                      ]
+                                          height: 'sm',
+                                        },
+                                      ],
                                     },
                                     styles: {
                                       footer: {
-                                        separator: true
-                                      }
-                                    }
-                                  }
-                                }
+                                        separator: true,
+                                      },
+                                    },
+                                  },
+                                },
                               ],
-                              replyToken
-                            })
+                              replyToken,
+                            }),
                           ]);
                         } catch ({ status, message }) {
                           throw {
                             message,
-                            status
+                            status,
                           };
                         }
                         break;
@@ -229,12 +229,12 @@ module.exports = {
                           if (isNaN(numberPrice)) {
                             await textReply({
                               messages: ['数字を入力してください'],
-                              replyToken
+                              replyToken,
                             });
 
                             throw {
                               message: '数字を入力してください',
-                              status: 400
+                              status: 400,
                             };
                           }
 
@@ -242,28 +242,28 @@ module.exports = {
                           groupReplies = Object.keys(groups).map((key) => {
                             return {
                               text: groups[key].name,
-                              data: `groupId=${key}`
+                              data: `groupId=${key}`,
                             };
                           });
 
                           await Promise.all([
                             setPaymentPartial(state.paymentId, {
-                              price: numberPrice
+                              price: numberPrice,
                             }),
                             setState(userId, {
                               ...state,
-                              phase: PHASE.WAITING_GROUP
+                              phase: PHASE.WAITING_GROUP,
                             }),
                             quickReply({
                               replyToken,
                               messages: ['どこにつける？'],
-                              replies: groupReplies
-                            })
+                              replies: groupReplies,
+                            }),
                           ]);
                         } catch ({ status, message }) {
                           throw {
                             message,
-                            status
+                            status,
                           };
                         }
                         break;
@@ -278,22 +278,22 @@ module.exports = {
                         setState(userId, {
                           datetime: '',
                           paymentId: '',
-                          phase: ''
+                          phase: '',
                         }),
                         deletePayment({
-                          paymentId: state.paymentId
+                          paymentId: state.paymentId,
                         }),
                         textReply({
                           messages: [
-                            '時間切れになってしまいました。画像を送信するところからやり直してください'
+                            '時間切れになってしまいました。画像を送信するところからやり直してください',
                           ],
-                          replyToken
-                        })
+                          replyToken,
+                        }),
                       ]);
                     } catch ({ status, message }) {
                       throw {
                         message,
-                        status
+                        status,
                       };
                     }
                   }
@@ -322,7 +322,7 @@ module.exports = {
                       const payment = await movePayment({
                         groupId,
                         paymentId: state.paymentId,
-                        datetime: state.datetime
+                        datetime: state.datetime,
                       });
                       const monthPayments = await getReceipts({ userId, datetime: state.datetime });
 
@@ -331,18 +331,18 @@ module.exports = {
                           groupId,
                           payment,
                           monthPayments,
-                          replyToken
+                          replyToken,
                         }),
                         setState(userId, {
                           datetime: '',
                           paymentId: '',
-                          phase: ''
-                        })
+                          phase: '',
+                        }),
                       ]);
                     } catch ({ status, message }) {
                       throw {
                         message,
-                        status
+                        status,
                       };
                     }
                     break;
@@ -354,22 +354,22 @@ module.exports = {
                     setState(userId, {
                       datetime: '',
                       paymentId: '',
-                      phase: ''
+                      phase: '',
                     }),
                     deletePayment({
-                      paymentId: state.paymentId
+                      paymentId: state.paymentId,
                     }),
                     textReply({
                       messages: [
-                        '時間切れになってしまいました。画像を送信するところからやり直してください'
+                        '時間切れになってしまいました。画像を送信するところからやり直してください',
                       ],
-                      replyToken
-                    })
+                      replyToken,
+                    }),
                   ]);
                 } catch ({ status, message }) {
                   throw {
                     message,
-                    status
+                    status,
                   };
                 }
               }
@@ -384,14 +384,14 @@ module.exports = {
         try {
           await textReply({
             messages: [JSON.stringify(error)],
-            replyToken
+            replyToken,
           });
         } catch (error) {
           console.error('%%%%', error);
         }
       }
     });
-  }
+  },
 };
 
 function parseSearch(qs) {
@@ -402,7 +402,7 @@ function parseSearch(qs) {
       const [key, value] = v.split('=');
       query = {
         ...query,
-        [key]: value
+        [key]: value,
       };
     });
 
