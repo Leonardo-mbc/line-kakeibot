@@ -35,6 +35,7 @@ const letsStart = document.getElementById('lets-start');
 const tutorialSkip = document.getElementById('tutorial-skip');
 const helpGroup = document.getElementById('help-group');
 const help = document.getElementById('help');
+const inquiryBlock = document.getElementById('inquiry-block');
 
 const ERROR_GET_PROFILE = 'プロフィール取得に失敗しました。\n再度開き直してみてください。';
 const ERROR_POST_GROUP = 'グループ作成に失敗しました。\n再度開き直してみてください。';
@@ -497,6 +498,12 @@ groupChangeButton.addEventListener('click', (e) => {
 
 menuContainer.addEventListener('click', () => {
   clearMenu();
+});
+
+inquiryBlock.addEventListener('click', () => {
+  liff.openWindow({
+    url: `https://docs.google.com/forms/d/e/1FAIpQLSeBu603ocQR4f08xhl1wQ0fRmNke813FvODiKs4hiuefO0K5w/viewform?usp=pp_url&entry.1546140386=${userId}`,
+  });
 });
 
 // tutorialPager.addEventListener('touchstart', (e) => {
