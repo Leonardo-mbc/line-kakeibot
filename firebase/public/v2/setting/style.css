@@ -598,6 +598,8 @@ body {
   z-index: 10;
   transition: opacity 200ms ease-out;
   opacity: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .menu-container.transparent {
@@ -613,6 +615,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 500px;
   align-items: center;
   justify-content: center;
 }
