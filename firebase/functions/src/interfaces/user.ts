@@ -1,7 +1,4 @@
-import { Group } from "./group";
-
 export interface User {
-  group: Group;
-  loginId: string;
+  groups: string[];
   name: string;
 }

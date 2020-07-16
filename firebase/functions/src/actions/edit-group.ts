@@ -1,15 +1,16 @@
 import { groupsRef } from '../utilities/firebase-app';
+import { Group } from '../interfaces/group';
 
 interface EditGroupParam {
   groupId: string;
-  enddate: string;
+  group: Partial<Group>;
 }
 
-export async function editGroupAction({ groupId, enddate }: EditGroupParam) {
+export async function editGroupAction({ groupId, group }: EditGroupParam) {
   try {
     const groupsRefNode = groupsRef.child(groupId);
     await groupsRefNode.update({
-      enddate
+      ...group,
     });
 
     const groupsRefValue = groupsRefNode.once('value');
@@ -18,7 +19,7 @@ export async function editGroupAction({ groupId, enddate }: EditGroupParam) {
   } catch ({ status, message }) {
     throw {
       message,
-      status
+      status,
     };
   }
 }
