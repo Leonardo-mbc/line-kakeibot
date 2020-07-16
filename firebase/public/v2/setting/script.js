@@ -20,6 +20,11 @@ const outGroup = document.getElementById('out-group');
 const groupOutConfirm = document.getElementById('group-out-confirm');
 const outGroupName = document.getElementById('out-group-name');
 const outYes = document.getElementById('out-yes');
+const groupChangeNameContainer = document.getElementById('group-change-name-container');
+const changeGroupName = document.getElementById('change-group-name');
+const groupChangeName = document.getElementById('group-change-name');
+const groupChangeNameInput = document.getElementById('group-change-name-input');
+const groupChangeNameButton = document.getElementById('group-change-name-button');
 const groupChangeEnddateContainer = document.getElementById('group-change-enddate-container');
 const groupChangeEnddate = document.getElementById('group-change-enddate');
 const groupChangeEnddateInput = document.getElementById('group-change-enddate-input');
@@ -250,11 +255,18 @@ function clearChangeEnddate() {
   }, 200);
 }
 
-function changeGroup({ enddate }) {
+function clearChangeGroupName() {
+  groupChangeNameContainer.classList.add('transparent');
+  setTimeout(() => {
+    groupChangeNameContainer.classList.add('hide');
+    groupChangeNameInput.value = '';
+  }, 200);
+}
+
+function changeGroup(group) {
   const groupId = selectedGroupId;
 
   showLoader();
-  clearChangeEnddate();
   clearMenu();
 
   fetch('https://us-central1-line-kakeibot.cloudfunctions.net/editGroup', {
@@ -264,7 +276,7 @@ function changeGroup({ enddate }) {
     },
     body: JSON.stringify({
       groupId,
-      enddate,
+      group,
       userId,
     }),
   })
@@ -468,6 +480,30 @@ outYes.addEventListener('click', (e) => {
     });
 });
 
+changeGroupName.addEventListener('click', (e) => {
+  e.stopPropagation();
+  groupChangeNameContainer.classList.remove('hide');
+  setTimeout(() => {
+    groupChangeNameContainer.classList.remove('transparent');
+  }, 10);
+});
+
+groupChangeNameContainer.addEventListener('click', () => {
+  clearChangeGroupName();
+  clearMenu();
+});
+
+groupChangeName.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+groupChangeNameButton.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const name = groupChangeNameInput.value;
+  clearChangeGroupName();
+  changeGroup({ name });
+});
+
 changeEnddate.addEventListener('click', (e) => {
   e.stopPropagation();
   groupChangeEnddateContainer.classList.remove('hide');
@@ -487,12 +523,14 @@ groupChangeEnddate.addEventListener('click', (e) => {
 
 groupChangeNodate.addEventListener('click', (e) => {
   e.stopPropagation();
+  clearChangeEnddate();
   changeGroup({ enddate: '' });
 });
 
 groupChangeButton.addEventListener('click', (e) => {
   e.stopPropagation();
   const enddate = groupChangeEnddateInput.value;
+  clearChangeEnddate();
   changeGroup({ enddate });
 });
 

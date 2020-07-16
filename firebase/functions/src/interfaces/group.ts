@@ -1,5 +1,5 @@
 export interface Group {
-  [index: string]: {
-    name: string;
-  };
+  name: string;
+  enddate: string;
+  users: string[];
 }

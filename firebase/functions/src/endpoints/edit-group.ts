@@ -10,9 +10,9 @@ export const editGroup = functions.https.onRequest(async (request, response) => 
       .sendStatus(204);
   } else {
     try {
-      const { userId, groupId, enddate } = request.body;
+      const { userId, groupId, group } = request.body;
 
-      await editGroupAction({ groupId, enddate });
+      await editGroupAction({ groupId, group });
       const groups = await getGroups({ userId });
 
       response
@@ -22,10 +22,7 @@ export const editGroup = functions.https.onRequest(async (request, response) => 
         .send({ groups });
     } catch ({ status, message }) {
       console.error('error - editGroup', message);
-      response
-        .header('Access-Control-Allow-Origin', '*')
-        .status(status)
-        .send({ message });
+      response.header('Access-Control-Allow-Origin', '*').status(status).send({ message });
     }
   }
 });

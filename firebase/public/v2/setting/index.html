@@ -146,6 +146,7 @@
       <div id="menu-container" class="menu-container hide">
         <div class="menu-list-container">
           <span class="menu-item cancel">キャンセル</span>
+          <span id="change-group-name" class="menu-item">家計簿名を変更</span>
           <span id="change-enddate" class="menu-item">期限を変更</span>
           <span id="out-group" class="menu-item out">退出</span>
         </div>
@@ -160,6 +161,26 @@
           <div class="out-answers">
             <span id="out-yes" class="out-button yes">はい</span>
             <span class="out-button cancel">キャンセル</span>
+          </div>
+        </div>
+      </div>
+      <div id="group-change-name-container" class="group-change-enddate-container transparent hide">
+        <div id="group-change-name" class="group-change-enddate">
+          <div class="enddate-caption">
+            家計簿名の変更
+          </div>
+          <div class="enddate-input-container">
+            <div class="enddate-input">
+              <label for="group-change-name-input">家計簿名</label>
+              <input
+                id="group-change-name-input"
+                class="hide"
+                type="text"
+                name="group-changed-name"
+                value=""
+              />
+            </div>
+            <button id="group-change-name-button" class="group-change-button">変更する</button>
           </div>
         </div>
       </div>

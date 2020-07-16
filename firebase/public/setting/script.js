@@ -249,7 +249,7 @@ function clearChangeEnddate() {
   }, 200);
 }
 
-function changeGroup({ enddate }) {
+function changeGroup(group) {
   const groupId = selectedGroupId;
 
   showLoader();
@@ -263,7 +263,7 @@ function changeGroup({ enddate }) {
     },
     body: JSON.stringify({
       groupId,
-      enddate,
+      group,
       userId,
     }),
   })
