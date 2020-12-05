@@ -1,0 +1,42 @@
+{
+  "name": "line-kakeibot-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "run-s webpack-dev",
+    "webpack-dev": "webpack serve --config webpack.config.js",
+    "build": "production=true webpack --config webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@line/liff": "^2.6.0",
+    "firebase": "^8.1.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "recoil": "^0.1.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "css-loader": "^5.0.1",
+    "cssnano": "^4.1.10",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.3.2",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.1.14",
+    "postcss-custom-properties": "^10.0.0",
+    "postcss-import": "^13.0.0",
+    "postcss-loader": "^4.1.0",
+    "postcss-preset-env": "^6.7.0",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^8.0.11",
+    "typed-css-modules-webpack-plugin": "^0.2.0",
+    "typescript": "^4.1.2",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

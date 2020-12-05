@@ -1,0 +1,14 @@
+.submit {
+  width: 100%;
+  background-color: #00b900;
+  color: white;
+  height: 55px;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 26px;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+}
