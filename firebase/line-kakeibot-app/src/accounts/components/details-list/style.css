@@ -1,0 +1,125 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: #444444;
+  margin: 3vw 0px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  width: calc(100% - 12vw);
+
+  & .details-label {
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+  }
+
+  & .details-table {
+    padding-bottom: 8px;
+
+    & .no-data {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+    }
+
+    & .detail {
+      display: flex;
+      padding-left: 18px;
+      align-items: center;
+      border-top: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      transition: background-color 200ms cubic-bezier(0, 0, 0, 1),
+        border 200ms cubic-bezier(0, 0, 0, 1);
+
+      & img {
+        height: 22px;
+        opacity: 0.5;
+        flex-shrink: 0;
+        margin-right: 6px;
+
+        &.hide {
+          visibility: hidden;
+        }
+      }
+
+      &.selected {
+        background-color: rgba(0, 185, 0, 0.2);
+        border-top: 2px solid #00b900;
+        border-bottom: 2px solid #00b900;
+        box-sizing: border-box;
+      }
+
+      & .detail-item {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        & .light-weight {
+          font-size: 11px;
+          opacity: 0.7;
+          line-height: 8px;
+        }
+      }
+
+      & .image-container {
+        height: 22px;
+        width: 22px;
+        margin-right: 6px;
+        flex-shrink: 0;
+        border: 1px solid #444444;
+        border-radius: 2px;
+        background-image: url(../../../common/assets/images/loader.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 76%;
+
+        & .receipt-image {
+          width: 100%;
+          height: 100%;
+          opacity: 1;
+          flex-shrink: 0;
+          object-fit: cover;
+        }
+      }
+
+      & .detail-edit {
+        margin: 0px 6px 0px 4px;
+        cursor: pointer;
+
+        & > path {
+          fill: red;
+        }
+      }
+
+      & .left {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        & span {
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+      }
+
+      & .right {
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        flex-shrink: 0;
+
+        & span {
+          white-space: pre-wrap;
+          word-break: break-word;
+          max-width: 150px;
+
+          &:first-child::after {
+            content: '円';
+          }
+        }
+      }
+    }
+  }
+}

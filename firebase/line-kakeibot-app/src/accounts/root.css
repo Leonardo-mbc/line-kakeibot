@@ -1,0 +1,21 @@
+body {
+  width: 100%;
+  position: absolute;
+  margin: 0px;
+  color: #444444;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+
+  & > div {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding-bottom: 7px;
+  }
+}

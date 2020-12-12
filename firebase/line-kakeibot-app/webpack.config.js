@@ -31,6 +31,7 @@ const PUBLISH_PLUGINS = [
   }),
   new HtmlWebpackPlugin({
     title: '家計簿',
+    description: '使った金額を確認できます',
     filename: path.join(OUTPUT_PATH, 'accounts/index.html'),
     template: path.join(ASSETS_PATH, 'index.template.html'),
     hash: true,
@@ -103,9 +104,10 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: OUTPUT_PATH,
+    publicPath: '',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.css'],
+    extensions: ['.ts', '.tsx', '.js', '.css', '.svg'],
     alias: {
       '@global-style': path.resolve(__dirname, 'src/styles'),
     },
@@ -134,11 +136,22 @@ module.exports = {
         loader: 'ts-loader',
       },
       {
-        test: /\.(png|jpg|gif|otf|svg)$/,
+        test: /\.(svg)$/,
         use: [
           {
             loader: 'url-loader',
             options: {},
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|otf)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'images/[hash]-[name].[ext]',
+            },
           },
         ],
       },
