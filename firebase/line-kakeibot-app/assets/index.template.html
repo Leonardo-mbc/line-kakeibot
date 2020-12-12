@@ -4,14 +4,18 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta property="og:url" content="https://line-kakeibot.firebaseapp.com/" />
+    <meta
+      property="og:image"
+      content="https://line-kakeibot.firebaseapp.com/index/images/logo.png"
+    />
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>" />
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.description %>" />
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <noscript>
-      <strong>
-        We're sorry but line-kakeibot doesn't work properly without JavaScript enabled. Please
-        enable it to continue.
-      </strong>
+      <strong>かけいぼっとは LINE と連携して共有できる家計簿アプリです</strong>
     </noscript>
     <div id="app"></div>
   </body>

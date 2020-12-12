@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: white;
+  background-color: #00b900;
+  margin: 3vw 0px;
+  padding: 10px 0px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  width: calc(100% - 12vw);
+
+  & .no-data {
+    display: flex;
+    justify-content: space-between;
+    margin: 3px 15px;
+  }
+
+  & .user {
+    display: flex;
+    justify-content: space-between;
+    margin: 3px 15px;
+
+    & .name {
+      font-weight: bold;
+    }
+
+    & .price {
+      font-size: smaller;
+      font-size: larger;
+      font-weight: bold;
+
+      &::after {
+        content: '円';
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.container {
+  padding-top: 8px;
+  width: 100%;
+
+  @media (min-width: 500px) {
+    width: calc(100% - 12vw);
+  }
+
+  & .groups {
+    overflow-x: scroll;
+    margin: 0px 10px;
+    padding-bottom: 5px;
+
+    & .no-data {
+      font-weight: bold;
+      opacity: 0.3;
+      margin-right: 7px;
+      font-size: 24px;
+    }
+    & .group-name {
+      font-weight: bold;
+      opacity: 0.3;
+      margin-right: 7px;
+      font-size: 24px;
+      cursor: pointer;
+
+      &:last-child {
+        margin-right: 0px;
+      }
+
+      &.selected {
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -10,5 +10,5 @@
       "@global-style/*": ["src/styles/*"]
     }
 	},
-	"include": [ "./src/**/*" ],
+	"include": [ "./src/**/*", "./custom.d.ts" ],
 }

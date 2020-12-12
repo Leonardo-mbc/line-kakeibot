@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  & > button {
+    padding: 2px 13px;
+    font-weight: bold;
+    border-radius: 30px;
+    color: white;
+    background-color: white;
+    color: #00b900;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+
+    &::before {
+      content: '割り勘する';
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
