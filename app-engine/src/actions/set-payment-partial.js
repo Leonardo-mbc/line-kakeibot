@@ -6,12 +6,13 @@ module.exports = {
       try {
         await partialPaymentsRef.child(`${paymentId}/${key}`).set(params[key]);
       } catch (error) {
+        console.error('%%%% Error in setPaymentPartial', error);
         throw {
           message: error,
-          status: 500
+          status: 500,
         };
       }
     }
     return;
-  }
+  },
 };

@@ -7,26 +7,27 @@ module.exports = {
       const response = await fetch(`${ENDPOINTS.FUNCTIONS}/postPicture?filepath=${filepath}`, {
         method: 'POST',
         headers: {
-          'Content-Type': contentType
+          'Content-Type': contentType,
         },
-        body: buffer
+        body: buffer,
       });
 
       if (response.ok) {
         return;
       } else {
         const { message } = await response.text();
+        console.error('%%%% Error in postPicture/!response.ok', error);
         throw {
           message,
-          status: response.status
+          status: response.status,
         };
       }
     } catch ({ status, message }) {
-      console.log('message', message);
+      console.error('%%%% Error in postPicture', error);
       throw {
         message,
-        status
+        status,
       };
     }
-  }
+  },
 };

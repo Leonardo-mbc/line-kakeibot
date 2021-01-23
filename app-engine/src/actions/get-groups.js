@@ -23,10 +23,11 @@ module.exports = {
 
       return groupInfo;
     } catch (error) {
+      console.error('%%%% Error in getGroups', error);
       throw {
         message: error,
-        status: 500
+        status: 500,
       };
     }
-  }
+  },
 };

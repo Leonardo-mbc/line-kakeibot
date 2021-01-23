@@ -394,15 +394,19 @@ module.exports = {
             break;
         }
       } catch (error) {
-        console.error('####', error);
+        console.error('%%%% Error in lineWebhook', error);
 
         try {
           await textReply({
-            messages: [JSON.stringify(error)],
+            messages: [
+              'エラーが発生しました。お時間をおいてもう一度お試しください。',
+              'それでもエラーが解消されない場合は設定画面のお問い合わせよりご連絡ください。',
+              'https://line-kakeibot.firebaseapp.com/v2/setting/',
+            ],
             replyToken,
           });
         } catch (error) {
-          console.error('%%%%', error);
+          console.error('%%%% Error in lineWebhook/textReply', error);
         }
       }
     });

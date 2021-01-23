@@ -6,10 +6,11 @@ module.exports = {
       await partialPaymentsRef.child(`${paymentId}`).remove();
       return;
     } catch (error) {
+      console.error('%%%% Error in deletePayment', error);
       throw {
         message: error,
-        status: 500
+        status: 500,
       };
     }
-  }
+  },
 };
