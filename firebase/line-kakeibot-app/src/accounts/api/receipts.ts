@@ -23,7 +23,7 @@ export const getReceiptsData = selector<GetReceiptsData>({
   get: async ({ get }) => {
     const userId = get(userIdState);
     const currentTarget = get(currentTargetState);
-    const sessionId = get(sessionIdState);
+    const _sessionId = get(sessionIdState);
 
     if (userId && currentTarget) {
       return await _getReceiptsData(userId, currentTarget);

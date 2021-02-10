@@ -55,24 +55,21 @@ function App() {
 
   return (
     <React.Fragment>
-      {userId && state === 'hasValue' && (
-        <Suspense fallback={null}>
-          <GroupSwitcher />
-          <MonthSwitcher />
-          <UsersList>
-            <SplitButton />
-          </UsersList>
-          <DetailsList />
-          <FullScreenMenu>
-            <React.Fragment>
-              {isShowDeleteConfirm && <DeleteConfirm />}
-              {isShowMoveConfirm && <MoveAccountConfirm />}
-            </React.Fragment>
-          </FullScreenMenu>
-
-          <SplitView isShow={isShowSplitView} />
-        </Suspense>
-      )}
+      <Suspense fallback={null}>
+        <GroupSwitcher />
+        <MonthSwitcher />
+        <UsersList>
+          <SplitButton />
+        </UsersList>
+        <DetailsList />
+        <FullScreenMenu>
+          <React.Fragment>
+            {isShowDeleteConfirm && <DeleteConfirm />}
+            {isShowMoveConfirm && <MoveAccountConfirm />}
+          </React.Fragment>
+        </FullScreenMenu>
+        <SplitView isShow={isShowSplitView} />
+      </Suspense>
       <Loader isShow={isShowLoader} />
     </React.Fragment>
   );

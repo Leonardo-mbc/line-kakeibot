@@ -104,7 +104,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: OUTPUT_PATH,
-    publicPath: '/v3/',
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.css', '.svg'],
