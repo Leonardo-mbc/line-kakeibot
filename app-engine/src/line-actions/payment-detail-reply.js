@@ -26,7 +26,7 @@ module.exports = {
           action: {
             type: 'uri',
             label: 'label',
-            uri: 'https://liff.line.me/1629647599-ZmwGj0pz',
+            uri: 'https://liff.line.me/1629647599-egprkJMb',
           },
           contents: [
             {
@@ -135,7 +135,7 @@ module.exports = {
               action: {
                 type: 'uri',
                 label: 'かけいぼっと設定を開く',
-                uri: 'https://liff.line.me/1629647599-rlLnYk3X',
+                uri: 'https://liff.line.me/1629647599-GD7Lq1ny',
               },
               color: '#636363',
               style: 'link',
@@ -145,7 +145,7 @@ module.exports = {
               action: {
                 type: 'uri',
                 label: '家計簿を見る',
-                uri: 'https://liff.line.me/1629647599-ZmwGj0pz',
+                uri: 'https://liff.line.me/1629647599-egprkJMb',
               },
               color: '#00C239',
               style: 'primary',

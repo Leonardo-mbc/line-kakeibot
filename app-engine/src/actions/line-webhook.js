@@ -127,7 +127,7 @@ module.exports = {
                                 action: {
                                   type: 'uri',
                                   label: '設定を開く',
-                                  uri: 'https://liff.line.me/1629647599-rlLnYk3X',
+                                  uri: 'https://liff.line.me/1629647599-GD7Lq1ny',
                                 },
                                 color: '#00C239',
                                 style: 'primary',
@@ -197,7 +197,7 @@ module.exports = {
                                           action: {
                                             type: 'uri',
                                             label: 'タップでも入力できます',
-                                            uri: 'https://liff.line.me/1629647599-9R71R42e',
+                                            uri: 'https://liff.line.me/1629647599-EA2RxkgW',
                                           },
                                           color: '#00c239',
                                           height: 'sm',
