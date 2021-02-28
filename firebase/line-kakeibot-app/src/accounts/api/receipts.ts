@@ -1,10 +1,10 @@
 import { selector, atom } from 'recoil';
 import { v4 as uuid } from 'uuid';
-import { ENDPOINT } from '../constants/endpoints';
+import { ENDPOINT } from '../../common/constants/endpoints';
 import { currentTargetState } from '../states/current';
 
-import { Groups } from '../states/groups';
-import { userIdState, Users } from '../states/users';
+import { Groups } from '../../common/states/groups';
+import { userIdState, Users } from '../../common/states/users';
 import { Receipts } from '../states/receipts';
 
 export interface GetReceiptsData {

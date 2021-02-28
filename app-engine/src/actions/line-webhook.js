@@ -401,7 +401,7 @@ module.exports = {
             messages: [
               'エラーが発生しました。お時間をおいてもう一度お試しください。',
               'それでもエラーが解消されない場合は設定画面のお問い合わせよりご連絡ください。',
-              'https://line-kakeibot.firebaseapp.com/v2/setting/',
+              'https://line-kakeibot.firebaseapp.com/v3/setting/',
             ],
             replyToken,
           });

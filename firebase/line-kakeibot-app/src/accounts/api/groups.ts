@@ -1,8 +1,8 @@
 import { selector } from 'recoil';
-import { ENDPOINT } from '../constants/endpoints';
+import { ENDPOINT } from '../../common/constants/endpoints';
 
-import { userIdState } from '../states/users';
-import { Groups } from '../states/groups';
+import { userIdState } from '../../common/states/users';
+import { Groups } from '../../common/states/groups';
 
 export const getGroups = selector<Groups>({
   key: 'api/getGroups',

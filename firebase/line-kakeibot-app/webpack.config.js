@@ -19,6 +19,12 @@ const DEBUG_PLUGINS = [
     chunks: ['accounts/index'],
   }),
   new HtmlWebpackPlugin({
+    title: '[debug] 設定画面',
+    filename: path.join(OUTPUT_PATH, 'setting/index.html'),
+    template: path.join(ASSETS_PATH, 'index.template.html'),
+    chunks: ['setting/index'],
+  }),
+  new HtmlWebpackPlugin({
     title: '[debug] 金額は？',
     filename: path.join(OUTPUT_PATH, 'input-helper/index.html'),
     template: path.join(ASSETS_PATH, 'index.template.html'),
@@ -36,6 +42,17 @@ const PUBLISH_PLUGINS = [
     template: path.join(ASSETS_PATH, 'index.template.html'),
     hash: true,
     chunks: ['accounts/index'],
+    minify: {
+      collapseWhitespace: true,
+    },
+  }),
+  new HtmlWebpackPlugin({
+    title: '設定画面',
+    description: '家計簿の設定をします',
+    filename: path.join(OUTPUT_PATH, 'setting/index.html'),
+    template: path.join(ASSETS_PATH, 'index.template.html'),
+    hash: true,
+    chunks: ['setting/index'],
     minify: {
       collapseWhitespace: true,
     },
@@ -99,12 +116,13 @@ module.exports = {
   mode: IS_DEBUG ? 'development' : 'production',
   entry: {
     'accounts/index': path.join(SRC_PATH, 'accounts'),
+    'setting/index': path.join(SRC_PATH, 'setting'),
     'input-helper/index': path.join(SRC_PATH, 'input-helper'),
   },
   output: {
     filename: '[name].js',
     path: OUTPUT_PATH,
-    publicPath: '/',
+    publicPath: IS_DEBUG ? '/' : '/v3/',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.css', '.svg'],

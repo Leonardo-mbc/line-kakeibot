@@ -1,6 +1,6 @@
 import { selector } from 'recoil';
-import { getReceiptsData } from '../api/receipts';
-import { currentTargetState } from './current';
+import { getReceiptsData } from '../../accounts/api/receipts';
+import { currentTargetState } from '../../accounts/states/current';
 
 export interface Group {
   enddate: string;

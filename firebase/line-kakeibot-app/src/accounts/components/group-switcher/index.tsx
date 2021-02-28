@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import styles from './style.css';
-import { availableGroupsIds } from '../../states/groups';
+import { availableGroupsIds } from '../../../common/states/groups';
 import { selectedGroupIdState } from '../../states/current';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getReceiptsData } from '../../api/receipts';

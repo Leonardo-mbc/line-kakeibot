@@ -9,8 +9,8 @@ import {
   selectedGroupIdState,
   selectedPaymentState,
 } from '../../states/current';
-import { userIdState } from '../../states/users';
-import { isShowLoaderState } from '../../states/loader';
+import { userIdState } from '../../../common/states/users';
+import { isShowLoaderState } from '../../../common/states/loader';
 import { hideAllMenuSelector } from '../../states/menu';
 
 export function DeleteConfirm() {

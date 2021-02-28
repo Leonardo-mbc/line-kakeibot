@@ -6,7 +6,7 @@ import EditPen from '../../assets/images/edit-pen.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getReceiptsData } from '../../api/receipts';
 import { selectedGroupIdState, selectedPaymentState } from '../../states/current';
-import { userIdState } from '../../states/users';
+import { userIdState } from '../../../common/states/users';
 import dayjs from 'dayjs';
 import { isShowMenuState } from '../../states/menu';
 

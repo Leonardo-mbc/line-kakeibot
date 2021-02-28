@@ -1,4 +1,4 @@
-import { User } from './users';
+import { User } from '../../common/states/users';
 
 export interface Receipt {
   boughtAt: string;

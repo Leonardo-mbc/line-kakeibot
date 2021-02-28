@@ -10,7 +10,7 @@ import {
   selectedGroupIdState,
   selectedPaymentState,
 } from '../../states/current';
-import { isShowLoaderState } from '../../states/loader';
+import { isShowLoaderState } from '../../../common/states/loader';
 import { hideAllMenuSelector } from '../../states/menu';
 
 export function MoveAccountConfirm() {

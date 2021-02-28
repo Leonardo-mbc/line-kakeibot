@@ -1,0 +1,81 @@
+.out-group-name {
+  color: #00b900;
+  word-break: break-all;
+}
+
+.enddate-input-container {
+  border: 2px solid #00b900;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  align-items: center;
+
+  & .enddate-input {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    padding: 5px 7px;
+    margin-top: 8px;
+
+    & > label {
+      color: #00b900;
+      font-weight: bold;
+      font-size: smaller;
+      margin: 0px 1em;
+      flex-shrink: 0;
+    }
+
+    & > input {
+      width: 100%;
+      height: 26px;
+      margin-left: 5px;
+      background-color: white;
+      padding: 0px 10px;
+      font-size: 12px;
+      color: #444444;
+      font-weight: bold;
+      border: none;
+      border-bottom: 2px solid #444444;
+      border-radius: 0;
+      font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+      -webkit-appearance: none;
+      min-width: 110px;
+      white-space: nowrap;
+
+      &:focus {
+        outline: 0;
+      }
+    }
+
+    & > button {
+      margin: auto 0px auto 8px;
+      font-weight: bold;
+      border-radius: 30px;
+      color: white;
+      border: 2px solid #ff972c;
+      background-color: white;
+      color: #ff972c;
+      font-size: 12px;
+      flex-shrink: 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  & .group-change-button {
+    height: 25px;
+    font-size: 12px;
+    background-color: #00b900;
+    border: none;
+    font-weight: bold;
+    border-radius: 3px;
+    color: white;
+    margin-bottom: 8px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

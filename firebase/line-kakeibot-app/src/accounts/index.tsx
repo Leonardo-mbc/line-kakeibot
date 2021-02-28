@@ -8,7 +8,7 @@ import { MonthSwitcher } from './components/month-switcher';
 import { UsersList } from './components/users-list';
 import { SplitButton } from './components/split-button';
 import { DetailsList } from './components/details-list';
-import { userIdState } from './states/users';
+import { userIdState } from '../common/states/users';
 import { FullScreenMenu } from './components/full-screen-menu';
 import { DeleteConfirm } from './components/delete-confirm';
 import { MoveAccountConfirm } from './components/move-account-confirm';
@@ -18,7 +18,7 @@ import {
   isShowSplitViewState,
 } from './states/menu';
 import { SplitView } from './components/split-view';
-import { isShowLoaderState } from './states/loader';
+import { isShowLoaderState } from '../common/states/loader';
 import { getReceiptsData } from './api/receipts';
 import './root.css';
 
