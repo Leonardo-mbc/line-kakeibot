@@ -35,7 +35,7 @@ export const profileState = selector<Profile>({
         currentProfileResponse = {
           ...currentProfileResponse,
           ...(name ? { name } : null),
-          ...(Object.keys(groups).length ? { groups } : null),
+          groups,
         };
       }
 

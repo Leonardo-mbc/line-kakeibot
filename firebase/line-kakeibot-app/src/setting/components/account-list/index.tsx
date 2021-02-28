@@ -79,45 +79,61 @@ export function AccountList() {
   const currentDate = new Date().getTime();
   const groupItems =
     Object.keys(groups).length !== 0 &&
-    Object.keys(groups).map((key) => ({
-      active: !groups[key].enddate || currentDate <= new Date(groups[key].enddate).getTime(),
-      element: (
-        <div
-          className={clsx(styles.groupItem, { [styles.selected]: selectedGroupId === key })}
-          key={key}>
-          <div className={styles.groupNamedate}>
-            <span className={styles.groupName}>{groups[key].name}</span>
-            <span className={styles.groupEnddate}>{`期限：${groups[key].enddate || 'なし'}`}</span>
-          </div>
-          <div className={styles.groupButtons}>
-            <button
-              className={clsx(styles.groupButton, styles.invite)}
-              onClick={() => clickInvite({ name: groups[key].name, groupId: key })}>
-              招待
-            </button>
-            <button className={styles.groupSetting} onClick={() => openSetting(key)} />
-          </div>
-        </div>
-      ),
-    }));
+    Object.keys(groups).map((key) => {
+      const datetime = new Date(groups[key].enddate);
+      const limitDatetime = datetime.setDate(datetime.getDate() + 1);
 
-  return groupItems ? (
+      return {
+        active: !groups[key].enddate || currentDate < limitDatetime,
+        element: (
+          <div
+            className={clsx(styles.groupItem, { [styles.selected]: selectedGroupId === key })}
+            key={key}>
+            <div className={styles.groupNamedate}>
+              <span className={styles.groupName}>{groups[key].name}</span>
+              <span className={styles.groupEnddate}>{`期限：${
+                groups[key].enddate || 'なし'
+              }`}</span>
+            </div>
+            <div className={styles.groupButtons}>
+              <button
+                className={clsx(styles.groupButton, styles.invite)}
+                onClick={() => clickInvite({ name: groups[key].name, groupId: key })}>
+                招待
+              </button>
+              <button className={styles.groupSetting} onClick={() => openSetting(key)} />
+            </div>
+          </div>
+        ),
+      };
+    });
+
+  return (
     <React.Fragment>
-      <div className={styles.groupList}>
-        {groupItems.filter((item) => item.active).map((item) => item.element)}
-      </div>
-      <div
-        className={clsx(
-          styles.showArchives,
-          { [styles.open]: showArchives },
-          { [styles.hide]: groupItems.filter((item) => !item.active).length === 0 }
-        )}
-        onClick={toggleArchives}>
-        <span />
-      </div>
-      <div className={clsx(styles.groupList, styles.archived, { [styles.hide]: !showArchives })}>
-        {groupItems.filter((item) => !item.active).map((item) => item.element)}
-      </div>
+      {groupItems ? (
+        <React.Fragment>
+          <div className={styles.groupList}>
+            {groupItems.filter((item) => item.active).map((item) => item.element)}
+          </div>
+          <div
+            className={clsx(
+              styles.showArchives,
+              { [styles.open]: showArchives },
+              { [styles.hide]: groupItems.filter((item) => !item.active).length === 0 }
+            )}
+            onClick={toggleArchives}>
+            <span />
+          </div>
+          <div
+            className={clsx(styles.groupList, styles.archived, { [styles.hide]: !showArchives })}>
+            {groupItems.filter((item) => !item.active).map((item) => item.element)}
+          </div>
+        </React.Fragment>
+      ) : (
+        <div className={styles.groupList}>
+          <span className={styles.noGroupsText}>家計簿がありません</span>
+        </div>
+      )}
       <div className={clsx(styles.groupAddContainer, { [styles.hide]: !showGroupAdd })}>
         <div className={styles.groupAddInput}>
           <div className={styles.groupAddInputName}>
@@ -155,9 +171,5 @@ export function AccountList() {
         ＋追加
       </button>
     </React.Fragment>
-  ) : (
-    <div className={styles.groupList}>
-      <span className={styles.noGroupsText}>家計簿がありません</span>
-    </div>
   );
 }
