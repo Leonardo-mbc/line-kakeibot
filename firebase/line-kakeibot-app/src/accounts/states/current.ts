@@ -3,11 +3,6 @@ import dayjs from 'dayjs';
 
 const now = dayjs();
 
-interface CurrentState {
-  groupId: string;
-  target: string;
-}
-
 export const currentTargetState = atom({
   key: 'atom:currentTarget',
   default: now.format('YYYY-MM'),

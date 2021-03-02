@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { v4 as uuid } from 'uuid';
 import styles from './style.css';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { deletePayment, sessionIdState } from '../../api/receipts';
+import { deletePayment } from '../../api/receipts';
 import {
   currentTargetState,
   selectedGroupIdState,
@@ -12,6 +12,7 @@ import {
 import { userIdState } from '../../../common/states/users';
 import { isShowLoaderState } from '../../../common/states/loader';
 import { hideAllMenuSelector } from '../../states/menu';
+import { sessionIdState } from '../../states/receipts';
 
 export function DeleteConfirm() {
   const userId = useRecoilValue(userIdState);

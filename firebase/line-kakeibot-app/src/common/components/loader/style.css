@@ -21,4 +21,9 @@
     opacity: 0;
     pointer-events: none;
   }
+
+  &.inline {
+    position: relative;
+    background-size: contain;
+  }
 }

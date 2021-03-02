@@ -19,14 +19,14 @@ import {
 } from './states/menu';
 import { SplitView } from './components/split-view';
 import { isShowLoaderState } from '../common/states/loader';
-import { getReceiptsData } from './api/receipts';
+import { receiptsState } from './states/receipts';
 import './root.css';
 
 liff.init({ liffId: '1629647599-egprkJMb' });
 
 function App() {
   const [userId, setUserId] = useRecoilState(userIdState);
-  const { state } = useRecoilValueLoadable(getReceiptsData);
+  const { state } = useRecoilValueLoadable(receiptsState);
   const isShowMoveConfirm = useRecoilValue(isShowMoveConfirmState);
   const isShowDeleteConfirm = useRecoilValue(isShowDeleteConfirmState);
   const isShowSplitView = useRecoilValue(isShowSplitViewState);
@@ -68,7 +68,9 @@ function App() {
             {isShowMoveConfirm && <MoveAccountConfirm />}
           </React.Fragment>
         </FullScreenMenu>
-        <SplitView isShow={isShowSplitView} />
+        <Suspense fallback={<div>loading</div>}>
+          <SplitView isShow={isShowSplitView} />
+        </Suspense>
       </Suspense>
       <Loader isShow={isShowLoader} />
     </React.Fragment>

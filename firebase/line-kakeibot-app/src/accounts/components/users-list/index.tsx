@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { costsState, totalCostState } from '../../states/costs';
-import { getReceiptsData } from '../../api/receipts';
+import { receiptsState } from '../../states/receipts';
 import { selectedGroupIdState } from '../../states/current';
 import styles from './style.css';
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export function UsersList({ children }: Props) {
-  const { groups, users } = useRecoilValue(getReceiptsData);
+  const { groups, users } = useRecoilValue(receiptsState);
   const selectedGroupId = useRecoilValue(selectedGroupIdState);
   const costs = useRecoilValue(costsState);
   const totalCost = useRecoilValue(totalCostState);

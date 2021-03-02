@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import styles from './style.css';
 import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 import { getGroups, moveGroup } from '../../api/groups';
-import { getReceiptsData, sessionIdState } from '../../api/receipts';
+import { receiptsState, sessionIdState } from '../../states/receipts';
 import {
   currentTargetState,
   selectedGroupIdState,
@@ -14,7 +14,7 @@ import { isShowLoaderState } from '../../../common/states/loader';
 import { hideAllMenuSelector } from '../../states/menu';
 
 export function MoveAccountConfirm() {
-  const { groups } = useRecoilValue(getReceiptsData);
+  const { groups } = useRecoilValue(receiptsState);
   const { state, contents } = useRecoilValueLoadable(getGroups);
   const selectedGroupId = useRecoilValue(selectedGroupIdState);
   const currentTarget = useRecoilValue(currentTargetState);

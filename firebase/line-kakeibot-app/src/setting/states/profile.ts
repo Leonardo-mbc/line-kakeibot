@@ -1,6 +1,6 @@
 import liff from '@line/liff';
 import { v4 as uuid } from 'uuid';
-import { atom, DefaultValue, selector } from 'recoil';
+import { atom, selector } from 'recoil';
 import { Groups } from '../../common/states/groups';
 import { userIdState } from '../../common/states/users';
 import { getProfile, postName } from '../api/profile';

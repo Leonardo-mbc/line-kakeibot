@@ -4,14 +4,14 @@ import clsx from 'clsx';
 import styles from './style.css';
 import EditPen from '../../assets/images/edit-pen.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { getReceiptsData } from '../../api/receipts';
+import { receiptsState } from '../../states/receipts';
 import { selectedGroupIdState, selectedPaymentState } from '../../states/current';
 import { userIdState } from '../../../common/states/users';
 import dayjs from 'dayjs';
 import { isShowMenuState } from '../../states/menu';
 
 export function DetailsList() {
-  const { receipts, users } = useRecoilValue(getReceiptsData);
+  const { receipts, users } = useRecoilValue(receiptsState);
   const selectedGroupId = useRecoilValue(selectedGroupIdState);
   const userId = useRecoilValue(userIdState);
   const setIsShowMenu = useSetRecoilState(isShowMenuState);
