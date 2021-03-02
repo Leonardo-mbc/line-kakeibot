@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { SPLIT_RANGE, SPLIT_RANGE_THIS_MONTH } from '../consts/split';
+import { SPLIT_RANGE_THIS_MONTH } from '../consts/split';
 import { split } from '../utilities/split';
 import { splitRangeState, targetCostsState, targetTotalCostState } from './costs';
 

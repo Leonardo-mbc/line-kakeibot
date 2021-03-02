@@ -7,7 +7,7 @@ import {
   SPLIT_RANGE_FROM_LAST_MONTH,
   SPLIT_RANGE_THIS_MONTH,
 } from '../consts/split';
-import { receiptsState } from '../states/receipts';
+import { receiptsState, sessionIdState } from '../states/receipts';
 import { calcGroupCosts, calcTotalCost } from '../utilities/split';
 import { currentTargetState, selectedGroupIdState } from './current';
 
@@ -52,6 +52,7 @@ export const targetCostsState = selector<Costs>({
     const userId = get(userIdState);
     const splitRange = get(splitRangeState);
     const currentTarget = get(currentTargetState);
+    const _sessionId = get(sessionIdState);
 
     if (userId && groupId && splitRange !== SPLIT_RANGE_THIS_MONTH) {
       const receipt = await (async () => {
