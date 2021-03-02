@@ -82,6 +82,16 @@
       & .split-list-detail {
         width: 100%;
 
+        &:empty {
+          text-align: center;
+
+          &::before {
+            content: '割り勘はありませんでした';
+            font-size: small;
+            color: gray;
+          }
+        }
+
         & .pay-user {
           display: flex;
           flex-direction: column;
