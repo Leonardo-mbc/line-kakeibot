@@ -14,18 +14,21 @@ const OUTPUT_PATH = path.resolve('../public/v3');
 const DEBUG_PLUGINS = [
   new HtmlWebpackPlugin({
     title: '[debug] 家計簿',
+    liffId: '1629647599-oBkvPgEm',
     filename: path.join(OUTPUT_PATH, 'accounts/index.html'),
     template: path.join(ASSETS_PATH, 'index.template.html'),
     chunks: ['accounts/index'],
   }),
   new HtmlWebpackPlugin({
     title: '[debug] 設定画面',
+    liffId: '1629647599-9WRVLZA3',
     filename: path.join(OUTPUT_PATH, 'setting/index.html'),
     template: path.join(ASSETS_PATH, 'index.template.html'),
     chunks: ['setting/index'],
   }),
   new HtmlWebpackPlugin({
     title: '[debug] 金額は？',
+    liffId: '1629647599-EA2RxkgW',
     filename: path.join(OUTPUT_PATH, 'input-helper/index.html'),
     template: path.join(ASSETS_PATH, 'index.template.html'),
     chunks: ['input-helper/index'],
@@ -38,6 +41,7 @@ const PUBLISH_PLUGINS = [
   new HtmlWebpackPlugin({
     title: '家計簿',
     description: '使った金額を確認できます',
+    liffId: '1629647599-egprkJMb',
     filename: path.join(OUTPUT_PATH, 'accounts/index.html'),
     template: path.join(ASSETS_PATH, 'index.template.html'),
     hash: true,
@@ -49,6 +53,7 @@ const PUBLISH_PLUGINS = [
   new HtmlWebpackPlugin({
     title: '設定画面',
     description: '家計簿の設定をします',
+    liffId: '1629647599-GD7Lq1ny',
     filename: path.join(OUTPUT_PATH, 'setting/index.html'),
     template: path.join(ASSETS_PATH, 'index.template.html'),
     hash: true,
@@ -59,6 +64,7 @@ const PUBLISH_PLUGINS = [
   }),
   new HtmlWebpackPlugin({
     title: '金額は？',
+    liffId: '1629647599-EA2RxkgW',
     filename: path.join(OUTPUT_PATH, 'input-helper/index.html'),
     template: path.join(ASSETS_PATH, 'index.template.html'),
     hash: true,

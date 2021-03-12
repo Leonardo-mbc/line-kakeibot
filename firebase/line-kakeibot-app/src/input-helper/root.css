@@ -9,4 +9,8 @@ body {
   align-items: center;
   justify-content: center;
   font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+
+  & > env {
+    display: none;
+  }
 }

@@ -1,8 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import liff from '@line/liff';
 import { render } from 'react-dom';
-import { RecoilRoot, useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
-import './root.css';
+import { RecoilRoot, useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { TitleLabel } from '../common/components/title-label';
 import { HelpNavigation } from './components/help-navigation';
 import { Block } from '../common/components/block';
@@ -16,8 +15,11 @@ import { isShowLoaderState } from '../common/states/loader';
 import { profileState } from './states/profile';
 import { Loader } from '../common/components/loader';
 import { AccountsSubtitle } from './components/accounts-subtitle';
+import { getEnvs } from '../common/utilities/get-envs';
+import './root.css';
 
-liff.init({ liffId: '1629647599-GD7Lq1ny' });
+const envs = getEnvs();
+liff.init({ liffId: envs.liffId });
 
 function App() {
   const [userId, setUserId] = useRecoilState(userIdState);

@@ -20,9 +20,11 @@ import {
 import { SplitView } from './components/split-view';
 import { isShowLoaderState } from '../common/states/loader';
 import { receiptsState } from './states/receipts';
+import { getEnvs } from '../common/utilities/get-envs';
 import './root.css';
 
-liff.init({ liffId: '1629647599-egprkJMb' });
+const envs = getEnvs();
+liff.init({ liffId: envs.liffId });
 
 function App() {
   const [userId, setUserId] = useRecoilState(userIdState);

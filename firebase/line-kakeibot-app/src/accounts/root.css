@@ -18,4 +18,8 @@ body {
     white-space: nowrap;
     padding-bottom: 7px;
   }
+
+  & > env {
+    display: none;
+  }
 }

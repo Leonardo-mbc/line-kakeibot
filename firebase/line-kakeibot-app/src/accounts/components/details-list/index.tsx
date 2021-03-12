@@ -59,13 +59,15 @@ export function DetailsList() {
                 className={clsx(styles.detail, {
                   [styles.selected]: paymentId === selectedPayment,
                 })}>
-                <div className={styles.imageContainer}>
-                  <img
-                    onClick={() => showReceiptImage(item.imageUrl)}
-                    className={styles.receiptImage}
-                    src={item.imageUrl}
-                  />
-                </div>
+                {item.imageUrl ? (
+                  <div className={styles.imageContainer}>
+                    <img
+                      onClick={() => showReceiptImage(item.imageUrl)}
+                      className={styles.receiptImage}
+                      src={item.imageUrl}
+                    />
+                  </div>
+                ) : null}
                 <div className={styles.detailItem}>
                   <div className={styles.left}>
                     <span>{item.place}</span>
