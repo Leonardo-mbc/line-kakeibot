@@ -13,6 +13,7 @@ const { quickReply } = require('../line-actions/quick-reply');
 const { paymentDetailReply } = require('../line-actions/payment-detail-reply');
 const { getImageInfo } = require('../utilities/get-image-info');
 const { expiredCheck } = require('../utilities/expired-check');
+const { parseNumber } = require('../utilities/parse-number');
 
 const ENDPOINTS = require('../constants/endpoints');
 const PHASE = require('../constants/phase');
@@ -314,13 +315,13 @@ module.exports = {
                   }
                 } else {
                   // 会計処理が進行していない
-                  const shortHandMatch = message.text.match(/[@＠](.+?)\n([0-9,]+)$/);
+                  const shortHandMatch = message.text.match(/[@＠](.+?)\n([0-9０-９,，]+)$/);
 
                   if (shortHandMatch) {
                     // ショートハンドがある
 
                     const [_, place, price] = shortHandMatch;
-                    const numberPrice = parseInt(price.replace(',', ''));
+                    const numberPrice = parseNumber(price);
 
                     if (place && numberPrice) {
                       try {
