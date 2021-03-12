@@ -20,7 +20,7 @@ const PHASE = require('../constants/phase');
 module.exports = {
   lineWebhook: function (events) {
     events.map(async ({ type, message, postback, replyToken, source }) => {
-      let isExpired, state, groups;
+      let isExpired, state, groups, groupReplies;
       const { userId } = source;
 
       try {
@@ -144,11 +144,11 @@ module.exports = {
 
               case 'text':
                 state = (await getState(userId)) || { datetime: '', paymentId: '', phase: '' };
-                isExpired = expiredCheck(state.datetime);
 
                 if (state.phase !== '') {
-                  // 会計処理が進行中かチェック
+                  // 会計処理が進行中
 
+                  isExpired = expiredCheck(state.datetime);
                   if (!isExpired) {
                     // 期限内かチェック
 
@@ -313,7 +313,54 @@ module.exports = {
                     }
                   }
                 } else {
-                  // ただの発言、無視
+                  // 会計処理が進行していない
+                  const shortHandMatch = message.text.match(/[@＠](.+?)\n([0-9,]+)$/);
+
+                  if (shortHandMatch) {
+                    // ショートハンドがある
+
+                    const [_, place, price] = shortHandMatch;
+                    const numberPrice = parseInt(price.replace(',', ''));
+
+                    if (place && numberPrice) {
+                      try {
+                        groups = await getGroups(userId);
+                        groupReplies = Object.keys(groups).map((key) => {
+                          return {
+                            text: groups[key].name,
+                            data: `groupId=${key}`,
+                          };
+                        });
+
+                        const { paymentId, datetime } = await makePayment();
+
+                        await Promise.all([
+                          setPaymentPartial(paymentId, {
+                            who: userId,
+                            place,
+                            price: numberPrice,
+                          }),
+                          setState(userId, {
+                            paymentId,
+                            datetime,
+                            phase: PHASE.WAITING_GROUP,
+                          }),
+                          quickReply({
+                            replyToken,
+                            messages: ['どこにつける？'],
+                            replies: groupReplies,
+                          }),
+                        ]);
+                      } catch ({ status, message }) {
+                        throw {
+                          message,
+                          status,
+                        };
+                      }
+                    }
+                  } else {
+                    // ただの発言、無視
+                  }
                 }
                 break;
             }

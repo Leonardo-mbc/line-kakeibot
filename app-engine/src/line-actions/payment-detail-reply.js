@@ -7,18 +7,22 @@ module.exports = {
       const userName = await getUserName(payment.who);
       const container = {
         type: 'bubble',
-        hero: {
-          type: 'image',
-          url: payment.imageUrl,
-          size: 'full',
-          aspectRatio: '1.51:1',
-          aspectMode: 'cover',
-          action: {
-            type: 'uri',
-            label: '【画像】',
-            uri: payment.imageUrl,
-          },
-        },
+        ...(payment.imageUrl
+          ? {
+              hero: {
+                type: 'image',
+                url: payment.imageUrl,
+                size: 'full',
+                aspectRatio: '1.51:1',
+                aspectMode: 'cover',
+                action: {
+                  type: 'uri',
+                  label: '【画像】',
+                  uri: payment.imageUrl,
+                },
+              },
+            }
+          : null),
         body: {
           type: 'box',
           layout: 'vertical',
