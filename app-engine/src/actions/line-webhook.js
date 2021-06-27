@@ -112,8 +112,7 @@ module.exports = {
                             contents: [
                               {
                                 type: 'text',
-                                text:
-                                  '家計簿がありません！\nまずは設定から作成するか、誰かの家計簿に招待してもらいましょう',
+                                text: '家計簿がありません！\nまずは設定から作成するか、誰かの家計簿に招待してもらいましょう',
                                 color: '#000000',
                                 wrap: true,
                               },
@@ -360,6 +359,16 @@ module.exports = {
                       }
                     }
                   } else {
+                    // ショートハンドではない発言
+
+                    if (message.text === 'whoami') {
+                      // uid を送ってほしい場合の発言
+                      await textReply({
+                        messages: [userId],
+                        replyToken,
+                      });
+                    }
+
                     // ただの発言、無視
                   }
                 }

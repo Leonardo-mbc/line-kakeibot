@@ -9,6 +9,7 @@ module.exports = {
       const nowTime = moment().tz('Asia/Tokyo');
       await partialPaymentsRef.child(paymentId).set({
         boughtAt: nowTime.format('YYYY-MM-DD HH:mm:ss'),
+        excludedPrice: [],
         imageUrl: '',
         place: '',
         price: '',
