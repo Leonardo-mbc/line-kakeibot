@@ -1,3 +1,4 @@
+import { ExcludedPrice } from '../../common/interfaces/receipt';
 import { Group } from '../../common/states/groups';
 import { Costs } from '../states/costs';
 import { GroupReceipts } from '../states/receipts';
@@ -61,15 +62,24 @@ export function calcGroupCosts({ group, receipts }: CalcGroupCosts) {
   Object.keys(receipts).forEach((paymentId) => {
     const item = receipts[paymentId];
     if (item.price && item.who) {
+      const price = subExcludedPrices(item.price, item.excludedPrices);
       if (costs[item.who]) {
-        costs[item.who] += item.price;
+        costs[item.who] += price;
       } else {
-        costs[item.who] = item.price;
+        costs[item.who] = price;
       }
     }
   });
 
   return costs;
+}
+
+function subExcludedPrices(price: number, excludedPrices: ExcludedPrice[] | undefined) {
+  if (excludedPrices) {
+    return price - excludedPrices.reduce((p, c) => p + c.price, 0);
+  } else {
+    return price;
+  }
 }
 
 export function calcTotalCost(costs: Costs) {

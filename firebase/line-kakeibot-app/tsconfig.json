@@ -1,14 +1,14 @@
 {
-	"compilerOptions": {
-		"target": "es6",
-		"moduleResolution": "node",
-		"strict": true,
-		"jsx": "react",
-		"allowSyntheticDefaultImports": true,
-		"baseUrl": "./",
-		"paths": {
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
       "@global-style/*": ["src/styles/*"]
     }
-	},
-	"include": [ "./src/**/*", "./custom.d.ts" ],
+  },
+  "include": ["./src/**/*", "./custom.d.ts", "../common/interfaces"]
 }

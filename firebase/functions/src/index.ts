@@ -7,6 +7,7 @@ import { postPicture } from './endpoints/post-picture';
 import { getReceipts } from './endpoints/get-receipts';
 import { getReceiptsByGroup } from './endpoints/get-receipts-by-group';
 import { deletePayment } from './endpoints/delete-payment';
+import { editPayment } from './endpoints/edit-payment';
 import { getGroups } from './endpoints/get-groups';
 import { editGroup } from './endpoints/edit-group';
 import { movePayment } from './endpoints/move-payment';
@@ -23,5 +24,6 @@ export {
   deletePayment,
   getGroups,
   editGroup,
+  editPayment,
   movePayment,
 };

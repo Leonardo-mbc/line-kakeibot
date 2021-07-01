@@ -7,6 +7,7 @@ declare const styles: {
   readonly "detailsTable": string;
   readonly "hide": string;
   readonly "imageContainer": string;
+  readonly "includingExcludedPrices": string;
   readonly "left": string;
   readonly "lightWeight": string;
   readonly "noData": string;

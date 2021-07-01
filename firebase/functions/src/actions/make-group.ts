@@ -1,4 +1,4 @@
-import * as uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import { usersRef, groupsRef } from '../utilities/firebase-app';
 
 interface MakeGroupParam {
@@ -13,7 +13,7 @@ export async function makeGroup({ name, userId, enddate }: MakeGroupParam) {
     await groupsRef.child(groupId).set({
       name,
       enddate,
-      users: [userId]
+      users: [userId],
     });
 
     const userGroupsNode = await usersRef.child(`${userId}/groups`).once('value');
@@ -24,7 +24,7 @@ export async function makeGroup({ name, userId, enddate }: MakeGroupParam) {
   } catch ({ status, message }) {
     throw {
       message,
-      status
+      status,
     };
   }
 }

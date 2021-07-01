@@ -110,6 +110,10 @@
         align-items: flex-end;
         flex-shrink: 0;
 
+        & > .including-excluded-prices {
+          color: #00b900;
+        }
+
         & span {
           white-space: pre-wrap;
           word-break: break-word;

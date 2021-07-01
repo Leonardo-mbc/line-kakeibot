@@ -1,18 +1,12 @@
 import { selector, atom } from 'recoil';
 import { v4 as uuid } from 'uuid';
-import { User } from '../../common/states/users';
 import { currentTargetState } from '../states/current';
 
 import { Groups } from '../../common/states/groups';
-import { userIdState, Users } from '../../common/states/users';
+import { userIdState } from '../../common/states/users';
+import { Receipt } from '../../common/interfaces/receipt';
+import { Users } from '../../common/interfaces/user';
 import { getReceipts } from '../api/receipts';
-export interface Receipt {
-  boughtAt: string;
-  imageUrl: string;
-  place: string;
-  price: number;
-  who: User;
-}
 
 export interface GroupReceipts {
   [key: string]: Receipt;

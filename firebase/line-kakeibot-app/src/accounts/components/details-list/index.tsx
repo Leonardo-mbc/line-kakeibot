@@ -8,7 +8,7 @@ import { receiptsState } from '../../states/receipts';
 import { selectedGroupIdState, selectedPaymentState } from '../../states/current';
 import { userIdState } from '../../../common/states/users';
 import dayjs from 'dayjs';
-import { isShowMenuState } from '../../states/menu';
+import { isDirectShowAddExcludedPriceModalState, isShowMenuState } from '../../states/menu';
 
 export function DetailsList() {
   const { receipts, users } = useRecoilValue(receiptsState);
@@ -16,6 +16,9 @@ export function DetailsList() {
   const userId = useRecoilValue(userIdState);
   const setIsShowMenu = useSetRecoilState(isShowMenuState);
   const [selectedPayment, setSelectedPayment] = useRecoilState(selectedPaymentState);
+  const setIsShowAddExcludedPriceReadOnlyModalState = useSetRecoilState(
+    isDirectShowAddExcludedPriceModalState
+  );
 
   const descPaymentIds = useMemo(() => {
     if (receipts[selectedGroupId]) {
@@ -44,6 +47,13 @@ export function DetailsList() {
     setIsShowMenu(true);
   }
 
+  function handlePriceClick(paymentId: string, excludedPrice: number) {
+    if (excludedPrice) {
+      setSelectedPayment(paymentId);
+      setIsShowAddExcludedPriceReadOnlyModalState(true);
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.detailsLabel}>
@@ -53,6 +63,7 @@ export function DetailsList() {
         {descPaymentIds.length ? (
           descPaymentIds.map((paymentId, key) => {
             const item = receipts[selectedGroupId][paymentId];
+            const excludedPrice = item.excludedPrices?.reduce((p, c) => p + c.price, 0) || 0;
             return (
               <div
                 key={key}
@@ -74,7 +85,18 @@ export function DetailsList() {
                     <span className={styles.lightWeight}>{users[item.who]}</span>
                   </div>
                   <div className={styles.right}>
-                    <span>{item.price.toLocaleString()}</span>
+                    {0 < excludedPrice ? (
+                      <span
+                        className={clsx({
+                          [styles.includingExcludedPrices]: 0 < excludedPrice,
+                        })}
+                        onClick={() => handlePriceClick(paymentId, excludedPrice)}>
+                        {(item.price - excludedPrice).toLocaleString()}
+                      </span>
+                    ) : (
+                      <span>{item.price.toLocaleString()}</span>
+                    )}
+
                     <span className={styles.lightWeight}>
                       {dayjs(item.boughtAt).format('MM/DD')}
                     </span>

@@ -16,6 +16,16 @@ export const isShowMoveConfirmState = atom({
   default: false,
 });
 
+export const isShowAddExcludedPriceModalState = atom({
+  key: 'atom:isShowAddExcludedPriceModalState',
+  default: false,
+});
+
+export const isDirectShowAddExcludedPriceModalState = atom({
+  key: 'atom:isDirectShowAddExcludedPriceModalState',
+  default: false,
+});
+
 export const isShowSplitViewState = atom({
   key: 'atom:isShowSplitView',
   default: false,
@@ -27,6 +37,8 @@ export const hideAllMenuSelector = selector({
   set: ({ set }) => {
     set(isShowMenuState, false);
     set(isShowDeleteConfirmState, false);
+    set(isShowAddExcludedPriceModalState, false);
+    set(isDirectShowAddExcludedPriceModalState, false);
     set(isShowMoveConfirmState, false);
     set(selectedPaymentState, '');
   },

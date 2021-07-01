@@ -12,7 +12,11 @@ import { userIdState } from '../common/states/users';
 import { FullScreenMenu } from './components/full-screen-menu';
 import { DeleteConfirm } from './components/delete-confirm';
 import { MoveAccountConfirm } from './components/move-account-confirm';
+import { AddExcludedPriceModal } from './components/add-excluded-price-modal';
+import { FixedWrapper } from './components/fixed-wrapper';
 import {
+  isShowAddExcludedPriceModalState,
+  isDirectShowAddExcludedPriceModalState,
   isShowDeleteConfirmState,
   isShowMoveConfirmState,
   isShowSplitViewState,
@@ -31,6 +35,8 @@ function App() {
   const { state } = useRecoilValueLoadable(receiptsState);
   const isShowMoveConfirm = useRecoilValue(isShowMoveConfirmState);
   const isShowDeleteConfirm = useRecoilValue(isShowDeleteConfirmState);
+  const isShowAddExcludedPriceModal = useRecoilValue(isShowAddExcludedPriceModalState);
+  const isDirectShowAddExcludedPriceModal = useRecoilValue(isDirectShowAddExcludedPriceModalState);
   const isShowSplitView = useRecoilValue(isShowSplitViewState);
   const [isShowLoader, setIsShowLoader] = useRecoilState(isShowLoaderState);
 
@@ -68,8 +74,14 @@ function App() {
           <React.Fragment>
             {isShowDeleteConfirm && <DeleteConfirm />}
             {isShowMoveConfirm && <MoveAccountConfirm />}
+            {isShowAddExcludedPriceModal && <AddExcludedPriceModal />}
           </React.Fragment>
         </FullScreenMenu>
+        {isDirectShowAddExcludedPriceModal && (
+          <FixedWrapper>
+            <AddExcludedPriceModal />
+          </FixedWrapper>
+        )}
         <Suspense fallback={<div>loading</div>}>
           <SplitView isShow={isShowSplitView} />
         </Suspense>

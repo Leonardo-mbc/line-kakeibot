@@ -1,7 +1,9 @@
 import { Group } from '../../common/states/groups';
-import { Users } from '../../common/states/users';
+import { Users } from '../../common/interfaces/user';
+
 import { ENDPOINT } from '../../common/constants/endpoints';
 import { GroupReceipts } from '../states/receipts';
+import { ExcludedPrice } from '../../common/interfaces/receipt';
 
 interface GetReceipts {
   userId: string;
@@ -85,6 +87,40 @@ export function deletePayment({
     if (response.ok) {
       return response.json();
     } else {
+      throw {
+        message: 'fetch error',
+        status: response.status,
+      };
+    }
+  });
+}
+
+interface PostExcludedPrices {
+  userId: string;
+  groupId: string;
+  currentTarget: string;
+  selectedPaymentId: string;
+  excludedPrices: ExcludedPrice[];
+}
+
+export function postExcludedPrices({
+  userId,
+  groupId,
+  currentTarget,
+  selectedPaymentId,
+  excludedPrices,
+}: PostExcludedPrices) {
+  return fetch(
+    `${ENDPOINT}/editPayment?userId=${userId}&groupId=${groupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ excludedPrices }),
+    }
+  ).then((response) => {
+    if (!response.ok) {
       throw {
         message: 'fetch error',
         status: response.status,
