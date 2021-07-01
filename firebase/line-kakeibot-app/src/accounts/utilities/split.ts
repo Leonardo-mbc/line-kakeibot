@@ -1,5 +1,5 @@
 import { ExcludedPrice } from '../../common/interfaces/receipt';
-import { Group } from '../../common/states/groups';
+import { Group } from '../../common/interfaces/group';
 import { Costs } from '../states/costs';
 import { GroupReceipts } from '../states/receipts';
 

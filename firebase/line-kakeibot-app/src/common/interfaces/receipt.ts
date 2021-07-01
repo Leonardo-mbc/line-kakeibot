@@ -6,6 +6,7 @@ export interface Receipt {
   imageUrl: string;
   place: string;
   price: number;
+  tag: string;
   who: User;
 }
 

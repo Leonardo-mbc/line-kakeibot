@@ -1,4 +1,4 @@
-import { Group } from '../../common/states/groups';
+import { Group } from '../../common/interfaces/group';
 import { Users } from '../../common/interfaces/user';
 
 import { ENDPOINT } from '../../common/constants/endpoints';

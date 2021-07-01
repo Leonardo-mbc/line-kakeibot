@@ -1,8 +1,4 @@
-export interface Group {
-  enddate: string;
-  name: string;
-  users: string[];
-}
+import { Group } from '../interfaces/group';
 
 export interface Groups {
   [key: string]: Group;

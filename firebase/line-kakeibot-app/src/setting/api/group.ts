@@ -1,4 +1,5 @@
-import { Group, Groups } from '../../common/states/groups';
+import { Group } from '../../common/interfaces/group';
+import { Groups } from '../../common/states/groups';
 import { ENDPOINT } from '../../common/constants/endpoints';
 
 interface PostGroup {
