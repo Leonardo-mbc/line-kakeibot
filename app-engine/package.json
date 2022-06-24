@@ -16,7 +16,7 @@
     "express": "4.16.4",
     "firebase-admin": "^6.5.1",
     "moment-timezone": "^0.5.31",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "uuid": "^3.4.0"
   },
   "devDependencies": {}
