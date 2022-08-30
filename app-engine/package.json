@@ -15,7 +15,7 @@
     "ejs": "^2.7.4",
     "express": "4.16.4",
     "firebase-admin": "^6.5.1",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.35",
     "node-fetch": "^2.6.0",
     "uuid": "^3.4.0"
   },
