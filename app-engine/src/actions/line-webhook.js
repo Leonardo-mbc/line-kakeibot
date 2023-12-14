@@ -87,7 +87,7 @@ module.exports = {
                     // 期限内の会計がある
                     try {
                       await textReply({
-                        messages: ['入力中の買い物があります'],
+                        messages: ['入力中の買い物があります\n（画像の送信から4分でタイムアウトします）'],
                         replyToken,
                       });
                     } catch ({ status, message }) {
