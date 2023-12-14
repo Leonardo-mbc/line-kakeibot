@@ -1,5 +1,6 @@
 .group-list {
   margin: 5px 0px;
+  overflow-x: scroll;
 
   & .group-item {
     display: flex;
@@ -152,11 +153,18 @@
     align-items: center;
 
     & > label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       font-weight: bold;
       flex-shrink: 0;
       font-size: smaller;
       margin-top: 1px;
       color: #00b900;
+
+      & > span {
+        font-size: 10px;
+      }
     }
 
     & > input {

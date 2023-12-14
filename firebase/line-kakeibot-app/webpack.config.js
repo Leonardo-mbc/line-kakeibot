@@ -118,6 +118,9 @@ const PUBLISH_CSS_RULE = {
   ],
 };
 
+/**
+ * @type {import('webpack').Configuration}
+ */
 module.exports = {
   mode: IS_DEBUG ? 'development' : 'production',
   entry: {
@@ -140,9 +143,10 @@ module.exports = {
     ? {
         devtool: 'inline-source-map',
         devServer: {
-          contentBase: OUTPUT_PATH,
+          static: {
+            directory: OUTPUT_PATH,
+          },
           compress: true,
-          disableHostCheck: true,
           host: '0.0.0.0',
           port: 3000,
           https: {
@@ -160,13 +164,8 @@ module.exports = {
         loader: 'ts-loader',
       },
       {
-        test: /\.(svg)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {},
-          },
-        ],
+        test: /\.svg$/,
+        type: 'asset/inline'
       },
       {
         test: /\.(png|jpg|gif|otf)$/,

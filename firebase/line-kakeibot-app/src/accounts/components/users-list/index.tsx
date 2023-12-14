@@ -6,7 +6,7 @@ import { selectedGroupIdState } from '../../states/current';
 import styles from './style.css';
 
 interface Props {
-  children: Element | JSX.Element;
+  children: React.ReactNode;
 }
 
 export function UsersList({ children }: Props) {

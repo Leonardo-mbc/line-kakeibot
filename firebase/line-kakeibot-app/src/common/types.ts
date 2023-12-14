@@ -1,3 +1,3 @@
-type InnerElement = Element | JSX.Element | string | boolean;
+type InnerElement = React.ReactNode | string | boolean;
 
 export type InnerElements = InnerElement | InnerElement[];

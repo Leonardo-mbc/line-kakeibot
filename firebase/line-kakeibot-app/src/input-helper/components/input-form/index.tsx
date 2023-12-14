@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { formattedPriceState, priceState } from '../../states/input-form';
+import closeIcon from '../../assets/images/close.png';
 import styles from './style.css';
 
 const amountButtons = [1, 10, 100, 1000];
@@ -25,7 +26,9 @@ export function InputForm() {
   return (
     <>
       <div className={styles.inputContainer}>
-        <span id="clear" className={styles.clear} onClick={clearAmount}></span>
+        <span id="clear" className={styles.clear} onClick={clearAmount}>
+          <img src={closeIcon} alt="clear" />
+        </span>
         <input id="input" type="tel" value={displayAmount} onChange={inputAmount} />
         <span>円</span>
       </div>

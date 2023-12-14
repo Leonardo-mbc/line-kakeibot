@@ -3,8 +3,8 @@ import styles from './style.css';
 
 interface Props {
   title: string;
-  subTitle?: Element | JSX.Element | string;
-  children: Element | JSX.Element | string;
+  subTitle?: React.ReactNode | string;
+  children: React.ReactNode | string;
 }
 
 export function Block({ title, subTitle, children }: Props) {

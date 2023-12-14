@@ -137,8 +137,8 @@ export function AccountList() {
       <div className={clsx(styles.groupAddContainer, { [styles.hide]: !showGroupAdd })}>
         <div className={styles.groupAddInput}>
           <div className={styles.groupAddInputName}>
-            <label htmlFor="group-name">家計簿名</label>
-            <input type="text" id="group-name" value={groupName} onChange={handleGroupNameChange} />
+            <label htmlFor="group-name">家計簿名<span>(20文字まで)</span></label>
+            <input type="text" id="group-name" value={groupName} onChange={handleGroupNameChange} maxLength={20} />
           </div>
           <div className={styles.groupAddEnddate}>
             <label htmlFor="group-enddate-input">期限</label>

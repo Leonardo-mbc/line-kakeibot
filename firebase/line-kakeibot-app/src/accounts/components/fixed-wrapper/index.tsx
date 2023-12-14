@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './style.css';
 
 interface Props {
-  children: Element | JSX.Element;
+  children: React.ReactNode;
 }
 
 export function FixedWrapper({ children }: Props) {

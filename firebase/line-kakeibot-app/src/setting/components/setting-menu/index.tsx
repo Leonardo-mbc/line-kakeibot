@@ -139,6 +139,7 @@ export function SettingMenu() {
               id="group-change-name-input"
               type="text"
               name="group-changed-name"
+              maxLength={20}
               value={groupName}
               onChange={handleGroupNameInput}
             />

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './style.css';
 
 interface Props {
-  children: Element | JSX.Element | string;
+  children: React.ReactNode | string;
 }
 
 export function TitleLabel({ children }: Props) {

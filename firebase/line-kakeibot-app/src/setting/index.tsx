@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import liff from '@line/liff';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { RecoilRoot, useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { TitleLabel } from '../common/components/title-label';
 import { HelpNavigation } from './components/help-navigation';
@@ -67,9 +67,7 @@ function App() {
   );
 }
 
-render(
-  <RecoilRoot>
-    <App />
-  </RecoilRoot>,
-  document.getElementById('app')
-);
+const root = createRoot(document.getElementById('app')!);
+root.render(<RecoilRoot>
+  <App />
+</RecoilRoot>)

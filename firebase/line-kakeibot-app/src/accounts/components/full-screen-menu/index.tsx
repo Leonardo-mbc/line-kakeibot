@@ -11,7 +11,7 @@ import {
 } from '../../states/menu';
 
 interface Props {
-  children: Element | JSX.Element;
+  children: React.ReactNode;
 }
 
 export function FullScreenMenu({ children }: Props) {
