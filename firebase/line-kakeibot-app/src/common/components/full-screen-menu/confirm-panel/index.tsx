@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import styles from './style.css';
-import { InnerElements } from 'src/common/types';
+import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import * as styles from "./style.css";
+import { InnerElements } from "src/common/types";
 
 interface Props {
   isShow: boolean;
@@ -27,7 +27,8 @@ export function ConfirmPanel({ children, isShow }: Props) {
       className={clsx(styles.confirmContainer, {
         [styles.transparent]: !isShow,
       })}
-      onTransitionEnd={handleTransitionEnd}>
+      onTransitionEnd={handleTransitionEnd}
+    >
       <div className={styles.confirm} onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
@@ -45,17 +46,19 @@ export function ConfirmPanelTitle({ children }: ConfirmPanelTitleProps) {
 interface ConfirmPanelResponsesProps {
   children: InnerElements;
 }
-export function ConfirmPanelResponses({ children }: ConfirmPanelResponsesProps) {
+export function ConfirmPanelResponses({
+  children,
+}: ConfirmPanelResponsesProps) {
   return <div className={styles.outAnswers}>{children}</div>;
 }
 
 interface ConfirmPanelButtonProps {
-  type?: 'submit' | 'cancel';
+  type?: "submit" | "cancel";
   onClick?: () => void;
   children: InnerElements;
 }
 export function ConfirmPanelButton({
-  type = 'submit',
+  type = "submit",
   onClick,
   children,
 }: ConfirmPanelButtonProps) {
@@ -68,10 +71,11 @@ export function ConfirmPanelButton({
   return (
     <span
       className={clsx(styles.outButton, {
-        [styles.yes]: type === 'submit',
-        [styles.cancel]: type === 'cancel',
+        [styles.yes]: type === "submit",
+        [styles.cancel]: type === "cancel",
       })}
-      onClick={(e) => handleClick(e)}>
+      onClick={(e) => handleClick(e)}
+    >
       {children}
     </span>
   );

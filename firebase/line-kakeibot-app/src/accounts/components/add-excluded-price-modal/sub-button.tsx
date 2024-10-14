@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import SubIcon from '../../assets/images/sub.svg';
-import styles from './style.css';
+import React, { useState } from "react";
+import SubIcon from "../../assets/images/sub.svg";
+import * as styles from "./style.css";
 
 export interface SubButtonProps {
   onConfirm: () => void;
@@ -28,7 +28,8 @@ export function SubButton(props: SubButtonProps) {
       className={styles.subButton}
       onClick={handleButtonClick}
       tabIndex={1}
-      onBlur={handleButtonBlur}>
+      onBlur={handleButtonBlur}
+    >
       {isVisibleAlert ? <span>本当に？</span> : <img src={SubIcon} />}
     </span>
   );

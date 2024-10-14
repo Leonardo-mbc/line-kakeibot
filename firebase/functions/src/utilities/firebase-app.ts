@@ -1,5 +1,8 @@
 import * as admin from "firebase-admin";
-export const app = admin.initializeApp();
+export const app = admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  databaseURL: "https://line-kakeibot.firebaseio.com",
+});
 
 const db = app.database();
 export const statesRef = db.ref("/states");

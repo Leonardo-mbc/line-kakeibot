@@ -1,10 +1,10 @@
-import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { postName } from '../../api/profile';
-import styles from './style.css';
-import { userIdState } from '../../../common/states/users';
-import { profileState } from '../../states/profile';
+import clsx from "clsx";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { postName } from "../../api/profile";
+import * as styles from "./style.css";
+import { userIdState } from "../../../common/states/users";
+import { profileState } from "../../states/profile";
 
 export function NameBlockInner() {
   const profile = useRecoilValue(profileState);
@@ -32,7 +32,10 @@ export function NameBlockInner() {
   return (
     <div className={styles.conainter}>
       <input type="text" defaultValue={profile.name} onChange={handleInput} />
-      <button className={clsx({ [styles.loading]: isLoading })} onClick={changeName}>
+      <button
+        className={clsx({ [styles.loading]: isLoading })}
+        onClick={changeName}
+      >
         変更
       </button>
     </div>

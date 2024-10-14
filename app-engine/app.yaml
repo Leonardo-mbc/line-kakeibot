@@ -1,4 +1,4 @@
-runtime: nodejs10
+runtime: nodejs20
 
 env_variables:
   BUCKET_NAME: lema-app-engine

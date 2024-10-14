@@ -1,11 +1,10 @@
-import { selector } from 'recoil';
-import { ENDPOINT } from '../../common/constants/endpoints';
+import { selector } from "recoil";
 
-import { userIdState } from '../../common/states/users';
-import { Groups } from '../../common/states/groups';
+import { userIdState } from "../../common/states/users";
+import { Groups } from "../../common/states/groups";
 
 export const getGroups = selector<Groups>({
-  key: 'api/getGroups',
+  key: "api/getGroups",
   get: async ({ get }) => {
     const userId = get(userIdState);
     if (userId) {
@@ -17,12 +16,14 @@ export const getGroups = selector<Groups>({
 });
 
 function _getGroups(userId: string) {
-  return fetch(`${ENDPOINT}/getGroups?userId=${userId}`).then((response) => {
+  return fetch(
+    `https://getgroupsv2-hcv64sau7a-uc.a.run.app?userId=${userId}`
+  ).then((response) => {
     if (response.ok) {
       return response.json();
     } else {
       throw {
-        message: 'fetch error',
+        message: "fetch error",
         status: response.status,
       };
     }
@@ -43,11 +44,11 @@ export function moveGroup({
   selectedPaymentId,
 }: MoveGroup) {
   return fetch(
-    `${ENDPOINT}/movePayment?currentGroupId=${selectedGroupId}&targetGroupId=${groupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`
+    `https://movepaymentv2-hcv64sau7a-uc.a.run.app?currentGroupId=${selectedGroupId}&targetGroupId=${groupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`
   ).then((response) => {
     if (!response.ok) {
       throw {
-        message: 'fetch error',
+        message: "fetch error",
         status: response.status,
       };
     }

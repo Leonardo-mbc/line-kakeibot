@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import styles from './style.css';
+import React, { useState } from "react";
+import clsx from "clsx";
+import * as styles from "./style.css";
 
 interface Props {
   isShow?: boolean;
@@ -10,7 +10,10 @@ interface Props {
 export function Loader({ isShow, inline }: Props) {
   return (
     <div
-      className={clsx(styles.loader, { [styles.transparent]: !isShow, [styles.inline]: inline })}
+      className={clsx(styles.loader, {
+        [styles.transparent]: !isShow,
+        [styles.inline]: inline,
+      })}
     />
   );
 }

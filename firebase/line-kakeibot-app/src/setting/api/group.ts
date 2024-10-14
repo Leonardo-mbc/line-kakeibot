@@ -1,6 +1,5 @@
-import { Group } from '../../common/interfaces/group';
-import { Groups } from '../../common/states/groups';
-import { ENDPOINT } from '../../common/constants/endpoints';
+import { Group } from "../../common/interfaces/group";
+import { Groups } from "../../common/states/groups";
 
 interface PostGroup {
   userId: string;
@@ -8,11 +7,15 @@ interface PostGroup {
   enddate: string;
 }
 
-export function postGroup({ userId, name, enddate }: PostGroup): Promise<{ groups: Groups }> {
-  return fetch(`${ENDPOINT}/postGroup`, {
-    method: 'POST',
+export function postGroup({
+  userId,
+  name,
+  enddate,
+}: PostGroup): Promise<{ groups: Groups }> {
+  return fetch(`https://postgroupv2-hcv64sau7a-uc.a.run.app`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       name,
@@ -25,14 +28,14 @@ export function postGroup({ userId, name, enddate }: PostGroup): Promise<{ group
         return response.json();
       } else {
         throw {
-          message: 'fetch error',
+          message: "fetch error",
           status: response.status,
         };
       }
     })
     .catch((e) => {
       throw {
-        message: 'fetch error',
+        message: "fetch error",
       };
     });
 }
@@ -43,11 +46,15 @@ interface EditGroup {
   group: Partial<Group>;
 }
 
-export function editGroup({ userId, groupId, group }: EditGroup): Promise<{ groups: Groups }> {
-  return fetch(`${ENDPOINT}/editGroup`, {
-    method: 'POST',
+export function editGroup({
+  userId,
+  groupId,
+  group,
+}: EditGroup): Promise<{ groups: Groups }> {
+  return fetch(`https://editgroupv2-hcv64sau7a-uc.a.run.app`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       groupId,
@@ -60,14 +67,14 @@ export function editGroup({ userId, groupId, group }: EditGroup): Promise<{ grou
         return response.json();
       } else {
         throw {
-          message: 'fetch error',
+          message: "fetch error",
           status: response.status,
         };
       }
     })
     .catch((e) => {
       throw {
-        message: 'fetch error',
+        message: "fetch error",
       };
     });
 }
@@ -77,11 +84,14 @@ interface OutGroup {
   groupId: string;
 }
 
-export function outGroup({ userId, groupId }: OutGroup): Promise<{ groups: Groups }> {
-  return fetch(`${ENDPOINT}/outGroup`, {
-    method: 'POST',
+export function outGroup({
+  userId,
+  groupId,
+}: OutGroup): Promise<{ groups: Groups }> {
+  return fetch(`https://outgroupv2-hcv64sau7a-uc.a.run.app`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       groupId,
@@ -93,14 +103,14 @@ export function outGroup({ userId, groupId }: OutGroup): Promise<{ groups: Group
         return response.json();
       } else {
         throw {
-          message: 'fetch error',
+          message: "fetch error",
           status: response.status,
         };
       }
     })
     .catch((e) => {
       throw {
-        message: 'fetch error',
+        message: "fetch error",
       };
     });
 }

@@ -1,8 +1,8 @@
-import React from 'react';
-import liff from '@line/liff';
-import { useRecoilValue } from 'recoil';
-import styles from './style.css';
-import { userIdState } from '../../../common/states/users';
+import React from "react";
+import liff from "@line/liff";
+import { useRecoilValue } from "recoil";
+import * as styles from "./style.css";
+import { userIdState } from "../../../common/states/users";
 
 export function InquiryBlock() {
   const userId = useRecoilValue(userIdState);

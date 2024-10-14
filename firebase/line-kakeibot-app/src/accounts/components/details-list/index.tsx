@@ -1,21 +1,28 @@
-import React, { useMemo } from 'react';
-import liff from '@line/liff';
-import clsx from 'clsx';
-import styles from './style.css';
-import EditPen from '../../assets/images/edit-pen.svg';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { receiptsState } from '../../states/receipts';
-import { selectedGroupIdState, selectedPaymentState } from '../../states/current';
-import { userIdState } from '../../../common/states/users';
-import dayjs from 'dayjs';
-import { isDirectShowAddExcludedPriceModalState, isShowMenuState } from '../../states/menu';
+import React, { useMemo } from "react";
+import liff from "@line/liff";
+import clsx from "clsx";
+import * as styles from "./style.css";
+import EditPen from "../../assets/images/edit-pen.svg";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { receiptsState } from "../../states/receipts";
+import {
+  selectedGroupIdState,
+  selectedPaymentState,
+} from "../../states/current";
+import { userIdState } from "../../../common/states/users";
+import dayjs from "dayjs";
+import {
+  isDirectShowAddExcludedPriceModalState,
+  isShowMenuState,
+} from "../../states/menu";
 
 export function DetailsList() {
   const { receipts, users } = useRecoilValue(receiptsState);
   const selectedGroupId = useRecoilValue(selectedGroupIdState);
   const userId = useRecoilValue(userIdState);
   const setIsShowMenu = useSetRecoilState(isShowMenuState);
-  const [selectedPayment, setSelectedPayment] = useRecoilState(selectedPaymentState);
+  const [selectedPayment, setSelectedPayment] =
+    useRecoilState(selectedPaymentState);
   const setIsShowAddExcludedPriceReadOnlyModalState = useSetRecoilState(
     isDirectShowAddExcludedPriceModalState
   );
@@ -63,13 +70,15 @@ export function DetailsList() {
         {descPaymentIds.length ? (
           descPaymentIds.map((paymentId, key) => {
             const item = receipts[selectedGroupId][paymentId];
-            const excludedPrice = item.excludedPrices?.reduce((p, c) => p + c.price, 0) || 0;
+            const excludedPrice =
+              item.excludedPrices?.reduce((p, c) => p + c.price, 0) || 0;
             return (
               <div
                 key={key}
                 className={clsx(styles.detail, {
                   [styles.selected]: paymentId === selectedPayment,
-                })}>
+                })}
+              >
                 {item.imageUrl ? (
                   <div className={styles.imageContainer}>
                     <img
@@ -82,7 +91,9 @@ export function DetailsList() {
                 <div className={styles.detailItem}>
                   <div className={styles.left}>
                     <span>{item.place}</span>
-                    <span className={styles.lightWeight}>{users[item.who]}</span>
+                    <span className={styles.lightWeight}>
+                      {users[item.who]}
+                    </span>
                   </div>
                   <div className={styles.right}>
                     {0 < excludedPrice ? (
@@ -90,7 +101,10 @@ export function DetailsList() {
                         className={clsx({
                           [styles.includingExcludedPrices]: 0 < excludedPrice,
                         })}
-                        onClick={() => handlePriceClick(paymentId, excludedPrice)}>
+                        onClick={() =>
+                          handlePriceClick(paymentId, excludedPrice)
+                        }
+                      >
                         {(item.price - excludedPrice).toLocaleString()}
                       </span>
                     ) : (
@@ -98,12 +112,14 @@ export function DetailsList() {
                     )}
 
                     <span className={styles.lightWeight}>
-                      {dayjs(item.boughtAt).format('MM/DD')}
+                      {dayjs(item.boughtAt).format("MM/DD")}
                     </span>
                   </div>
                 </div>
                 <img
-                  className={clsx(styles.detailEdit, { [styles.hide]: userId !== item.who })}
+                  className={clsx(styles.detailEdit, {
+                    [styles.hide]: userId !== item.who,
+                  })}
                   src={EditPen}
                   onClick={() => showMenu(paymentId)}
                 />

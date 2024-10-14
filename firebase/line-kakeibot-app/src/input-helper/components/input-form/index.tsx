@@ -1,8 +1,8 @@
-import React from 'react';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { formattedPriceState, priceState } from '../../states/input-form';
-import closeIcon from '../../assets/images/close.png';
-import styles from './style.css';
+import React from "react";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { formattedPriceState, priceState } from "../../states/input-form";
+import closeIcon from "../../assets/images/close.png";
+import * as styles from "./style.css";
 
 const amountButtons = [1, 10, 100, 1000];
 
@@ -15,8 +15,8 @@ export function InputForm() {
   }
 
   function inputAmount(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value.replace(/,|[^0-9]/g, '');
-    setAmount(parseInt(value || '0'));
+    const value = e.target.value.replace(/,|[^0-9]/g, "");
+    setAmount(parseInt(value || "0"));
   }
 
   function clearAmount() {
@@ -29,7 +29,12 @@ export function InputForm() {
         <span id="clear" className={styles.clear} onClick={clearAmount}>
           <img src={closeIcon} alt="clear" />
         </span>
-        <input id="input" type="tel" value={displayAmount} onChange={inputAmount} />
+        <input
+          id="input"
+          type="tel"
+          value={displayAmount}
+          onChange={inputAmount}
+        />
         <span>円</span>
       </div>
       <div className={styles.buttonContainer}>

@@ -1,14 +1,14 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './style.css';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import React from "react";
+import clsx from "clsx";
+import * as styles from "./style.css";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   hideAllMenuSelector,
   isShowAddExcludedPriceModalState,
   isShowDeleteConfirmState,
   isShowMenuState,
   isShowMoveConfirmState,
-} from '../../states/menu';
+} from "../../states/menu";
 
 interface Props {
   children: React.ReactNode;
@@ -18,7 +18,9 @@ export function FullScreenMenu({ children }: Props) {
   const isShowMenu = useRecoilValue(isShowMenuState);
   const setIsShowDeleteConfirm = useSetRecoilState(isShowDeleteConfirmState);
   const setIsShowMoveConfirmState = useSetRecoilState(isShowMoveConfirmState);
-  const setIsShowAddExcludedPriceModalState = useSetRecoilState(isShowAddExcludedPriceModalState);
+  const setIsShowAddExcludedPriceModalState = useSetRecoilState(
+    isShowAddExcludedPriceModalState
+  );
   const hideAllMenu = useSetRecoilState(hideAllMenuSelector);
 
   function hideMenu() {
@@ -41,7 +43,10 @@ export function FullScreenMenu({ children }: Props) {
   }
 
   return (
-    <div className={clsx(styles.container, { [styles.hide]: !isShowMenu })} onClick={hideMenu}>
+    <div
+      className={clsx(styles.container, { [styles.hide]: !isShowMenu })}
+      onClick={hideMenu}
+    >
       <div className={styles.menuListContainer}>
         <span className={clsx(styles.menuItem, styles.cancel)}>キャンセル</span>
         <span className={styles.menuItem} onClick={moveAccount}>
@@ -50,7 +55,10 @@ export function FullScreenMenu({ children }: Props) {
         <span className={styles.menuItem} onClick={addExcludedPrice}>
           差し引く金額を追加
         </span>
-        <span className={clsx(styles.menuItem, styles.delete)} onClick={deletePayment}>
+        <span
+          className={clsx(styles.menuItem, styles.delete)}
+          onClick={deletePayment}
+        >
           削除
         </span>
       </div>

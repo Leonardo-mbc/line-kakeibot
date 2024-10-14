@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import styles from './style.css';
-import { InnerElements } from '../../../common/types';
+import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import * as styles from "./style.css";
+import { InnerElements } from "../../../common/types";
 
 interface FullScreenMenuProps {
   children: InnerElements;
   isShow: boolean;
   onHide?: () => void;
 }
-export function FullScreenMenu({ children, isShow, onHide }: FullScreenMenuProps) {
+export function FullScreenMenu({
+  children,
+  isShow,
+  onHide,
+}: FullScreenMenuProps) {
   const [isShowMenu, setIsShowMenu] = useState(false);
 
   function hideMenu() {
@@ -29,7 +33,8 @@ export function FullScreenMenu({ children, isShow, onHide }: FullScreenMenuProps
     <div
       className={clsx(styles.container, { [styles.hide]: !isShowMenu })}
       onClick={hideMenu}
-      onTransitionEnd={handleTransitionEnd}>
+      onTransitionEnd={handleTransitionEnd}
+    >
       {children}
     </div>
   );
@@ -43,11 +48,15 @@ export function MenuList({ children }: MenuListProps) {
 }
 
 interface MenuItemProps {
-  type?: 'default' | 'transparent' | 'warning';
+  type?: "default" | "transparent" | "warning";
   onClick?: () => void;
   children: InnerElements;
 }
-export function MenuItem({ type = 'default', children, onClick }: MenuItemProps) {
+export function MenuItem({
+  type = "default",
+  children,
+  onClick,
+}: MenuItemProps) {
   function handleClick(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
     if (onClick) {
       e.stopPropagation();
@@ -58,10 +67,11 @@ export function MenuItem({ type = 'default', children, onClick }: MenuItemProps)
   return (
     <span
       className={clsx(styles.menuItem, {
-        [styles.cancel]: type === 'transparent',
-        [styles.delete]: type === 'warning',
+        [styles.cancel]: type === "transparent",
+        [styles.delete]: type === "warning",
       })}
-      onClick={(e) => handleClick(e)}>
+      onClick={(e) => handleClick(e)}
+    >
       {children}
     </span>
   );

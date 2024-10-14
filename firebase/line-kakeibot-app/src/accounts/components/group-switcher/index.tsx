@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
-import clsx from 'clsx';
-import styles from './style.css';
-import { availableGroupsIds } from '../../states/groups';
-import { selectedGroupIdState } from '../../states/current';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { receiptsState } from '../../states/receipts';
+import React, { useEffect } from "react";
+import clsx from "clsx";
+import * as styles from "./style.css";
+import { availableGroupsIds } from "../../states/groups";
+import { selectedGroupIdState } from "../../states/current";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { receiptsState } from "../../states/receipts";
 
 export function GroupSwitcher() {
   const { groups } = useRecoilValue(receiptsState);
-  const [selectedGroupId, setSelectedGroupId] = useRecoilState(selectedGroupIdState);
+  const [selectedGroupId, setSelectedGroupId] =
+    useRecoilState(selectedGroupIdState);
   const availableGroupIds = useRecoilValue(availableGroupsIds);
 
   useEffect(() => {
@@ -32,7 +33,8 @@ export function GroupSwitcher() {
                 className={clsx(styles.groupName, {
                   [styles.selected]: selectedGroupId === groupId,
                 })}
-                onClick={() => changeGroupId(groupId)}>
+                onClick={() => changeGroupId(groupId)}
+              >
                 {groups[groupId].name}
               </span>
             );

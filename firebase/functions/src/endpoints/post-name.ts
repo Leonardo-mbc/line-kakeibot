@@ -1,7 +1,7 @@
-import * as functions from "firebase-functions";
+import { onRequest } from "firebase-functions/v2/https";
 import { changeName } from "../actions/change-name";
 
-export const postName = functions.https.onRequest(async (request, response) => {
+export const postName = onRequest(async (request, response) => {
   if (request.method === "OPTIONS") {
     response
       .header("Access-Control-Allow-Origin", "*")

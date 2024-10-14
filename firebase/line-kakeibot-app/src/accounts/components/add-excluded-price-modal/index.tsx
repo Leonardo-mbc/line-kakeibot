@@ -1,22 +1,22 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { v4 as uuid } from 'uuid';
-import clsx from 'clsx';
-import styles from './style.css';
-import AddIcon from '../../assets/images/add.svg';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { receiptsState, sessionIdState } from '../../states/receipts';
-import { userIdState } from '../../../common/states/users';
+import React, { useMemo, useRef, useState } from "react";
+import { v4 as uuid } from "uuid";
+import clsx from "clsx";
+import * as styles from "./style.css";
+import AddIcon from "../../assets/images/add.svg";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { receiptsState, sessionIdState } from "../../states/receipts";
+import { userIdState } from "../../../common/states/users";
 import {
   currentTargetState,
   selectedGroupIdState,
   selectedPaymentState,
-} from '../../states/current';
-import { isShowLoaderState } from '../../../common/states/loader';
-import { hideAllMenuSelector } from '../../states/menu';
-import { stopPropagation } from '../..//utilities/ui';
-import { postExcludedPrices } from '../../api/receipts';
-import { ExcludedPrice } from '../../../common/interfaces/receipt';
-import { SubButton } from './sub-button';
+} from "../../states/current";
+import { isShowLoaderState } from "../../../common/states/loader";
+import { hideAllMenuSelector } from "../../states/menu";
+import { stopPropagation } from "../..//utilities/ui";
+import { postExcludedPrices } from "../../api/receipts";
+import { ExcludedPrice } from "../../../common/interfaces/receipt";
+import { SubButton } from "./sub-button";
 
 export function AddExcludedPriceModal() {
   const userId = useRecoilValue(userIdState);
@@ -29,18 +29,21 @@ export function AddExcludedPriceModal() {
   const hideAllMenu = useSetRecoilState(hideAllMenuSelector);
 
   const item = receipts[selectedGroupId][selectedPaymentId];
-  const [excludedPrices, setExcludedPrices] = useState<ExcludedPrice[]>(item.excludedPrices || []);
+  const [excludedPrices, setExcludedPrices] = useState<ExcludedPrice[]>(
+    item.excludedPrices || []
+  );
 
   const [isVisibleInput, setIsVisibleInput] = useState(!excludedPrices.length);
   const [isVisibleLabelInput, setIsVisibleLabelInput] = useState(false);
-  const [label, setLabel] = useState('');
+  const [label, setLabel] = useState("");
   const [price, setPrice] = useState(0);
 
   const readOnly = item.who !== userId;
 
   const isNoChanged = useMemo(() => {
     return (
-      JSON.stringify(excludedPrices) === JSON.stringify(item.excludedPrices || []) ||
+      JSON.stringify(excludedPrices) ===
+        JSON.stringify(item.excludedPrices || []) ||
       (!item.excludedPrices?.length && !excludedPrices.length)
     );
   }, [excludedPrices]);
@@ -79,7 +82,7 @@ export function AddExcludedPriceModal() {
         },
       ]);
       setPrice(0);
-      setLabel('');
+      setLabel("");
       setIsVisibleInput(false);
     }
   }
@@ -122,12 +125,17 @@ export function AddExcludedPriceModal() {
           )}
           {excludedPrices.map((excludedPrice, index) => {
             return (
-              <div className={styles.excludePricesRow} key={`${index}-${uuid()}`}>
+              <div
+                className={styles.excludePricesRow}
+                key={`${index}-${uuid()}`}
+              >
                 <span className={styles.price}>
                   {excludedPrice.label && <i>{excludedPrice.label}</i>}-
                   {excludedPrice.price.toLocaleString()}
                 </span>
-                {!readOnly && <SubButton onConfirm={() => removeExcludedPrice(index)} />}
+                {!readOnly && (
+                  <SubButton onConfirm={() => removeExcludedPrice(index)} />
+                )}
               </div>
             );
           })}
@@ -138,7 +146,10 @@ export function AddExcludedPriceModal() {
                 {isVisibleLabelInput ? (
                   <input type="text" onChange={handleLabelChange} />
                 ) : (
-                  <button className={styles.activateButton} onClick={showLabelInput}>
+                  <button
+                    className={styles.activateButton}
+                    onClick={showLabelInput}
+                  >
                     ラベルを付ける
                   </button>
                 )}
@@ -150,8 +161,11 @@ export function AddExcludedPriceModal() {
               </div>
               <span>マイナスで入力する必要はありません</span>
               <button
-                className={clsx(styles.addButton, { [styles.disabled]: !price || readOnly })}
-                onClick={addExcludedPrice}>
+                className={clsx(styles.addButton, {
+                  [styles.disabled]: !price || readOnly,
+                })}
+                onClick={addExcludedPrice}
+              >
                 登録
               </button>
             </div>

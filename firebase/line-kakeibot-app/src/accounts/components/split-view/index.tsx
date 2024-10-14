@@ -1,13 +1,22 @@
-import React from 'react';
-import clsx from 'clsx';
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
-import { isShowSplitViewState } from '../../states/menu';
-import { payOrdersState, targetPayOrdersState } from '../../states/pay-order';
-import styles from './style.css';
-import { receiptsState } from '../../states/receipts';
-import { SPLIT_RANGE, SPLIT_RANGE_THIS_MONTH } from '../../consts/split';
-import { splitRangeState, targetCostsState, targetTotalCostState } from '../../states/costs';
-import { Loader } from '../../../common/components/loader';
+import React from "react";
+import clsx from "clsx";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useRecoilValueLoadable,
+  useSetRecoilState,
+} from "recoil";
+import { isShowSplitViewState } from "../../states/menu";
+import { payOrdersState, targetPayOrdersState } from "../../states/pay-order";
+import * as styles from "./style.css";
+import { receiptsState } from "../../states/receipts";
+import { SPLIT_RANGE, SPLIT_RANGE_THIS_MONTH } from "../../consts/split";
+import {
+  splitRangeState,
+  targetCostsState,
+  targetTotalCostState,
+} from "../../states/costs";
+import { Loader } from "../../../common/components/loader";
 
 interface Props {
   isShow?: boolean;
@@ -38,7 +47,8 @@ export function SplitView({ isShow }: Props) {
     <div
       className={clsx(styles.container, { [styles.hide]: !isShow })}
       onClick={hideSplitView}
-      onTransitionEnd={handleTransitionEnd}>
+      onTransitionEnd={handleTransitionEnd}
+    >
       <div className={styles.splitListContainer}>
         <div className={styles.splitList} onClick={(e) => e.stopPropagation()}>
           <div className={styles.splitRange}>
@@ -46,17 +56,19 @@ export function SplitView({ isShow }: Props) {
               <button
                 key={range.key}
                 className={clsx({ [styles.active]: splitRange === range.key })}
-                onClick={() => changeRange(range.key)}>
+                onClick={() => changeRange(range.key)}
+              >
                 {range.label}
               </button>
             ))}
           </div>
           <div className={styles.splitListDetail}>
-            {targetPayOrdersLoadable.state === 'hasValue' ? (
+            {targetPayOrdersLoadable.state === "hasValue" ? (
               Object.keys(users).map((userId, key) => {
-                const filteredPayOrder = (splitRange === SPLIT_RANGE_THIS_MONTH
-                  ? payOrders
-                  : targetPayOrdersLoadable.contents
+                const filteredPayOrder = (
+                  splitRange === SPLIT_RANGE_THIS_MONTH
+                    ? payOrders
+                    : targetPayOrdersLoadable.contents
                 ).filter((order) => order.from === userId);
                 return filteredPayOrder.length ? (
                   <div key={key} className={styles.payUser}>
@@ -68,7 +80,9 @@ export function SplitView({ isShow }: Props) {
                         <span className={styles.name}>
                           <i>{users[to]}</i>
                         </span>
-                        <span className={styles.price}>{pay.toLocaleString()}</span>
+                        <span className={styles.price}>
+                          {pay.toLocaleString()}
+                        </span>
                       </span>
                     ))}
                   </div>

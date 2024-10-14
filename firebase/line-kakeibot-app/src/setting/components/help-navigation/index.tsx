@@ -1,7 +1,7 @@
-import React from 'react';
-import { useSetRecoilState } from 'recoil';
-import { showTutorialState, tutorialPageState } from '../../states/tutorial';
-import styles from './style.css';
+import React from "react";
+import { useSetRecoilState } from "recoil";
+import { showTutorialState, tutorialPageState } from "../../states/tutorial";
+import * as styles from "./style.css";
 
 export function HelpNavigation() {
   const setShowTutorial = useSetRecoilState(showTutorialState);

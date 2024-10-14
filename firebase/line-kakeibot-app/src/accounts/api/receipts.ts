@@ -1,9 +1,8 @@
-import { Group } from '../../common/interfaces/group';
-import { Users } from '../../common/interfaces/user';
+import { Group } from "../../common/interfaces/group";
+import { Users } from "../../common/interfaces/user";
 
-import { ENDPOINT } from '../../common/constants/endpoints';
-import { GroupReceipts } from '../states/receipts';
-import { ExcludedPrice } from '../../common/interfaces/receipt';
+import { GroupReceipts } from "../states/receipts";
+import { ExcludedPrice } from "../../common/interfaces/receipt";
 
 interface GetReceipts {
   userId: string;
@@ -11,13 +10,15 @@ interface GetReceipts {
 }
 
 export function getReceipts({ userId, currentTarget }: GetReceipts) {
-  return fetch(`${ENDPOINT}/getReceipts?userId=${userId}&target=${currentTarget}`)
+  return fetch(
+    `https://getreceiptsv2-hcv64sau7a-uc.a.run.app?userId=${userId}&target=${currentTarget}`
+  )
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
         throw {
-          message: 'fetch error',
+          message: "fetch error",
           status: response.status,
         };
       }
@@ -45,20 +46,23 @@ export function getReceiptsByGroup({
   from,
 }: GetReceiptsByGroup): Promise<GetReceiptsByGroupResponse | null> {
   if (userId && groupId) {
-    return fetch(`${ENDPOINT}/getReceiptsByGroup?userId=${userId}&groupId=${groupId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from,
-      }),
-    }).then((response) => {
+    return fetch(
+      `https://getreceiptsbygroupv2-hcv64sau7a-uc.a.run.app?userId=${userId}&groupId=${groupId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from,
+        }),
+      }
+    ).then((response) => {
       if (response.ok) {
         return response.json();
       } else {
         throw {
-          message: 'fetch error',
+          message: "fetch error",
           status: response.status,
         };
       }
@@ -82,13 +86,13 @@ export function deletePayment({
   paymentId,
 }: DeletePayment) {
   return fetch(
-    `${ENDPOINT}/deletePayment?userId=${userId}&groupId=${selectedGroupId}&currentMonth=${currentTarget}&paymentId=${paymentId}`
+    `https://deletepaymentv2-hcv64sau7a-uc.a.run.app?userId=${userId}&groupId=${selectedGroupId}&currentMonth=${currentTarget}&paymentId=${paymentId}`
   ).then((response) => {
     if (response.ok) {
       return response.json();
     } else {
       throw {
-        message: 'fetch error',
+        message: "fetch error",
         status: response.status,
       };
     }
@@ -111,18 +115,18 @@ export function postExcludedPrices({
   excludedPrices,
 }: PostExcludedPrices) {
   return fetch(
-    `${ENDPOINT}/editPayment?userId=${userId}&groupId=${groupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`,
+    `https://editpaymentv2-hcv64sau7a-uc.a.run.app?userId=${userId}&groupId=${groupId}&currentMonth=${currentTarget}&paymentId=${selectedPaymentId}`,
     {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ excludedPrices }),
     }
   ).then((response) => {
     if (!response.ok) {
       throw {
-        message: 'fetch error',
+        message: "fetch error",
         status: response.status,
       };
     }

@@ -1,18 +1,18 @@
-import React from 'react';
-import clsx from 'clsx';
-import { v4 as uuid } from 'uuid';
-import styles from './style.css';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { deletePayment } from '../../api/receipts';
+import React from "react";
+import clsx from "clsx";
+import { v4 as uuid } from "uuid";
+import * as styles from "./style.css";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { deletePayment } from "../../api/receipts";
 import {
   currentTargetState,
   selectedGroupIdState,
   selectedPaymentState,
-} from '../../states/current';
-import { userIdState } from '../../../common/states/users';
-import { isShowLoaderState } from '../../../common/states/loader';
-import { hideAllMenuSelector } from '../../states/menu';
-import { sessionIdState } from '../../states/receipts';
+} from "../../states/current";
+import { userIdState } from "../../../common/states/users";
+import { isShowLoaderState } from "../../../common/states/loader";
+import { hideAllMenuSelector } from "../../states/menu";
+import { sessionIdState } from "../../states/receipts";
 
 export function DeleteConfirm() {
   const userId = useRecoilValue(userIdState);
@@ -27,7 +27,12 @@ export function DeleteConfirm() {
     e.stopPropagation();
     setIsShowLoader(true);
     hideAllMenu(null);
-    await deletePayment({ userId, selectedGroupId, currentTarget, paymentId: selectedPaymentId });
+    await deletePayment({
+      userId,
+      selectedGroupId,
+      currentTarget,
+      paymentId: selectedPaymentId,
+    });
     setIsShowLoader(false);
     setSessionId(uuid());
   }
@@ -37,10 +42,15 @@ export function DeleteConfirm() {
       <div className={styles.deleteConfirm}>
         <span>本当に削除しますか</span>
         <div className={styles.deleteAnswers}>
-          <span className={clsx(styles.deleteButton, styles.yes)} onClick={submit}>
+          <span
+            className={clsx(styles.deleteButton, styles.yes)}
+            onClick={submit}
+          >
             はい
           </span>
-          <span className={clsx(styles.deleteButton, styles.cancel)}>キャンセル</span>
+          <span className={clsx(styles.deleteButton, styles.cancel)}>
+            キャンセル
+          </span>
         </div>
       </div>
     </div>

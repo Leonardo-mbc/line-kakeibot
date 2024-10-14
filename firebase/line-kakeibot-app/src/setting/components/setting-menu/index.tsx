@@ -1,34 +1,48 @@
-import React, { useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { userIdState } from '../../../common/states/users';
-import { FullScreenMenu, MenuItem, MenuList } from '../../../common/components/full-screen-menu';
+import React, { useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { userIdState } from "../../../common/states/users";
+import {
+  FullScreenMenu,
+  MenuItem,
+  MenuList,
+} from "../../../common/components/full-screen-menu";
 import {
   ConfirmPanel,
   ConfirmPanelTitle,
   ConfirmPanelButton,
   ConfirmPanelResponses,
-} from '../../../common/components/full-screen-menu/confirm-panel';
-import { selectedGroupIdState, showGroupSettingState } from '../../states/groups';
-import { editGroup, outGroup } from '../../api/group';
+} from "../../../common/components/full-screen-menu/confirm-panel";
+import {
+  selectedGroupIdState,
+  showGroupSettingState,
+} from "../../states/groups";
+import { editGroup, outGroup } from "../../api/group";
 
-import styles from './style.css';
-import { profileGroupState, profileState } from '../../states/profile';
-import { isShowLoaderState } from '../../../common/states/loader';
-import { ERROR_CHANGE_NAME, ERROR_EDIT_GROUP, ERROR_OUT_GROUP } from '../../constants/messages';
+import * as styles from "./style.css";
+import { profileGroupState, profileState } from "../../states/profile";
+import { isShowLoaderState } from "../../../common/states/loader";
+import {
+  ERROR_CHANGE_NAME,
+  ERROR_EDIT_GROUP,
+  ERROR_OUT_GROUP,
+} from "../../constants/messages";
 
 export function SettingMenu() {
   const userId = useRecoilValue(userIdState);
   const { groups } = useRecoilValue(profileState);
   const setIsShowLoader = useSetRecoilState(isShowLoaderState);
-  const [showGroupSetting, setShowGroupSetting] = useRecoilState(showGroupSettingState);
-  const [selectedGroupId, setSelectedGroupId] = useRecoilState(selectedGroupIdState);
+  const [showGroupSetting, setShowGroupSetting] = useRecoilState(
+    showGroupSettingState
+  );
+  const [selectedGroupId, setSelectedGroupId] =
+    useRecoilState(selectedGroupIdState);
   const setGroups = useSetRecoilState(profileGroupState);
 
   const [showChangeNamePopup, setShowChangeNamePopup] = useState(false);
   const [showChangeEnddatePopup, setShowChangeEnddatePopup] = useState(false);
   const [showLeavePopup, setShowLeavePopup] = useState(false);
-  const [groupName, setGroupName] = useState('');
-  const [groupEnddate, setGroupEnddate] = useState('');
+  const [groupName, setGroupName] = useState("");
+  const [groupEnddate, setGroupEnddate] = useState("");
 
   function handleMenuHide() {
     clearInput();
@@ -63,9 +77,9 @@ export function SettingMenu() {
   }
 
   function clearInput() {
-    setSelectedGroupId('');
-    setGroupName('');
-    setGroupEnddate('');
+    setSelectedGroupId("");
+    setGroupName("");
+    setGroupEnddate("");
   }
 
   async function changeGroupName() {
@@ -94,7 +108,7 @@ export function SettingMenu() {
         const { groups } = await editGroup({
           groupId: selectedGroupId,
           userId,
-          group: { enddate: noLimit ? '' : groupEnddate },
+          group: { enddate: noLimit ? "" : groupEnddate },
         });
         setGroups(groups);
       } catch (e) {
@@ -147,7 +161,8 @@ export function SettingMenu() {
           <button
             id="group-change-name-button"
             className={styles.groupChangeButton}
-            onClick={changeGroupName}>
+            onClick={changeGroupName}
+          >
             変更する
           </button>
         </div>
@@ -167,7 +182,10 @@ export function SettingMenu() {
             />
             <button onClick={() => changeGroupEnddate(true)}>期限なし</button>
           </div>
-          <button className={styles.groupChangeButton} onClick={() => changeGroupEnddate()}>
+          <button
+            className={styles.groupChangeButton}
+            onClick={() => changeGroupEnddate()}
+          >
             変更する
           </button>
         </div>

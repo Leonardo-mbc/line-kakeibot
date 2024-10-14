@@ -1,10 +1,11 @@
-import { ENDPOINT } from '../../common/constants/endpoints';
-import { emptyProfileValue, ProfileResponse } from '../states/profile';
-import { ERROR_GET_PROFILE } from '../constants/messages';
+import { emptyProfileValue, ProfileResponse } from "../states/profile";
+import { ERROR_GET_PROFILE } from "../constants/messages";
 
 export async function getProfile(userId: string): Promise<ProfileResponse> {
   try {
-    const response = await fetch(`${ENDPOINT}/getProfile?userId=${userId}`);
+    const response = await fetch(
+      `https://getprofilev2-hcv64sau7a-uc.a.run.app?userId=${userId}`
+    );
 
     if (response.ok) {
       return response.json();
@@ -22,11 +23,14 @@ interface PostName {
   name: string;
 }
 
-export function postName({ userId, name }: PostName): Promise<{ name: string }> {
-  return fetch(`${ENDPOINT}/postName`, {
-    method: 'POST',
+export function postName({
+  userId,
+  name,
+}: PostName): Promise<{ name: string }> {
+  return fetch(`https://postnamev2-hcv64sau7a-uc.a.run.app`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       name,
@@ -37,7 +41,7 @@ export function postName({ userId, name }: PostName): Promise<{ name: string }> 
       return response.json();
     } else {
       throw {
-        message: 'fetch error',
+        message: "fetch error",
         status: response.status,
       };
     }

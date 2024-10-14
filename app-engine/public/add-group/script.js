@@ -1,17 +1,19 @@
-const groupName = document.getElementById('group-name');
-const closeButton = document.getElementById('close-button');
+const groupName = document.getElementById("group-name");
+const closeButton = document.getElementById("close-button");
 
-window.onload = function(e) {
+window.onload = function (e) {
   const query = parseSearch(location.search);
   if (query.code) {
-    fetch(`https://us-central1-line-kakeibot.cloudfunctions.net/linkGroup?code=${query.code}&groupId=${query.groupId}`)
+    fetch(
+      `https://linkgroupv2-hcv64sau7a-uc.a.run.app?code=${query.code}&groupId=${query.groupId}`
+    )
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
           throw {
-            message: 'fetch error',
-            status: response.status
+            message: "fetch error",
+            status: response.status,
           };
         }
       })
@@ -27,10 +29,10 @@ function parseSearch(qs) {
   qs.split(/[?&]/)
     .filter((v) => !!v)
     .map((v) => {
-      const [key, value] = v.split('=');
+      const [key, value] = v.split("=");
       query = {
         ...query,
-        [key]: value
+        [key]: value,
       };
     });
 
@@ -38,12 +40,12 @@ function parseSearch(qs) {
 }
 
 function clearLoader() {
-  loader.classList.add('transparent');
+  loader.classList.add("transparent");
   setTimeout(() => {
-    loader.classList.add('hide');
+    loader.classList.add("hide");
   }, 200);
 }
 
-closeButton.addEventListener('click', () => {
-  window.open('about:blank', '_self').close();
+closeButton.addEventListener("click", () => {
+  window.open("about:blank", "_self").close();
 });

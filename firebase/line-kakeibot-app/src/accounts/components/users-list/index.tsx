@@ -1,9 +1,9 @@
-import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { costsState, totalCostState } from '../../states/costs';
-import { receiptsState } from '../../states/receipts';
-import { selectedGroupIdState } from '../../states/current';
-import styles from './style.css';
+import React from "react";
+import { useRecoilValue } from "recoil";
+import { costsState, totalCostState } from "../../states/costs";
+import { receiptsState } from "../../states/receipts";
+import { selectedGroupIdState } from "../../states/current";
+import * as styles from "./style.css";
 
 interface Props {
   children: React.ReactNode;
@@ -21,8 +21,12 @@ export function UsersList({ children }: Props) {
         groups[selectedGroupId].users.map((userId, key) => {
           return (
             <div key={key} className={styles.user}>
-              <span className={styles.name}>{users[userId] || '（名前なし）'}</span>
-              <span className={styles.price}>{(costs[userId] || 0).toLocaleString()}</span>
+              <span className={styles.name}>
+                {users[userId] || "（名前なし）"}
+              </span>
+              <span className={styles.price}>
+                {(costs[userId] || 0).toLocaleString()}
+              </span>
             </div>
           );
         })

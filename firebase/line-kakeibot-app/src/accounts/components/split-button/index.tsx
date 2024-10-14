@@ -1,10 +1,10 @@
-import React from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { payOrdersState } from '../../states/pay-order';
-import { costsState, totalCostState } from '../../states/costs';
-import styles from './style.css';
-import { isShowSplitViewState } from '../../states/menu';
-import { split } from '../../utilities/split';
+import React from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { payOrdersState } from "../../states/pay-order";
+import { costsState, totalCostState } from "../../states/costs";
+import * as styles from "./style.css";
+import { isShowSplitViewState } from "../../states/menu";
+import { split } from "../../utilities/split";
 
 export function SplitButton() {
   const costs = useRecoilValue(costsState);
