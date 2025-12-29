@@ -8,6 +8,7 @@ import {
   isShowDeleteConfirmState,
   isShowMenuState,
   isShowMoveConfirmState,
+  isShowChangeDateModalState,
 } from "../../states/menu";
 
 interface Props {
@@ -21,10 +22,18 @@ export function FullScreenMenu({ children }: Props) {
   const setIsShowAddExcludedPriceModalState = useSetRecoilState(
     isShowAddExcludedPriceModalState
   );
+  const setIsShowChangeDateModalState = useSetRecoilState(
+    isShowChangeDateModalState
+  );
   const hideAllMenu = useSetRecoilState(hideAllMenuSelector);
 
   function hideMenu() {
     hideAllMenu(null);
+  }
+
+  function changeDate(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+    e.stopPropagation();
+    setIsShowChangeDateModalState(true);
   }
 
   function moveAccount(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
@@ -49,6 +58,9 @@ export function FullScreenMenu({ children }: Props) {
     >
       <div className={styles.menuListContainer}>
         <span className={clsx(styles.menuItem, styles.cancel)}>キャンセル</span>
+        <span className={styles.menuItem} onClick={changeDate}>
+          日付を変更
+        </span>
         <span className={styles.menuItem} onClick={moveAccount}>
           別の家計簿に移行
         </span>

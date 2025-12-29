@@ -31,6 +31,11 @@ export const isShowSplitViewState = atom({
   default: false,
 });
 
+export const isShowChangeDateModalState = atom({
+  key: 'atom:isShowChangeDateModal',
+  default: false,
+});
+
 export const hideAllMenuSelector = selector({
   key: 'selector/hideAllMenu',
   get: () => null,
@@ -40,6 +45,7 @@ export const hideAllMenuSelector = selector({
     set(isShowAddExcludedPriceModalState, false);
     set(isDirectShowAddExcludedPriceModalState, false);
     set(isShowMoveConfirmState, false);
+    set(isShowChangeDateModalState, false);
     set(selectedPaymentState, '');
   },
 });

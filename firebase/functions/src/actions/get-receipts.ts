@@ -64,7 +64,7 @@ export async function getReceiptsByGroupId({ userId, groupId, from }) {
     }
 
     if (receiptValue) {
-      for (let month in receiptValue) {
+      for (const month in receiptValue) {
         receipts = { ...receipts, ...receiptValue[month] };
       }
     }

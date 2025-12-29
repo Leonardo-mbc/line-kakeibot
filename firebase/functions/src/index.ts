@@ -11,6 +11,7 @@ import { editPayment as editPaymentV2 } from "./endpoints/edit-payment";
 import { getGroups as getGroupsV2 } from "./endpoints/get-groups";
 import { editGroup as editGroupV2 } from "./endpoints/edit-group";
 import { movePayment as movePaymentV2 } from "./endpoints/move-payment";
+import { changeBoughtAt } from "./endpoints/change-bought-at";
 
 export {
   getProfileV2,
@@ -26,4 +27,5 @@ export {
   editGroupV2,
   editPaymentV2,
   movePaymentV2,
+  changeBoughtAt,
 };

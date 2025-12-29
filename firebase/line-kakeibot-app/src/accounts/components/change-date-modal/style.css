@@ -1,0 +1,126 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 200ms;
+}
+
+.container.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 90%;
+  width: 320px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.content {
+  margin-bottom: 20px;
+}
+
+.currentDate {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.inputContainer label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #00b900;
+}
+
+.inputContainer input[type="date"] {
+  padding: 8px 12px;
+  border: 2px solid #00b900;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.inputContainer input[type="date"]:focus {
+  outline: none;
+  border-color: #00a000;
+}
+
+.notice {
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
+
+.warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #856404;
+  margin-top: 12px;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancel {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.cancel:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.save {
+  background-color: #00b900;
+  color: white;
+}
+
+.save:hover:not(:disabled) {
+  background-color: #00a000;
+}
+

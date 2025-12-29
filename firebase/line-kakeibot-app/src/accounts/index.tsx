@@ -18,6 +18,7 @@ import { FullScreenMenu } from "./components/full-screen-menu";
 import { DeleteConfirm } from "./components/delete-confirm";
 import { MoveAccountConfirm } from "./components/move-account-confirm";
 import { AddExcludedPriceModal } from "./components/add-excluded-price-modal";
+import { ChangeDateModal } from "./components/change-date-modal";
 import { FixedWrapper } from "./components/fixed-wrapper";
 import {
   isShowAddExcludedPriceModalState,
@@ -25,6 +26,7 @@ import {
   isShowDeleteConfirmState,
   isShowMoveConfirmState,
   isShowSplitViewState,
+  isShowChangeDateModalState,
 } from "./states/menu";
 import { SplitView } from "./components/split-view";
 import { isShowLoaderState } from "../common/states/loader";
@@ -46,6 +48,7 @@ function App() {
   const isDirectShowAddExcludedPriceModal = useRecoilValue(
     isDirectShowAddExcludedPriceModalState
   );
+  const isShowChangeDateModal = useRecoilValue(isShowChangeDateModalState);
   const isShowSplitView = useRecoilValue(isShowSplitViewState);
   const [isShowLoader, setIsShowLoader] = useRecoilState(isShowLoaderState);
 
@@ -81,6 +84,7 @@ function App() {
         <DetailsList />
         <FullScreenMenu>
           <React.Fragment>
+            {isShowChangeDateModal && <ChangeDateModal />}
             {isShowDeleteConfirm && <DeleteConfirm />}
             {isShowMoveConfirm && <MoveAccountConfirm />}
             {isShowAddExcludedPriceModal && <AddExcludedPriceModal />}

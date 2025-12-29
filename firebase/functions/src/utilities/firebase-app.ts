@@ -1,4 +1,6 @@
 import * as admin from "firebase-admin";
+
+// ローカル開発時は本番DBに接続
 export const app = admin.initializeApp({
   credential: admin.credential.applicationDefault(),
   databaseURL: "https://line-kakeibot.firebaseio.com",

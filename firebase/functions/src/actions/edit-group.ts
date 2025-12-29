@@ -8,6 +8,16 @@ interface EditGroupParam {
 
 export async function editGroupAction({ groupId, group }: EditGroupParam) {
   try {
+    // monthStartDayのバリデーション
+    if (group.monthStartDay !== undefined) {
+      if (group.monthStartDay < 1 || group.monthStartDay > 28) {
+        throw {
+          message: 'monthStartDay must be between 1 and 28',
+          status: 400,
+        };
+      }
+    }
+    
     const groupsRefNode = groupsRef.child(groupId);
     await groupsRefNode.update({
       ...group,

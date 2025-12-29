@@ -5,11 +5,25 @@
   justify-content: space-around;
   align-items: baseline;
 
+  & .labelContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
   & .current {
     font-size: 23px;
   }
 
-  & span:not(.current) {
+  & .range {
+    font-size: 10px;
+    font-weight: normal;
+    color: #999;
+    white-space: nowrap;
+  }
+
+  & span:not(.current):not(.range) {
     cursor: pointer;
   }
 }

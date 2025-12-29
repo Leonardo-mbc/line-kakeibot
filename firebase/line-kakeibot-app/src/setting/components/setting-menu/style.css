@@ -47,6 +47,26 @@
       }
     }
 
+    & > select {
+      width: 100%;
+      height: 26px;
+      margin-left: 5px;
+      background-color: white;
+      padding: 0px 10px;
+      font-size: 12px;
+      color: #444444;
+      font-weight: bold;
+      border: none;
+      border-bottom: 2px solid #444444;
+      border-radius: 0;
+      font-family: 'ヒラギノ角ゴ ProN', sans-serif;
+      -webkit-appearance: none;
+
+      &:focus {
+        outline: 0;
+      }
+    }
+
     & > button {
       margin: auto 0px auto 8px;
       font-weight: bold;
@@ -62,6 +82,16 @@
         outline: none;
       }
     }
+  }
+
+  & .month-start-notice {
+    font-size: 12px;
+    color: #856404;
+    margin: 8px 0;
+    padding: 10px 16px;
+    text-align: center;
+    background-color: #fff3cd;
+    border-radius: 4px;
   }
 
   & .group-change-button {

@@ -7,9 +7,10 @@ import {
   SPLIT_RANGE_FROM_LAST_MONTH,
   SPLIT_RANGE_THIS_MONTH,
 } from '../consts/split';
-import { receiptsState, sessionIdState } from '../states/receipts';
+import { receiptsState, sessionIdState, GroupReceipts } from '../states/receipts';
 import { calcGroupCosts, calcTotalCost } from '../utilities/split';
-import { currentTargetState, selectedGroupIdState } from './current';
+import { currentTargetState, selectedGroupIdState, currentMonthStartDayState } from './current';
+import { getMonthRange, isInDisplayMonth } from '../utilities/month-range';
 
 export interface Costs {
   [key: string]: number;
@@ -52,16 +53,15 @@ export const targetCostsState = selector<Costs>({
     const userId = get(userIdState);
     const splitRange = get(splitRangeState);
     const currentTarget = get(currentTargetState);
+    const monthStartDay = get(currentMonthStartDayState);
     const _sessionId = get(sessionIdState);
 
     if (userId && groupId && splitRange !== SPLIT_RANGE_THIS_MONTH) {
       const receipt = await (async () => {
         switch (splitRange) {
           case SPLIT_RANGE_FROM_LAST_MONTH:
-            const from = [
-              dayjs(currentTarget).add(-1, 'month').format('YYYY-MM'),
-              dayjs(currentTarget).format('YYYY-MM'),
-            ];
+            // monthStartDayを考慮した範囲計算
+            const from = getFromMonths(currentTarget, monthStartDay, 2);
             return getReceiptsByGroup({ userId, groupId, from });
           case SPLIT_RANGE_ALL:
             return getReceiptsByGroup({ userId, groupId });
@@ -69,9 +69,17 @@ export const targetCostsState = selector<Costs>({
       })();
 
       if (receipt) {
+        // 期間内のレシートのみフィルタリング
+        const filteredReceipts = filterReceiptsByRange(
+          receipt.receipts,
+          currentTarget,
+          monthStartDay,
+          splitRange
+        );
+        
         return calcGroupCosts({
           group: receipt.group,
-          receipts: receipt.receipts,
+          receipts: filteredReceipts,
         });
       } else {
         return {};
@@ -81,6 +89,58 @@ export const targetCostsState = selector<Costs>({
     }
   },
 });
+
+// 複数月のカレンダー月を取得
+function getFromMonths(
+  currentTarget: string, 
+  monthStartDay: number, 
+  monthCount: number
+): string[] {
+  const months = new Set<string>();
+  
+  for (let i = monthCount - 1; i >= 0; i--) {
+    const targetMonth = dayjs(currentTarget).add(-i, 'month').format('YYYY-MM');
+    const range = getMonthRange(targetMonth, monthStartDay);
+    range.forEach(m => months.add(m));
+  }
+  
+  return Array.from(months);
+}
+
+// 期間内のレシートのみフィルタリング
+function filterReceiptsByRange(
+  receipts: GroupReceipts,
+  currentTarget: string,
+  monthStartDay: number,
+  splitRange: string
+): GroupReceipts {
+  const filtered: GroupReceipts = {};
+  
+  Object.keys(receipts).forEach(paymentId => {
+    const receipt = receipts[paymentId];
+    let shouldInclude = false;
+    
+    switch (splitRange) {
+      case SPLIT_RANGE_FROM_LAST_MONTH:
+        // 先月〜今月
+        const lastMonth = dayjs(currentTarget).add(-1, 'month').format('YYYY-MM');
+        shouldInclude = 
+          isInDisplayMonth(receipt.boughtAt, lastMonth, monthStartDay) ||
+          isInDisplayMonth(receipt.boughtAt, currentTarget, monthStartDay);
+        break;
+        
+      case SPLIT_RANGE_ALL:
+        shouldInclude = true;
+        break;
+    }
+    
+    if (shouldInclude) {
+      filtered[paymentId] = receipt;
+    }
+  });
+  
+  return filtered;
+}
 
 export const targetTotalCostState = selector({
   key: 'selector/totaltargetTotalCostStateCost',

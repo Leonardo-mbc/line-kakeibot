@@ -10,9 +10,9 @@ export const postGroup = onRequest(async (request, response) => {
       .sendStatus(204);
   } else {
     try {
-      const { userId, name, enddate } = request.body;
+      const { userId, name, enddate, monthStartDay } = request.body;
 
-      await makeGroup({ name, userId, enddate });
+      await makeGroup({ name, userId, enddate, monthStartDay });
       const groups = await getGroups({ userId });
 
       response

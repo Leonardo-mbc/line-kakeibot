@@ -5,12 +5,14 @@ interface PostGroup {
   userId: string;
   name: string;
   enddate: string;
+  monthStartDay?: number;
 }
 
 export function postGroup({
   userId,
   name,
   enddate,
+  monthStartDay,
 }: PostGroup): Promise<{ groups: Groups }> {
   return fetch(`https://postgroupv2-hcv64sau7a-uc.a.run.app`, {
     method: "POST",
@@ -21,6 +23,7 @@ export function postGroup({
       name,
       enddate,
       userId,
+      monthStartDay,
     }),
   })
     .then((response) => {

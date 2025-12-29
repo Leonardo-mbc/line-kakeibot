@@ -6,6 +6,7 @@ declare const styles: {
   readonly "groupAddEnddate": string;
   readonly "groupAddInput": string;
   readonly "groupAddInputName": string;
+  readonly "groupAddMonthStart": string;
   readonly "groupAddNotice": string;
   readonly "groupButton": string;
   readonly "groupButtons": string;

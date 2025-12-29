@@ -24,6 +24,7 @@ export function AccountList() {
   const [showEnddateInput, setShowEnddateInput] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [groupEnddate, setGroupEnddate] = useState("");
+  const [monthStartDay, setMonthStartDay] = useState(1);
   const [isGroupAdding, setIsGroupAdding] = useState(false);
 
   function toggleArchives() {
@@ -46,9 +47,14 @@ export function AccountList() {
     setGroupEnddate(e.target.value);
   }
 
+  function handleMonthStartDayChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setMonthStartDay(Number(e.target.value));
+  }
+
   function clearInput() {
     setGroupName("");
     setGroupEnddate("");
+    setMonthStartDay(1);
     setShowEnddateInput(false);
     setShowGroupAdd(false);
     setIsGroupAdding(false);
@@ -62,6 +68,7 @@ export function AccountList() {
           userId,
           name: groupName,
           enddate: groupEnddate,
+          monthStartDay,
         });
         setGroups(groups);
         clearInput();
@@ -102,9 +109,12 @@ export function AccountList() {
           >
             <div className={styles.groupNamedate}>
               <span className={styles.groupName}>{groups[key].name}</span>
-              <span className={styles.groupEnddate}>{`期限：${
-                groups[key].enddate || "なし"
-              }`}</span>
+              <span className={styles.groupEnddate}>
+                {`期限：${groups[key].enddate || "なし"}`}
+                {groups[key].monthStartDay && groups[key].monthStartDay !== 1 && (
+                  <> / 開始日：{groups[key].monthStartDay}日</>
+                )}
+              </span>
             </div>
             <div className={styles.groupButtons}>
               <button
@@ -196,9 +206,24 @@ export function AccountList() {
               設ける
             </button>
           </div>
+          <div className={styles.groupAddMonthStart}>
+            <label htmlFor="month-start-day">月の開始日</label>
+            <select
+              id="month-start-day"
+              value={monthStartDay}
+              onChange={handleMonthStartDayChange}
+            >
+              {Array.from({ length: 28 }, (_, i) => i + 1).map((day) => (
+                <option key={day} value={day}>
+                  {day}日{day === 1 ? "（通常）" : ""}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <span className={styles.groupAddNotice}>
-          期限は一時的な用途に便利です（飲み会・旅行など）
+          期限は一時的な用途に便利です（飲み会・旅行など）<br />
+          月の開始日を変更すると、給料日に合わせた集計ができます
         </span>
         <button
           className={clsx(styles.groupAddButton, {
